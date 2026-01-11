@@ -16,6 +16,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	const token = getJwtToken();
 	const user = useReactiveVar(userVar);
 	const [updateData, setUpdateData] = useState<MemberUpdate>(initialValues);
+	console.log('image:', updateData.memberImage);
 
 	/** APOLLO REQUESTS **/
 	const [updateMember] = useMutation(UPDATE_MEMBER);
@@ -46,7 +47,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 				  }`,
 					variables: {
 						file: null,
-						target: 'member',
+						target: 'members',
 					},
 				}),
 			);
@@ -126,14 +127,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 						<Typography className="title">Photo</Typography>
 						<Stack className="image-big-box">
 							<Stack className="image-box">
-								<img
-									src={
-										updateData?.memberImage
-											? `${REACT_APP_API_URL}/${updateData?.memberImage}`
-											: `/img/profile/defaultUser.svg`
-									}
-									alt=""
-								/>
+								<img src={updateData?.memberImage || '/img/profile/defaultUser.svg'} alt="" />
 							</Stack>
 							<Stack className="upload-big-box">
 								<input

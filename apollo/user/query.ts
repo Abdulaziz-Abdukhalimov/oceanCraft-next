@@ -49,31 +49,29 @@ query GetMember($input: String!) {
         memberType
         memberStatus
         memberAuthType
+        memberEmail
         memberPhone
+        memberTelegram
         memberNick
         memberFullName
         memberImage
         memberAddress
         memberDesc
-        memberProperties
-        memberArticles
+        memberEvents
+        memberProducts
+        memberFollowers
+        memberFollowings
         memberPoints
         memberLikes
         memberViews
-        memberFollowings
-				memberFollowers
         memberRank
         memberWarnings
+        memberComments
         memberBlocks
         deletedAt
         createdAt
         updatedAt
         accessToken
-        meFollowed {
-					followingId
-					followerId
-					myFollowing
-				}
     }
 }
 `);

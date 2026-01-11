@@ -195,12 +195,7 @@ const Top = () => {
 							{user?._id ? (
 								<>
 									<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
-										<img
-											src={
-												user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'
-											}
-											alt=""
-										/>
+										<img src={user?.memberImage || '/img/profile/defaultUser.svg'} alt="" />
 									</div>
 
 									<Menu

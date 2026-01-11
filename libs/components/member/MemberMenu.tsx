@@ -46,10 +46,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 			<Stack width={'100%'} padding={'30px 24px'}>
 				<Stack className={'profile'}>
 					<Box component={'div'} className={'profile-img'}>
-						<img
-							src={member?.memberImage ? `${REACT_APP_API_URL}/${member?.memberImage}` : '/img/profile/defaultUser.svg'}
-							alt={'member-photo'}
-						/>
+						<img src={member?.memberImage || '/img/profile/defaultUser.svg'} alt={'member-photo'} />
 					</Box>
 					<Stack className={'user-info'}>
 						<Typography className={'user-name'}>{member?.memberNick}</Typography>
