@@ -135,150 +135,285 @@ export const LIKE_TARGET_MEMBER = gql`
 `;
 
 /**************************
- *        PROPERTY        *
+ *        PRODUCT        *
  *************************/
 
-export const CREATE_PROPERTY = gql`
-	mutation CreateProperty($input: PropertyInput!) {
-		createProperty(input: $input) {
+export const CREATE_PRODUCT = gql`
+	mutation CreateProduct($input: ProductInput!) {
+		createProduct(input: $input) {
 			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
 			memberId
+			productCategory
+			productCondition
+			productStatus
+			productTitle
+			productDescription
+			productBrand
+			productModel
+			productEngineType
+			productSpeed
+			productLength
+			productPriceType
+			productRentPeriod
+			productPrice
+			productCurrency
+			productImages
+			productAddress
+			productViews
+			productLikes
+			productComments
+			productRank
+			productRent
+			productBuildYear
 			soldAt
 			deletedAt
-			constructedAt
 			createdAt
 			updatedAt
 		}
 	}
 `;
 
-export const UPDATE_PROPERTY = gql`
-	mutation UpdateProperty($input: PropertyUpdate!) {
-		updateProperty(input: $input) {
+export const UPDATE_PRODUCT = gql`
+	mutation UpdateProduct($input: ProductUpdate!) {
+		updateProduct(input: $input) {
 			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
-			memberId
+			productCategory
+			productCondition
+			productStatus
+			productTitle
+			productDescription
+			productBrand
+			productModel
+			productPrice
+			productCurrency
+			productImages
+			productAddress
+			productViews
+			productLikes
+			productComments
+			productRank
+			productRent
 			soldAt
 			deletedAt
-			constructedAt
 			createdAt
 			updatedAt
+			memberId
+			productEngineType
+			productSpeed
+			productLength
+			productPriceType
+			productRentPeriod
+			productBuildYear
 		}
 	}
 `;
 
-export const LIKE_TARGET_PROPERTY = gql`
-	mutation LikeTargetProperty($input: String!) {
-		likeTargetProperty(propertyId: $input) {
+export const LIKE_TARGET_PRODUCT = gql`
+	mutation LikeTargetProduct($input: String!) {
+		likeTargetProduct(productId: $input) {
 			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
 			memberId
+			productCategory
+			productCondition
+			productStatus
+			productTitle
+			productDescription
+			productBrand
+			productModel
+			productEngineType
+			productSpeed
+			productLength
+			productPriceType
+			productRentPeriod
+			productPrice
+			productCurrency
+			productImages
+			productAddress
+			productViews
+			productLikes
+			productComments
+			productRank
+			productRent
 			soldAt
 			deletedAt
-			constructedAt
 			createdAt
 			updatedAt
+			productBuildYear
 		}
 	}
 `;
 
 /**************************
- *      BOARD-ARTICLE     *
+ *      EVENTS    *
  *************************/
 
-export const CREATE_BOARD_ARTICLE = gql`
-	mutation CreateBoardArticle($input: BoardArticleInput!) {
-		createBoardArticle(input: $input) {
+export const CREATE_EVENT = gql`
+	mutation CreateEvent($input: EventCreate!) {
+		createEvent(input: $input) {
 			_id
-			articleCategory
-			articleStatus
-			articleTitle
-			articleContent
-			articleImage
-			articleViews
-			articleLikes
 			memberId
+			eventTitle
+			eventDescription
+			eventCategory
+			businessName
+			eventPrice
+			eventCurrency
+			eventRegistrationDeadline
+			eventImages
+			eventAvailabilityStatus
+			eventCapacity
+			eventDurationMinutes
+			eventNotes
+			eventCancellationPolicy
+			eventStatus
+			eventViews
+			eventLikes
+			eventComments
+			eventRank
+			approvedAt
+			rejectedAt
+			deletedAt
+			cancelledAt
+			completedAt
 			createdAt
 			updatedAt
+			eventLocation {
+				city
+				address
+			}
+			eventSchedule {
+				type
+				daysOfWeek
+			}
+			eventPeriod {
+				startDate
+				endDate
+			}
+			eventContact {
+				phone
+				email
+				telegram
+			}
+			eventRequirements {
+				minAge
+				maxAge
+				bringItems
+				experienceLevel
+			}
 		}
 	}
 `;
 
-export const UPDATE_BOARD_ARTICLE = gql`
-	mutation UpdateBoardArticle($input: BoardArticleUpdate!) {
-		updateBoardArticle(input: $input) {
+export const UPDATE_EVENT = gql`
+	mutation UpdateEvent($input: EventUpdate!) {
+		updateEvent(input: $input) {
 			_id
-			articleCategory
-			articleStatus
-			articleTitle
-			articleContent
-			articleImage
-			articleViews
-			articleLikes
 			memberId
+			eventTitle
+			eventDescription
+			eventCategory
+			businessName
+			eventPrice
+			eventCurrency
+			eventRegistrationDeadline
+			eventImages
+			eventAvailabilityStatus
+			eventCapacity
+			eventDurationMinutes
+			eventNotes
+			eventCancellationPolicy
+			eventStatus
+			eventViews
+			eventLikes
+			eventComments
+			eventRank
+			approvedAt
+			rejectedAt
+			deletedAt
+			cancelledAt
+			completedAt
 			createdAt
 			updatedAt
+			eventLocation {
+				city
+				address
+			}
+			eventSchedule {
+				type
+				daysOfWeek
+			}
+			eventPeriod {
+				startDate
+				endDate
+			}
+			eventContact {
+				phone
+				email
+				telegram
+			}
+			eventRequirements {
+				minAge
+				maxAge
+				bringItems
+				experienceLevel
+			}
 		}
 	}
 `;
 
-export const LIKE_TARGET_BOARD_ARTICLE = gql`
-	mutation LikeTargetBoardArticle($input: String!) {
-		likeTargetBoardArticle(articleId: $input) {
+export const LIKE_TARGET_EVENT = gql`
+	mutation LikeTargetEvent($input: String!) {
+		likeTargetEvent(eventId: $input) {
 			_id
-			articleCategory
-			articleStatus
-			articleTitle
-			articleContent
-			articleImage
-			articleViews
-			articleLikes
 			memberId
+			eventTitle
+			eventDescription
+			eventCategory
+			businessName
+			eventPrice
+			eventCurrency
+			eventRegistrationDeadline
+			eventImages
+			eventAvailabilityStatus
+			eventCapacity
+			eventDurationMinutes
+			eventNotes
+			eventCancellationPolicy
+			eventStatus
+			eventViews
+			eventLikes
+			eventComments
+			eventRank
+			approvedAt
+			rejectedAt
+			deletedAt
+			cancelledAt
+			completedAt
 			createdAt
 			updatedAt
+			eventLocation {
+				city
+				address
+			}
+			eventSchedule {
+				type
+				daysOfWeek
+			}
+			eventPeriod {
+				startDate
+				endDate
+			}
+			eventContact {
+				phone
+				email
+				telegram
+			}
+			eventRequirements {
+				minAge
+				maxAge
+				bringItems
+				experienceLevel
+			}
 		}
 	}
 `;
@@ -341,6 +476,153 @@ export const UNSUBSCRIBE = gql`
 			followerId
 			createdAt
 			updatedAt
+		}
+	}
+`;
+
+/**************************
+ *         INQUIRY        *
+ *************************/
+
+export const CREATE_INQUIRY = gql`
+	mutation CreateInquiry($input: CreateInquiryInput!) {
+		createInquiry(input: $input) {
+			_id
+			buyerId
+			sellerId
+			productId
+			inquiryMessage
+			preferredContactMethod
+			sellerReply
+			status
+			isRead
+			viewedAt
+			respondedAt
+			closedAt
+			createdAt
+			updatedAt
+			contactPerson {
+				fullName
+				email
+				phone
+			}
+		}
+	}
+`;
+
+export const MARK_INQUIRY_VIEWED = gql`
+	mutation MarkInquiryAsViewed($input: String!) {
+		markInquiryAsViewed(inquiryId: $input) {
+			_id
+			buyerId
+			sellerId
+			productId
+			inquiryMessage
+			preferredContactMethod
+			sellerReply
+			status
+			isRead
+			viewedAt
+			respondedAt
+			closedAt
+			createdAt
+			updatedAt
+			contactPerson {
+				fullName
+				email
+				phone
+			}
+		}
+	}
+`;
+
+export const REPLY_INQUIRY = gql`
+	mutation ReplyToInquiry($input: ReplyInquiryInput!) {
+		replyToInquiry(input: $input) {
+			_id
+			buyerId
+			sellerId
+			productId
+			inquiryMessage
+			preferredContactMethod
+			sellerReply
+			status
+			isRead
+			viewedAt
+			respondedAt
+			closedAt
+			createdAt
+			updatedAt
+			contactPerson {
+				fullName
+				email
+				phone
+			}
+		}
+	}
+`;
+
+/**************************
+ *         RESERVATION        *
+ *************************/
+export const BOOK_EVENT = gql`
+	mutation BookEvent($input: CreateReservationInput!) {
+		bookEvent(input: $input) {
+			_id
+			eventId
+			slotId
+			memberId
+			reservationDate
+			numberOfPeople
+			pricePerPerson
+			totalAmount
+			paymentMethod
+			paymentStatus
+			status
+			createdAt
+			updatedAt
+			contactPerson {
+				fullName
+				email
+				phone
+			}
+			paymentInfo {
+				cardholderName
+				cardLastFour
+			}
+			paymentProcessedAt
+			bookingReference
+		}
+	}
+`;
+
+export const CANCEL_RESERVATION = gql`
+	mutation CancelReservation($input: String!) {
+		cancelReservation(reservationId: $input) {
+			_id
+			eventId
+			slotId
+			memberId
+			reservationDate
+			numberOfPeople
+			pricePerPerson
+			totalAmount
+			paymentMethod
+			paymentStatus
+			paymentProcessedAt
+			status
+			bookingReference
+			createdAt
+			updatedAt
+			contactPerson {
+				fullName
+				email
+				phone
+			}
+			paymentInfo {
+				cardholderName
+				cardLastFour
+			}
 		}
 	}
 `;
