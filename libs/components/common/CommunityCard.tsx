@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Stack, Typography } from '@mui/material';
-import { BoardArticle } from '../../types/board-article/board-article';
+import { BoardArticle } from '../../types/event/event';
 import Moment from 'react-moment';
 import { REACT_APP_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
