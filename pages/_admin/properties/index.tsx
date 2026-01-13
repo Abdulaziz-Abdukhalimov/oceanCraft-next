@@ -11,7 +11,7 @@ import TablePagination from '@mui/material/TablePagination';
 import { PropertyPanelList } from '../../../libs/components/admin/properties/PropertyList';
 import { AllPropertiesInquiry } from '../../../libs/types/property/property.input';
 import { Property } from '../../../libs/types/property/property';
-import { PropertyLocation, PropertyStatus } from '../../../libs/enums/property.enum';
+import { PropertyLocation, PropertyStatus } from '../../../libs/enums/product.enum';
 import { sweetConfirmAlert, sweetErrorHandling } from '../../../libs/sweetAlert';
 import { PropertyUpdate } from '../../../libs/types/property/property.update';
 import { useMutation, useQuery } from '@apollo/client';

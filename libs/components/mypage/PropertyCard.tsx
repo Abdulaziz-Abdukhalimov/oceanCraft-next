@@ -8,7 +8,7 @@ import { Property } from '../../types/property/property';
 import { formatterStr } from '../../utils';
 import Moment from 'react-moment';
 import { useRouter } from 'next/router';
-import { PropertyStatus } from '../../enums/property.enum';
+import { PropertyStatus } from '../../enums/product.enum';
 
 interface PropertyCardProps {
 	property: Property;

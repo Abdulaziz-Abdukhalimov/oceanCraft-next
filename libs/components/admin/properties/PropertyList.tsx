@@ -18,7 +18,7 @@ import { Property } from '../../../types/property/property';
 import { REACT_APP_API_URL } from '../../../config';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from '@mui/material/Typography';
-import { PropertyStatus } from '../../../enums/property.enum';
+import { PropertyStatus } from '../../../enums/product.enum';
 
 interface Data {
 	id: string;

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Button, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { PropertyLocation, PropertyType } from '../../enums/property.enum';
+import { PropertyLocation, PropertyType } from '../../enums/product.enum';
 import { REACT_APP_API_URL, propertySquare } from '../../config';
 import { PropertyInput } from '../../types/property/property.input';
 import axios from 'axios';

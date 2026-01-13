@@ -7,7 +7,7 @@ import { BoardArticle } from '../../types/board-article/board-article';
 import { useQuery } from '@apollo/client';
 import { GET_BOARD_ARTICLES } from '../../../apollo/user/query';
 import { T } from '../../types/common';
-import { BoardArticleCategory } from '../../enums/board-article.enum';
+import { BoardArticleCategory } from '../../enums/event.enum';
 
 const CommunityBoards = () => {
 	const device = useDeviceDetect();

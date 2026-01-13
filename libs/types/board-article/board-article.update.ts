@@ -1,4 +1,4 @@
-import { BoardArticleStatus } from '../../enums/board-article.enum';
+import { BoardArticleStatus } from '../../enums/event.enum';
 
 export interface BoardArticleUpdate {
 	_id: string;

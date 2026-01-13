@@ -1,4 +1,4 @@
-import { BoardArticleCategory, BoardArticleStatus } from '../../enums/board-article.enum';
+import { BoardArticleCategory, BoardArticleStatus } from '../../enums/event.enum';
 import { Member } from '../member/member';
 import { MeLiked, TotalCounter } from '../property/property';
 

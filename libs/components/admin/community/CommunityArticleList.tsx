@@ -23,7 +23,7 @@ import { BoardArticle } from '../../../types/board-article/board-article';
 import { REACT_APP_API_URL } from '../../../config';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from '@mui/material/Typography';
-import { BoardArticleStatus } from '../../../enums/board-article.enum';
+import { BoardArticleStatus } from '../../../enums/event.enum';
 
 interface Data {
 	category: string;

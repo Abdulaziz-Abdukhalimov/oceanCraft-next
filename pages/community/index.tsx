@@ -10,7 +10,7 @@ import { BoardArticle } from '../../libs/types/board-article/board-article';
 import { T } from '../../libs/types/common';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { BoardArticlesInquiry } from '../../libs/types/board-article/board-article.input';
-import { BoardArticleCategory } from '../../libs/enums/board-article.enum';
+import { BoardArticleCategory } from '../../libs/enums/event.enum';
 import { useMutation, useQuery } from '@apollo/client';
 import { LIKE_TARGET_BOARD_ARTICLE } from '../../apollo/user/mutation';
 import { GET_BOARD_ARTICLES } from '../../apollo/user/query';
