@@ -5,3 +5,9 @@ export interface LikeInput {
 	likeRefId: string;
 	likeGroup: LikeGroup;
 }
+
+export interface AllFavoritesInquiry {
+	page: number;
+	limit: number;
+	likeGroup?: LikeGroup;
+}
