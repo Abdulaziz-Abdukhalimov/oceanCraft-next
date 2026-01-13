@@ -12,20 +12,25 @@ export const GET_ALL_MEMBERS_BY_ADMIN = gql`
 				memberType
 				memberStatus
 				memberAuthType
+				memberEmail
 				memberPhone
+				memberTelegram
 				memberNick
 				memberFullName
 				memberImage
 				memberAddress
 				memberDesc
-				memberWarnings
-				memberBlocks
-				memberProperties
-				memberRank
-				memberArticles
+				memberEvents
+				memberProducts
+				memberFollowers
+				memberFollowings
 				memberPoints
 				memberLikes
 				memberViews
+				memberRank
+				memberWarnings
+				memberComments
+				memberBlocks
 				deletedAt
 				createdAt
 				updatedAt
@@ -39,53 +44,65 @@ export const GET_ALL_MEMBERS_BY_ADMIN = gql`
 `;
 
 /**************************
- *        PROPERTY        *
+ *        PRODUCT        *
  *************************/
 
-export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
-	query GetAllPropertiesByAdmin($input: AllPropertiesInquiry!) {
-		getAllPropertiesByAdmin(input: $input) {
+export const GET_ALL_PRODUCT_BY_ADMIN = gql`
+	query GetAllProductsByAdmin($input: AllProductsInquiry!) {
+		getAllProductsByAdmin(input: $input) {
 			list {
 				_id
-				propertyType
-				propertyStatus
-				propertyLocation
-				propertyAddress
-				propertyTitle
-				propertyPrice
-				propertySquare
-				propertyBeds
-				propertyRooms
-				propertyViews
-				propertyLikes
-				propertyImages
-				propertyDesc
-				propertyBarter
-				propertyRent
-				memberId
+				productCategory
+				productCondition
+				productStatus
+				productTitle
+				productDescription
+				productBrand
+				productModel
+				productEngineType
+				productSpeed
+				productLength
+				productPriceType
+				productRentPeriod
+				productPrice
+				productCurrency
+				productImages
+				productAddress
+				productViews
+				productLikes
+				productComments
+				productRank
+				productRent
 				soldAt
 				deletedAt
-				constructedAt
 				createdAt
 				updatedAt
+				memberId
+				productBuildYear
 				memberData {
 					_id
 					memberType
 					memberStatus
 					memberAuthType
+					memberEmail
 					memberPhone
+					memberTelegram
 					memberNick
 					memberFullName
 					memberImage
 					memberAddress
 					memberDesc
-					memberWarnings
-					memberBlocks
-					memberProperties
-					memberRank
+					memberEvents
+					memberProducts
+					memberFollowers
+					memberFollowings
 					memberPoints
 					memberLikes
 					memberViews
+					memberRank
+					memberWarnings
+					memberComments
+					memberBlocks
 					deletedAt
 					createdAt
 					updatedAt
@@ -100,42 +117,87 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
 `;
 
 /**************************
- *      BOARD-ARTICLE     *
+ *      EVENT    *
  *************************/
 
-export const GET_ALL_BOARD_ARTICLES_BY_ADMIN = gql`
-	query GetAllBoardArticlesByAdmin($input: AllBoardArticlesInquiry!) {
-		getAllBoardArticlesByAdmin(input: $input) {
+export const GET_ALL_EVENTS_BY_ADMIN = gql`
+	query GetAllEventsByAdmin($input: AllEventsInquiry!) {
+		getAllEventsByAdmin(input: $input) {
 			list {
 				_id
-				articleCategory
-				articleStatus
-				articleTitle
-				articleContent
-				articleImage
-				articleViews
-				articleLikes
 				memberId
+				eventTitle
+				eventDescription
+				eventCategory
+				businessName
+				eventPrice
+				eventCurrency
+				eventRegistrationDeadline
+				eventImages
+				eventAvailabilityStatus
+				eventCapacity
+				eventDurationMinutes
+				eventNotes
+				eventCancellationPolicy
+				eventStatus
+				eventViews
+				eventLikes
+				eventComments
+				eventRank
+				approvedAt
+				rejectedAt
+				deletedAt
+				cancelledAt
+				completedAt
 				createdAt
 				updatedAt
-				memberData {
+				eventLocation {
+					city
+					address
+				}
+				eventSchedule {
+					type
+					daysOfWeek
+				}
+				eventPeriod {
+					startDate
+					endDate
+				}
+				eventContact {
+					phone
+					email
+					telegram
+				}
+				eventRequirements {
+					minAge
+					maxAge
+					bringItems
+					experienceLevel
+				}
+				businessData {
 					_id
 					memberType
 					memberStatus
 					memberAuthType
+					memberEmail
 					memberPhone
+					memberTelegram
 					memberNick
 					memberFullName
 					memberImage
 					memberAddress
 					memberDesc
-					memberWarnings
-					memberBlocks
-					memberProperties
-					memberRank
+					memberEvents
+					memberProducts
+					memberFollowers
+					memberFollowings
 					memberPoints
 					memberLikes
 					memberViews
+					memberRank
+					memberWarnings
+					memberComments
+					memberBlocks
 					deletedAt
 					createdAt
 					updatedAt
@@ -170,19 +232,25 @@ export const GET_COMMENTS = gql`
 					memberType
 					memberStatus
 					memberAuthType
+					memberEmail
 					memberPhone
+					memberTelegram
 					memberNick
 					memberFullName
 					memberImage
 					memberAddress
 					memberDesc
-					memberWarnings
-					memberBlocks
-					memberProperties
-					memberRank
+					memberEvents
+					memberProducts
+					memberFollowers
+					memberFollowings
 					memberPoints
 					memberLikes
 					memberViews
+					memberRank
+					memberWarnings
+					memberComments
+					memberBlocks
 					deletedAt
 					createdAt
 					updatedAt

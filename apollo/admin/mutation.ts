@@ -11,19 +11,24 @@ export const UPDATE_MEMBER_BY_ADMIN = gql`
 			memberType
 			memberStatus
 			memberAuthType
+			memberEmail
 			memberPhone
+			memberTelegram
 			memberNick
 			memberFullName
 			memberImage
 			memberAddress
 			memberDesc
-			memberProperties
-			memberRank
-			memberArticles
+			memberEvents
+			memberProducts
+			memberFollowers
+			memberFollowings
 			memberPoints
 			memberLikes
 			memberViews
+			memberRank
 			memberWarnings
+			memberComments
 			memberBlocks
 			deletedAt
 			createdAt
@@ -34,61 +39,73 @@ export const UPDATE_MEMBER_BY_ADMIN = gql`
 `;
 
 /**************************
- *        PROPERTY        *
+ *        PRODUCT        *
  *************************/
 
-export const UPDATE_PROPERTY_BY_ADMIN = gql`
-	mutation UpdatePropertyByAdmin($input: PropertyUpdate!) {
-		updatePropertyByAdmin(input: $input) {
+export const UPDATE_PRODUCT_BY_ADMIN = gql`
+	mutation UpdateProductByAdmin($input: ProductUpdate!) {
+		updateProductByAdmin(input: $input) {
 			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
-			memberId
+			productCategory
+			productCondition
+			productStatus
+			productTitle
+			productDescription
+			productBrand
+			productModel
+			productEngineType
+			productSpeed
+			productLength
+			productPriceType
+			productRentPeriod
+			productPrice
+			productCurrency
+			productImages
+			productAddress
+			productViews
+			productLikes
+			productComments
+			productRank
+			productRent
 			soldAt
 			deletedAt
-			constructedAt
 			createdAt
 			updatedAt
+			memberId
+			productBuildYear
 		}
 	}
 `;
 
-export const REMOVE_PROPERTY_BY_ADMIN = gql`
-	mutation RemovePropertyByAdmin($input: String!) {
-		removePropertyByAdmin(propertyId: $input) {
+export const REMOVE_PRODUCT_BY_ADMIN = gql`
+	mutation RemoveProductByAdmin($input: String!) {
+		removeProductByAdmin(productId: $input) {
 			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
 			memberId
+			productCategory
+			productCondition
+			productStatus
+			productTitle
+			productDescription
+			productBrand
+			productModel
+			productEngineType
+			productSpeed
+			productLength
+			productPriceType
+			productRentPeriod
+			productPrice
+			productCurrency
+			productImages
+			productAddress
+			productViews
+			productLikes
+			productComments
+			productRank
+			productRent
+			productBuildYear
 			soldAt
 			deletedAt
-			constructedAt
 			createdAt
 			updatedAt
 		}
@@ -96,41 +113,62 @@ export const REMOVE_PROPERTY_BY_ADMIN = gql`
 `;
 
 /**************************
- *      BOARD-ARTICLE     *
+ *      EVENT     *
  *************************/
 
-export const UPDATE_BOARD_ARTICLE_BY_ADMIN = gql`
-	mutation UpdateBoardArticleByAdmin($input: BoardArticleUpdate!) {
-		updateBoardArticleByAdmin(input: $input) {
+export const UPDATE_EVENT_BY_ADMIN = gql`
+	mutation UpdateEventStatusByAdmin($input: EventUpdate!) {
+		updateEventStatusByAdmin(input: $input) {
 			_id
-			articleCategory
-			articleStatus
-			articleTitle
-			articleContent
-			articleImage
-			articleViews
-			articleLikes
 			memberId
+			eventTitle
+			eventDescription
+			eventCategory
+			businessName
+			eventPrice
+			eventCurrency
+			eventRegistrationDeadline
+			eventImages
+			eventAvailabilityStatus
+			eventCapacity
+			eventDurationMinutes
+			eventNotes
+			eventCancellationPolicy
+			eventStatus
+			eventViews
+			eventLikes
+			eventComments
+			eventRank
+			approvedAt
+			rejectedAt
+			deletedAt
+			cancelledAt
+			completedAt
 			createdAt
 			updatedAt
-		}
-	}
-`;
-
-export const REMOVE_BOARD_ARTICLE_BY_ADMIN = gql`
-	mutation RemoveBoardArticleByAdmin($input: String!) {
-		removeBoardArticleByAdmin(articleId: $input) {
-			_id
-			articleCategory
-			articleStatus
-			articleTitle
-			articleContent
-			articleImage
-			articleViews
-			articleLikes
-			memberId
-			createdAt
-			updatedAt
+			eventLocation {
+				city
+				address
+			}
+			eventSchedule {
+				type
+				daysOfWeek
+			}
+			eventPeriod {
+				startDate
+				endDate
+			}
+			eventContact {
+				phone
+				email
+				telegram
+			}
+			eventRequirements {
+				minAge
+				maxAge
+				bringItems
+				experienceLevel
+			}
 		}
 	}
 `;
