@@ -8,8 +8,9 @@ import Events from '../libs/components/homepage/Events';
 import TrendProperties from '../libs/components/homepage/TrendProperties';
 import TopProperties from '../libs/components/homepage/TopProperties';
 import { Stack } from '@mui/material';
-import Advertisement from '../libs/components/homepage/Advertisement';
+
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import HeroCarousel from '../libs/components/homepage/Advertisement';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -25,7 +26,7 @@ const Home: NextPage = () => {
 			<Stack className={'home-page'}>
 				<TrendProperties />
 				<PopularProperties />
-				<Advertisement />
+				<HeroCarousel />
 				<TopProperties />
 				<TopAgents />
 			</Stack>
@@ -33,7 +34,7 @@ const Home: NextPage = () => {
 	} else {
 		return (
 			<Stack className={'home-page'}>
-				{/* <Advertisement /> */}
+				<HeroCarousel />
 				{/* <TrendProperties /> */}
 				{/* <PopularProperties />
 				<TopProperties />
