@@ -17,6 +17,13 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
+import MenuIcon from '@mui/icons-material/Menu';
+// Import these icons if not already imported
+import SearchIcon from '@mui/icons-material/Search';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import NavbarAdCarousel from './common/NavbarAdCarousel';
+import CloseIcon from '@mui/icons-material/Close';
+import PersonIcon from '@mui/icons-material/Person';
 
 const Top = () => {
 	const device = useDeviceDetect();
@@ -32,6 +39,7 @@ const Top = () => {
 	const [bgColor, setBgColor] = useState<boolean>(false);
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
+	const [showTopBanner, setShowTopBanner] = useState(true);
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -45,7 +53,7 @@ const Top = () => {
 
 	useEffect(() => {
 		switch (router.pathname) {
-			case '/property/detail':
+			case '/product/detail':
 				setBgColor(true);
 				break;
 			default:
@@ -145,14 +153,14 @@ const Top = () => {
 				<Link href={'/'}>
 					<div>{t('Home')}</div>
 				</Link>
-				<Link href={'/property'}>
-					<div>{t('Properties')}</div>
+				<Link href={'/product'}>
+					<div>{t('Products')}</div>
 				</Link>
-				<Link href={'/agent'}>
-					<div> {t('Agents')} </div>
+				<Link href={'/events'}>
+					<div> {t('Events')} </div>
 				</Link>
-				<Link href={'/community?articleCategory=FREE'}>
-					<div> {t('Community')} </div>
+				<Link href={'/about'}>
+					<div> {t('About us')} </div>
 				</Link>
 				<Link href={'/cs'}>
 					<div> {t('CS')} </div>
@@ -162,70 +170,51 @@ const Top = () => {
 	} else {
 		return (
 			<Stack className={'navbar'}>
-				<Stack className={`navbar-main ${colorChange ? 'transparent' : ''} ${bgColor ? 'transparent' : ''}`}>
-					<Stack className={'container'}>
-						<Box component={'div'} className={'logo-box'}>
-							<Link href={'/'}>
-								<img src="/img/logo/logoWhite.svg" alt="" />
-							</Link>
+				{/* TOP BANNER - Closeable Ad Section */}
+				{showTopBanner && (
+					<Box className={'top-banner'}>
+						<Box className={'banner-content'}>
+							<img src="/img/banner/firstBanner.jpg" alt="Top Banner" />
 						</Box>
-						<Box component={'div'} className={'router-box'}>
-							<Link href={'/'}>
-								<div>{t('Home')}</div>
-							</Link>
-							<Link href={'/property'}>
-								<div>{t('Properties')}</div>
-							</Link>
-							<Link href={'/agent'}>
-								<div> {t('Agents')} </div>
-							</Link>
-							<Link href={'/community?articleCategory=FREE'}>
-								<div> {t('Community')} </div>
-							</Link>
-							{user?._id && (
-								<Link href={'/mypage'}>
-									<div> {t('My Page')} </div>
-								</Link>
-							)}
-							<Link href={'/cs'}>
-								<div> {t('CS')} </div>
-							</Link>
-						</Box>
-						<Box component={'div'} className={'user-box'}>
-							{user?._id ? (
-								<>
-									<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
-										<img src={user?.memberImage || '/img/profile/defaultUser.svg'} alt="" />
-									</div>
+						<button className={'close-banner-btn'} onClick={() => setShowTopBanner(false)}>
+							<CloseIcon />
+						</button>
+					</Box>
+				)}
 
-									<Menu
-										id="basic-menu"
-										anchorEl={logoutAnchor}
-										open={logoutOpen}
-										onClose={() => {
-											setLogoutAnchor(null);
-										}}
-										sx={{ mt: '5px' }}
-									>
-										<MenuItem onClick={() => logOut()}>
-											<Logout fontSize="small" style={{ color: 'blue', marginRight: '10px' }} />
-											Logout
-										</MenuItem>
-									</Menu>
+				{/* TOP BAR - Login/MyPage + Language */}
+				<Stack className={'top-bar'}>
+					<Stack className={'top-bar-container'}>
+						<Box className={'left-empty'}></Box>
+						<Box className={'right-actions'}>
+							{/* If user is NOT logged in */}
+							{!user?._id ? (
+								<>
+									<Link href={'/account/join'}>
+										<div className={'top-bar-item'}>
+											<PersonIcon />
+											<span>{t('Login')}</span>
+										</div>
+									</Link>
+									<span className={'divider'}>|</span>
 								</>
 							) : (
-								<Link href={'/account/join'}>
-									<div className={'join-box'}>
-										<AccountCircleOutlinedIcon />
-										<span>
-											{t('Login')} / {t('Register')}
-										</span>
-									</div>
-								</Link>
+								<>
+									{/* If user IS logged in */}
+									<Link href={'/mypage'}>
+										<div className={'top-bar-item'}>
+											<PersonIcon />
+											<span>{t('My Page')}</span>
+										</div>
+									</Link>
+									<span className={'divider'}>|</span>
+									{user?._id && <NotificationsOutlinedIcon className={'notification-icon'} />}
+									<span className={'divider'}>|</span>
+								</>
 							)}
 
-							<div className={'lan-box'}>
-								{user?._id && <NotificationsOutlinedIcon className={'notification-icon'} />}
+							{/* Language Dropdown */}
+							<Box className={'language-dropdown'}>
 								<Button
 									disableRipple
 									className="btn-lang"
@@ -234,9 +223,9 @@ const Top = () => {
 								>
 									<Box component={'div'} className={'flag'}>
 										{lang !== null ? (
-											<img src={`/img/flag/lang${lang}.png`} alt={'usaFlag'} />
+											<img src={`/img/flag/lang${lang}.png`} alt={'flag'} />
 										) : (
-											<img src={`/img/flag/langen.png`} alt={'usaFlag'} />
+											<img src={`/img/flag/langen.png`} alt={'flag'} />
 										)}
 									</Box>
 								</Button>
@@ -257,24 +246,74 @@ const Top = () => {
 											className="img-flag"
 											src={'/img/flag/langkr.png'}
 											onClick={langChoice}
-											id="uz"
+											id="kr"
 											alt={'koreanFlag'}
 										/>
 										{t('Korean')}
 									</MenuItem>
-									<MenuItem disableRipple onClick={langChoice} id="ru">
-										<img
-											className="img-flag"
-											src={'/img/flag/langru.png'}
-											onClick={langChoice}
-											id="ru"
-											alt={'russiaFlag'}
-										/>
-										{t('Russian')}
-									</MenuItem>
 								</StyledMenu>
-							</div>
+							</Box>
 						</Box>
+					</Stack>
+				</Stack>
+
+				{/* MAIN NAVBAR */}
+				<Stack className={'navbar-main'}>
+					<Stack className={'container'}>
+						{/* Logo */}
+						<Box className={'logo-section'}>
+							<Link href={'/'}>
+								<img src="/img/logo/logo.png" alt="OceanCraft" />
+							</Link>
+						</Box>
+
+						{/* Search + Tabs */}
+						<Box className={'search-section'}>
+							<Box className={'search-wrapper'}>
+								<input type="text" className={'search-input'} placeholder="search products , events" />
+								<button className={'search-btn'}>
+									<SearchIcon />
+								</button>
+							</Box>
+							<Box className={'search-tabs'}>
+								<Link href={'/cs'}>
+									<span className={'tab-item'}>회사 소개</span>
+								</Link>
+								<Link href={'/cs'}>
+									<span className={'tab-item'}>{t('CS')}</span>
+								</Link>
+								<Link href={'/agent'}>
+									<span className={'tab-item'}>{t('Agents')}</span>
+								</Link>
+								<Link href={'/contact'}>
+									<span className={'tab-item'}>연락하다 </span>
+								</Link>
+							</Box>
+						</Box>
+
+						{/* Side Banner */}
+						<Box className={'side-banner-section'}>
+							<NavbarAdCarousel />
+						</Box>
+					</Stack>
+				</Stack>
+
+				{/* BOTTOM NAVIGATION */}
+				<Stack className={'nav-bottom'}>
+					<Stack className={'nav-container'}>
+						<Button className={'category-btn'}>
+							<MenuIcon />
+							<span>View All</span>
+						</Button>
+						<Link href={'/products'}>
+							<div className={'nav-item'}>{t('Products')}</div>
+						</Link>
+						<Link href={'/products'}>
+							<div className={'nav-item'}>관공서 납품</div>
+						</Link>
+						<Link href={'/events'}>
+							<div className={'nav-item'}>{t('Events')}</div>
+						</Link>
 					</Stack>
 				</Stack>
 			</Stack>
