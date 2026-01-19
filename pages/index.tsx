@@ -1,18 +1,14 @@
 import { NextPage } from 'next';
 import useDeviceDetect from '../libs/hooks/useDeviceDetect';
 import withLayoutMain from '../libs/components/layout/LayoutHome';
-import CommunityBoards from '../libs/components/homepage/CommunityBoards';
-import PopularProperties from '../libs/components/homepage/PopularProducts';
 import TopAgents from '../libs/components/homepage/TopAgents';
-import Events from '../libs/components/homepage/Events';
-import TrendProperties from '../libs/components/homepage/TrendProperties';
-import TopProperties from '../libs/components/homepage/TopProperties';
+import TopProperties from '../libs/components/homepage/TopEvents';
 import { Stack } from '@mui/material';
-
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import HeroCarousel from '../libs/components/homepage/Advertisement';
 import PopularProducts from '../libs/components/homepage/PopularProducts';
 import TrendAdvertisement from '../libs/components/homepage/TrendAdvertisement';
+import TopEvents from '../libs/components/homepage/TopEvents';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -26,9 +22,9 @@ const Home: NextPage = () => {
 	if (device === 'mobile') {
 		return (
 			<Stack className={'home-page'}>
-				<TrendProperties />
-				<PopularProperties />
 				<HeroCarousel />
+				<PopularProducts />
+				<TrendAdvertisement />
 				<TopProperties />
 				<TopAgents />
 			</Stack>
@@ -39,9 +35,9 @@ const Home: NextPage = () => {
 				<HeroCarousel />
 				<PopularProducts />
 				<TrendAdvertisement />
-				{/* <TopProperties /> */}
+				<TopEvents />
+				{/* <Events /> */}
 				{/*<TopAgents />
-				<Events />
 				<CommunityBoards />  */}
 			</Stack>
 		);
