@@ -925,7 +925,6 @@
 				}
 			}
 		}
-
 		// Top Events Container Styles
 		.top-events {
 			padding: 60px 0;
@@ -1054,6 +1053,187 @@
 				}
 			}
 		}
+
+		.category-popular {
+			width: 100%;
+			margin-top: 80px;
+			text-align: center;
+
+			/* =====================
+		TITLE
+	===================== */
+			.title {
+				font-size: 32px;
+				font-weight: 700;
+			}
+
+			.subtitle {
+				margin-top: 8px;
+				font-size: 15px;
+				color: #6b7280;
+			}
+
+			/* =====================
+		CATEGORY TABS
+	===================== */
+			.category-tabs {
+				margin-top: 40px;
+				display: grid;
+				grid-template-columns: repeat(7, 1fr);
+				border: 1px solid #e5e7eb;
+				margin-left: 90px;
+				margin-right: 90px;
+
+				.tab {
+					padding: 20px 0;
+					font-size: 14px;
+					cursor: pointer;
+					border-right: 1px solid #e5e7eb;
+					transition: background 0.2s;
+
+					&:last-child {
+						border-right: none;
+					}
+
+					&:hover {
+						background: #f9fafb;
+					}
+
+					&.active {
+						background: #f9fafb;
+						color: #111827;
+						font-weight: 600;
+					}
+				}
+			}
+
+			/* =====================
+		SWIPER
+	===================== */
+			.product-swiper {
+				margin-top: 40px;
+				width: 100%;
+
+				.swiper {
+					padding-bottom: 16px;
+				}
+
+				/* 🔥 REQUIRED FOR SWIPER AUTO WIDTH */
+				.swiper-slide {
+					width: 280px !important;
+					display: flex;
+					justify-content: center;
+				}
+			}
+
+			/* =====================
+		PRODUCT CARD
+	===================== */
+			.product-card {
+				width: 280px;
+				text-align: left;
+				transition: box-shadow 0.25s ease, transform 0.25s ease;
+
+				&:hover {
+					box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+					transform: translateY(-2px);
+				}
+			}
+
+			/* =====================
+		IMAGE BOX (THIS FIXES THE BUG)
+	===================== */
+			.image-box {
+				position: relative;
+				width: 100%;
+				height: 220px;
+				border: 1px solid #e5e7eb;
+				overflow: hidden;
+				cursor: pointer;
+
+				img {
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+					display: block;
+				}
+			}
+
+			/* =====================
+		LIKE BUTTON
+	===================== */
+			.like-btn {
+				position: absolute;
+				top: 12px;
+				right: 12px;
+				width: 36px;
+				height: 36px;
+				background: rgba(255, 255, 255, 0.95);
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				z-index: 2;
+				transition: transform 0.2s ease;
+
+				svg {
+					font-size: 20px;
+					color: #6b7280;
+				}
+
+				&.liked svg {
+					color: #ef4444;
+				}
+
+				&:hover {
+					transform: scale(1.1);
+				}
+			}
+
+			/* =====================
+		CARD CONTENT
+	===================== */
+			.product-title {
+				margin-top: 12px;
+				font-size: 14px;
+				line-height: 1.4;
+				min-height: 40px;
+			}
+
+			.product-meta {
+				margin-top: 6px;
+				font-size: 12px;
+				color: #6b7280;
+
+				span {
+					position: relative;
+					padding-right: 8px;
+
+					&::after {
+						content: '·';
+						position: absolute;
+						right: 2px;
+					}
+
+					&:last-child::after {
+						display: none;
+					}
+				}
+			}
+
+			.location {
+				margin-top: 4px;
+				font-size: 12px;
+				color: #9ca3af;
+			}
+
+			.price {
+				margin-top: 10px;
+				font-size: 20px;
+				font-weight: 800;
+				letter-spacing: -0.3px;
+			}
+		}
 		.top-agents {
 			position: relative;
 			padding: 153px 0px 135px;
@@ -1145,94 +1325,7 @@
 				}
 			}
 		}
-		.events {
-			position: relative;
-			padding: 100px 0px 92px;
-			width: 100%;
-			height: 810px;
-			display: flex;
-			flex-direction: row;
-			background: #181a20;
-			.container {
-				flex-direction: column;
-				align-items: center;
-				.card-wrapper {
-					position: relative;
-					margin-top: 48px;
-					width: 100%;
-					height: auto;
-					display: flex;
-					flex-direction: row;
-					justify-content: space-between;
-					.event-card {
-						position: relative;
-						width: 300px;
-						height: 420px;
-						border-radius: 12px;
-						opacity: 0.9;
-						cursor: pointer;
-						transition: opacity 0.4s;
-						&:hover {
-							opacity: 1;
-							scale: 1.05;
-							transition: 0.3s;
-							.more {
-								opacity: 1;
-							}
-						}
-						.info {
-							position: absolute;
-							display: flex;
-							flex-direction: column;
-							top: 35px;
-							left: 10px;
-							right: 10px;
-							strong {
-								color: #f64747;
-								font-family: $font;
-								font-size: 25px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-								text-transform: capitalize;
-							}
-							span {
-								color: #f66767;
-								font-family: $font;
-								font-size: 20px;
-								font-style: normal;
-								font-weight: 500;
-								line-height: 28px;
-								text-transform: capitalize;
-							}
-						}
-						.more {
-							position: absolute;
-							left: 10px;
-							right: 10px;
-							bottom: 41px;
-							display: flex;
-							flex-direction: row;
-							align-items: center;
-							opacity: 0;
-							span {
-								padding: 0px 5px;
-								border-radius: 5px;
-								background: #fffdfdc4;
-								color: #9c67f6;
-								font-family: $font;
-								font-size: 16px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 26px;
-								text-align: justify;
-								cursor: pointer;
-							}
-						}
-					}
-				}
-			}
-		}
+
 		.community-board {
 			position: relative;
 			padding: 124px 0px 61px;

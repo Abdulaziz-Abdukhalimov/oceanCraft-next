@@ -9,6 +9,7 @@ import HeroCarousel from '../libs/components/homepage/Advertisement';
 import PopularProducts from '../libs/components/homepage/PopularProducts';
 import TrendAdvertisement from '../libs/components/homepage/TrendAdvertisement';
 import TopEvents from '../libs/components/homepage/TopEvents';
+import CategoryPopularProducts from '../libs/components/homepage/CategoryProducts';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -36,7 +37,7 @@ const Home: NextPage = () => {
 				<PopularProducts />
 				<TrendAdvertisement />
 				<TopEvents />
-				{/* <Events /> */}
+				<CategoryPopularProducts />
 				{/*<TopAgents />
 				<CommunityBoards />  */}
 			</Stack>
