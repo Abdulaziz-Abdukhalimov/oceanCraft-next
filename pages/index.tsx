@@ -10,6 +10,7 @@ import PopularProducts from '../libs/components/homepage/PopularProducts';
 import TrendAdvertisement from '../libs/components/homepage/TrendAdvertisement';
 import TopEvents from '../libs/components/homepage/TopEvents';
 import CategoryPopularProducts from '../libs/components/homepage/CategoryProducts';
+import InfoSection from '../libs/components/homepage/InfoSection';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -38,8 +39,8 @@ const Home: NextPage = () => {
 				<TrendAdvertisement />
 				<TopEvents />
 				<CategoryPopularProducts />
-				{/*<TopAgents />
-				<CommunityBoards />  */}
+				<InfoSection />
+				{/* <TopAgents /> */}
 			</Stack>
 		);
 	}
