@@ -12,6 +12,7 @@ import { Stack } from '@mui/material';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import HeroCarousel from '../libs/components/homepage/Advertisement';
 import PopularProducts from '../libs/components/homepage/PopularProducts';
+import TrendAdvertisement from '../libs/components/homepage/TrendAdvertisement';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -37,9 +38,9 @@ const Home: NextPage = () => {
 			<Stack className={'home-page'}>
 				<HeroCarousel />
 				<PopularProducts />
-				{/* <TrendProperties /> */}
-				{/* <TopProperties />
-				<TopAgents />
+				<TrendAdvertisement />
+				{/* <TopProperties /> */}
+				{/*<TopAgents />
 				<Events />
 				<CommunityBoards />  */}
 			</Stack>
