@@ -51,7 +51,6 @@ const CategoryPopularProducts = () => {
 		try {
 			if (!user?._id) throw new Error(Message.NOT_AUTHENTICATED);
 
-			// 🔥 optimistic UI
 			setProducts((prev) =>
 				prev.map((product) =>
 					product._id === productId

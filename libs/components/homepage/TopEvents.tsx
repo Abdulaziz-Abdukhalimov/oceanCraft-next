@@ -53,7 +53,6 @@ const TopEvents = (props: TopEventsProps) => {
 			return;
 		}
 
-		// 🔥 Optimistically update UI
 		setTopEvents((prev) =>
 			prev.map((event) => {
 				if (event._id !== id) return event;

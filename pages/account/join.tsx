@@ -1,12 +1,15 @@
 import React, { useCallback, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
-import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
+import withLayoutHome from '../../libs/components/layout/LayoutHome';
 import { Box, Button, Checkbox, FormControlLabel, FormGroup, Stack } from '@mui/material';
 import { useRouter } from 'next/router';
 import { logIn, signUp } from '../../libs/auth';
 import { sweetMixinErrorAlert } from '../../libs/sweetAlert';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import GoogleIcon from '@mui/icons-material/Google';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import CloseIcon from '@mui/icons-material/Close';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -67,146 +70,158 @@ const Join: NextPage = () => {
 		return <div>LOGIN MOBILE</div>;
 	} else {
 		return (
-			<Stack className={'join-page'}>
-				<Stack className={'container'}>
-					<Stack className={'main'}>
-						<Stack className={'left'}>
-							{/* @ts-ignore */}
-							<Box className={'logo'}>
-								<img src="/img/logo/logoText.svg" alt="" />
-								<span>Nestar</span>
-							</Box>
-							<Box className={'info'}>
-								<span>{loginView ? 'login' : 'signup'}</span>
-								<p>{loginView ? 'Login' : 'Sign'} in with this account across the following sites.</p>
-							</Box>
-							<Box className={'input-wrap'}>
-								<div className={'input-box'}>
-									<span>Nickname</span>
-									<input
-										type="text"
-										placeholder={'Enter Nickname'}
-										onChange={(e) => handleInput('nick', e.target.value)}
-										required={true}
-										onKeyDown={(event) => {
-											if (event.key == 'Enter' && loginView) doLogin();
-											if (event.key == 'Enter' && !loginView) doSignUp();
-										}}
-									/>
-								</div>
-								<div className={'input-box'}>
-									<span>Password</span>
-									<input
-										type="text"
-										placeholder={'Enter Password'}
-										onChange={(e) => handleInput('password', e.target.value)}
-										required={true}
-										onKeyDown={(event) => {
-											if (event.key == 'Enter' && loginView) doLogin();
-											if (event.key == 'Enter' && !loginView) doSignUp();
-										}}
-									/>
-								</div>
-								{!loginView && (
+			<Stack id="pc-wrap">
+				<Box className={'back-btn'} onClick={() => router.push('/')}>
+					<CloseIcon />
+				</Box>
+				<Stack className={'join-page'}>
+					<Stack className={'container'}>
+						<Stack className={'main'}>
+							{/* Left Side - Image */}
+							<Stack className={'left'}>
+								<Box className={'logo'}>
+									<img src="/img/logo/logo.png" alt="OceanCraft" />
+								</Box>
+								<Box className={'visual-image'}>
+									<img src="/img/banner/singupYacht.jpg" alt="Luxury Yacht" />
+								</Box>
+							</Stack>
+
+							{/* Right Side - Form */}
+							<Stack className={'right'}>
+								{/* Info */}
+								<Box className={'info'}>
+									<span>{loginView ? 'Welcome Back' : 'Create an Account'}</span>
+									<p>
+										{loginView ? 'Already have an account? ' : 'Already have an account? '}
+										<b onClick={() => viewChangeHandler(!loginView)}>{loginView ? 'Sign Up' : 'Log In'}</b>
+									</p>
+								</Box>
+
+								{/* Input Wrap */}
+								<Box className={'input-wrap'}>
 									<div className={'input-box'}>
-										<span>Phone</span>
+										<span>Nickname</span>
 										<input
 											type="text"
-											placeholder={'Enter Phone'}
-											onChange={(e) => handleInput('phone', e.target.value)}
+											placeholder={'Enter Nickname'}
+											onChange={(e) => handleInput('nick', e.target.value)}
+											value={input.nick}
 											required={true}
 											onKeyDown={(event) => {
-												if (event.key == 'Enter') doSignUp();
+												if (event.key == 'Enter' && loginView) doLogin();
+												if (event.key == 'Enter' && !loginView) doSignUp();
 											}}
 										/>
 									</div>
-								)}
-							</Box>
-							<Box className={'register'}>
-								{!loginView && (
-									<div className={'type-option'}>
-										<span className={'text'}>I want to be registered as:</span>
-										<div>
+
+									{!loginView && (
+										<div className={'input-box'}>
+											<span>Phone</span>
+											<input
+												type="text"
+												placeholder={'Enter Phone'}
+												onChange={(e) => handleInput('phone', e.target.value)}
+												value={input.phone}
+												required={true}
+												onKeyDown={(event) => {
+													if (event.key == 'Enter') doSignUp();
+												}}
+											/>
+										</div>
+									)}
+
+									<div className={'input-box'}>
+										<span>Password</span>
+										<input
+											type="password"
+											placeholder={'Enter Password'}
+											onChange={(e) => handleInput('password', e.target.value)}
+											value={input.password}
+											required={true}
+											onKeyDown={(event) => {
+												if (event.key == 'Enter' && loginView) doLogin();
+												if (event.key == 'Enter' && !loginView) doSignUp();
+											}}
+										/>
+									</div>
+								</Box>
+
+								{/* Register */}
+								<Box className={'register'}>
+									{!loginView && (
+										<div className={'type-option'}>
+											<span className={'text'}>I want to be registered as:</span>
+											<div className={'type-cards'}>
+												<div
+													className={`type-card ${input.type === 'USER' ? 'active' : ''}`}
+													onClick={() => handleInput('type', 'USER')}
+												>
+													<div className={'card-icon'}>👤</div>
+													<div className={'card-title'}>User</div>
+												</div>
+												<div
+													className={`type-card ${input.type === 'AGENT' ? 'active' : ''}`}
+													onClick={() => handleInput('type', 'AGENT')}
+												>
+													<div className={'card-icon'}>🏢</div>
+													<div className={'card-title'}>Business</div>
+												</div>
+											</div>
+										</div>
+									)}
+
+									{loginView && (
+										<div className={'remember-info'}>
 											<FormGroup>
-												<FormControlLabel
-													control={
-														<Checkbox
-															size="small"
-															name={'USER'}
-															onChange={checkUserTypeHandler}
-															checked={input?.type == 'USER'}
-														/>
-													}
-													label="User"
-												/>
-											</FormGroup>
-											<FormGroup>
-												<FormControlLabel
-													control={
-														<Checkbox
-															size="small"
-															name={'AGENT'}
-															onChange={checkUserTypeHandler}
-															checked={input?.type == 'AGENT'}
-														/>
-													}
-													label="Agent"
-												/>
+												<FormControlLabel control={<Checkbox defaultChecked size="small" />} label="Remember me" />
 											</FormGroup>
 										</div>
-									</div>
-								)}
+									)}
 
-								{loginView && (
-									<div className={'remember-info'}>
-										<FormGroup>
-											<FormControlLabel control={<Checkbox defaultChecked size="small" />} label="Remember me" />
-										</FormGroup>
-										<a>Lost your password?</a>
-									</div>
-								)}
-
-								{loginView ? (
-									<Button
-										variant="contained"
-										endIcon={<img src="/img/icons/rightup.svg" alt="" />}
-										disabled={input.nick == '' || input.password == ''}
-										onClick={doLogin}
-									>
-										LOGIN
-									</Button>
-								) : (
-									<Button
-										variant="contained"
-										disabled={input.nick == '' || input.password == '' || input.phone == '' || input.type == ''}
-										onClick={doSignUp}
-										endIcon={<img src="/img/icons/rightup.svg" alt="" />}
-									>
-										SIGNUP
-									</Button>
-								)}
-							</Box>
-							<Box className={'ask-info'}>
-								{loginView ? (
-									<p>
-										Not registered yet?
-										<b
-											onClick={() => {
-												viewChangeHandler(false);
-											}}
+									{loginView ? (
+										<Button variant="contained" disabled={input.nick == '' || input.password == ''} onClick={doLogin}>
+											Log In
+										</Button>
+									) : (
+										<Button
+											variant="contained"
+											disabled={input.nick == '' || input.password == '' || input.phone == '' || input.type == ''}
+											onClick={doSignUp}
 										>
-											SIGNUP
-										</b>
-									</p>
-								) : (
-									<p>
-										Have account?
-										<b onClick={() => viewChangeHandler(true)}> LOGIN</b>
-									</p>
-								)}
-							</Box>
+											Create Account
+										</Button>
+									)}
+
+									{!loginView && (
+										<div className={'terms-info'}>
+											<Checkbox size="small" defaultChecked />
+											<span>
+												I agree to the <b>Terms & Condition</b>
+											</span>
+										</div>
+									)}
+								</Box>
+
+								{/* Ask Info - Social Login */}
+								<Box className={'ask-info'}>
+									<div className={'divider'}>
+										<span>or</span>
+									</div>
+
+									<div className={'social-buttons'}>
+										<button className={'social-btn google'}>
+											<GoogleIcon />
+											<span> Continue with Google </span>
+										</button>
+										<button className={'social-btn facebook'}>
+											<FacebookIcon />
+											<span>Continue with Facebook</span>
+										</button>
+									</div>
+								</Box>
+							</Stack>
 						</Stack>
-						<Stack className={'right'}></Stack>
 					</Stack>
 				</Stack>
 			</Stack>
@@ -214,4 +229,4 @@ const Join: NextPage = () => {
 	}
 };
 
-export default withLayoutBasic(Join);
+export default Join;
