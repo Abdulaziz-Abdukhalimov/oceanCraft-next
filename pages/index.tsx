@@ -1,7 +1,6 @@
 import { NextPage } from 'next';
 import useDeviceDetect from '../libs/hooks/useDeviceDetect';
 import withLayoutMain from '../libs/components/layout/LayoutHome';
-import TopAgents from '../libs/components/homepage/TopAgents';
 import TopProperties from '../libs/components/homepage/TopEvents';
 import { Stack } from '@mui/material';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -11,6 +10,7 @@ import TrendAdvertisement from '../libs/components/homepage/TrendAdvertisement';
 import TopEvents from '../libs/components/homepage/TopEvents';
 import CategoryPopularProducts from '../libs/components/homepage/CategoryProducts';
 import InfoSection from '../libs/components/homepage/InfoSection';
+import TopAgents from '../libs/components/homepage/TopAgents';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -27,8 +27,9 @@ const Home: NextPage = () => {
 				<HeroCarousel />
 				<PopularProducts />
 				<TrendAdvertisement />
-				<TopProperties />
-				<TopAgents />
+				<TopEvents />
+				<CategoryPopularProducts />
+				<InfoSection />
 			</Stack>
 		);
 	} else {
@@ -40,7 +41,6 @@ const Home: NextPage = () => {
 				<TopEvents />
 				<CategoryPopularProducts />
 				<InfoSection />
-				{/* <TopAgents /> */}
 			</Stack>
 		);
 	}

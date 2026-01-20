@@ -57,58 +57,69 @@ const HeroCarousel = () => {
 
 	return (
 		<Stack className={'hero-carousel'}>
-			{/* Slides Container */}
-			<Box className={'slides-container'}>
-				{slides.map((slide, index) => (
-					<Box
-						key={index}
-						className={`slide ${index === currentSlide ? 'active' : ''}`}
-						style={{
-							backgroundImage: `url(${slide.image})`,
-						}}
-					>
-						<img src={slide.image} alt={slide.alt} />
-					</Box>
-				))}
-			</Box>
+			{/* ADD THIS - Blurred Background */}
+			<Box
+				className={'blurred-background'}
+				style={{
+					backgroundImage: `url(${slides[currentSlide]?.image})`,
+				}}
+			/>
 
-			{/* Left Navigation */}
-			<Box className={'nav-left'}>
-				<IconButton className={'nav-btn'} onClick={handlePrevSlide}>
-					<ArrowBackIosNewIcon />
-				</IconButton>
-			</Box>
-
-			{/* Right Navigation */}
-			<Box className={'nav-right'}>
-				<IconButton className={'nav-btn'} onClick={handleNextSlide}>
-					<ArrowForwardIosIcon />
-				</IconButton>
-			</Box>
-
-			{/* Bottom Controls */}
-			<Box className={'bottom-controls'}>
-				{/* Play/Pause Button */}
-				<IconButton className={'play-pause-btn'} onClick={handlePlayPause}>
-					{isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-				</IconButton>
-
-				{/* Slide Counter */}
-				<Box className={'slide-counter'}>
-					<span className={'current'}>{currentSlide + 1}</span>
-					<span className={'separator'}>/</span>
-					<span className={'total'}>{slides.length}</span>
+			{/* Wrap everything else in carousel-content */}
+			<Box className={'carousel-content'}>
+				{/* Slides Container */}
+				<Box className={'slides-container'}>
+					{slides.map((slide, index) => (
+						<Box
+							key={index}
+							className={`slide ${index === currentSlide ? 'active' : ''}`}
+							style={{
+								backgroundImage: `url(${slide.image})`,
+							}}
+						>
+							<img src={slide.image} alt={slide.alt} />
+						</Box>
+					))}
 				</Box>
 
-				{/* Dots Navigation */}
-				<Box className={'dots-navigation'}>
-					{slides.map((_, index) => (
-						<button
-							key={index}
-							className={`dot ${index === currentSlide ? 'active' : ''}`}
-							onClick={() => handleDotClick(index)}
-						/>
-					))}
+				{/* Left Navigation */}
+				<Box className={'nav-left'}>
+					<IconButton className={'nav-btn'} onClick={handlePrevSlide}>
+						<ArrowBackIosNewIcon />
+					</IconButton>
+				</Box>
+
+				{/* Right Navigation */}
+				<Box className={'nav-right'}>
+					<IconButton className={'nav-btn'} onClick={handleNextSlide}>
+						<ArrowForwardIosIcon />
+					</IconButton>
+				</Box>
+
+				{/* Bottom Controls */}
+				<Box className={'bottom-controls'}>
+					{/* Play/Pause Button */}
+					<IconButton className={'play-pause-btn'} onClick={handlePlayPause}>
+						{isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+					</IconButton>
+
+					{/* Slide Counter */}
+					<Box className={'slide-counter'}>
+						<span className={'current'}>{currentSlide + 1}</span>
+						<span className={'separator'}>/</span>
+						<span className={'total'}>{slides.length}</span>
+					</Box>
+
+					{/* Dots Navigation */}
+					<Box className={'dots-navigation'}>
+						{slides.map((_, index) => (
+							<button
+								key={index}
+								className={`dot ${index === currentSlide ? 'active' : ''}`}
+								onClick={() => handleDotClick(index)}
+							/>
+						))}
+					</Box>
 				</Box>
 			</Box>
 		</Stack>
