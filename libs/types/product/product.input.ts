@@ -8,7 +8,7 @@ import {
 	ProductStatus,
 } from '../../enums/product.enum';
 
-export interface PropertyInput {
+export interface ProductInput {
 	productCategory: ProductCategory;
 	productCondition: ProductCondition;
 	productTitle: string;

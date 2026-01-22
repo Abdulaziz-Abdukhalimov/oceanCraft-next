@@ -305,10 +305,10 @@ const Top = () => {
 							<MenuIcon />
 							<span>View All</span>
 						</Button>
-						<Link href={'/products'}>
+						<Link href={'/product'}>
 							<div className={'nav-item'}>{t('Products')}</div>
 						</Link>
-						<Link href={'/products'}>
+						<Link href={'/product'}>
 							<div className={'nav-item'}>관공서 납품</div>
 						</Link>
 						<Link href={'/events'}>
