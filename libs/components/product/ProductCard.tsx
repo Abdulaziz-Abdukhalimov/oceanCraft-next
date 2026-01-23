@@ -8,6 +8,8 @@ import { useRouter } from 'next/router';
 import { REACT_APP_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { Message } from '../../enums/common.enum';
+import { sweetMixinErrorAlert } from '../../sweetAlert';
 
 interface ProductCardProps {
 	product: Product;
@@ -44,20 +46,20 @@ const ProductCard = (props: ProductCardProps) => {
 	const handleLikeClick = async (e: React.MouseEvent) => {
 		e.stopPropagation();
 
-		if (!user || !user._id) {
+		if (!user?._id) {
+			await sweetMixinErrorAlert(Message.NOT_AUTHENTICATED);
+			await router.push('/account/join');
 			return;
 		}
 
-		// Optimistic update
-		setIsLiked(!isLiked);
+		// Optimistic update (correct)
+		setIsLiked((prev) => !prev);
 
 		try {
-			if (likeProductHandler) {
-				await likeProductHandler(user, product._id);
-			}
-		} catch (err) {
-			// Revert on error
-			setIsLiked(isLiked);
+			await likeProductHandler?.(user, product._id);
+		} catch {
+			// revert
+			setIsLiked((prev) => !prev);
 		}
 	};
 
