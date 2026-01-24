@@ -77,7 +77,7 @@ export interface AllProductsInquiry {
 	search: APISearch;
 }
 
-interface Range {
+export interface Range {
 	start: number;
 	end: number;
 }

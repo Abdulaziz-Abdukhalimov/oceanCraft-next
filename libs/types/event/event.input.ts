@@ -1,4 +1,3 @@
-import { Direction } from '@mui/material';
 import {
 	EventAvailabilityStatus,
 	EventCategory,
@@ -8,6 +7,8 @@ import {
 	EventScheduleType,
 	EventStatus,
 } from '../../enums/event.enum';
+import { Range } from '../product/product.input';
+import { Direction } from '../../enums/common.enum';
 
 export interface EventLocation {
 	city: string;

@@ -311,7 +311,7 @@ const Top = () => {
 						<Link href={'/product'}>
 							<div className={'nav-item'}>관공서 납품</div>
 						</Link>
-						<Link href={'/events'}>
+						<Link href={'/event'}>
 							<div className={'nav-item'}>{t('Events')}</div>
 						</Link>
 					</Stack>
