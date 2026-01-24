@@ -5,7 +5,7 @@ import { Stack, Box, Typography, Button, IconButton, Divider } from '@mui/materi
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_PRODUCT } from '../../apollo/user/query';
+import { GET_PRODUCT, GET_COMMENTS } from '../../apollo/user/query';
 import { LIKE_TARGET_PRODUCT } from '../../apollo/user/mutation';
 import { Product } from '../../libs/types/product/product';
 import { T } from '../../libs/types/common';
@@ -24,6 +24,11 @@ import { CREATE_INQUIRY } from '../../apollo/user/mutation';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import ClassIcon from '@mui/icons-material/Class';
+import { useRef } from 'react';
+import { CREATE_COMMENT, UPDATE_COMMENT } from '../../apollo/user/mutation';
+import moment from 'moment';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -41,9 +46,15 @@ const ProductDetail: NextPage = () => {
 	const [selectedImage, setSelectedImage] = useState<number>(0);
 	const [isLiked, setIsLiked] = useState<boolean>(false);
 	const [activeTab, setActiveTab] = useState<number>(0);
+	const [commentForm, setCommentForm] = useState({
+		commentContent: '',
+	});
+	const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
+	const inquiryRef = useRef<HTMLDivElement | null>(null);
+
 	const [inquiryForm, setInquiryForm] = useState({
 		inquiryMessage: '',
-		preferredContactMethod: 'EMAIL', // or 'PHONE' | 'KAKAO' | 'NAVER'
+		preferredContactMethod: 'EMAIL',
 		fullName: '',
 		email: '',
 		phone: '',
@@ -52,6 +63,8 @@ const ProductDetail: NextPage = () => {
 	/** APOLLO REQUESTS **/
 	const [likeTargetProduct] = useMutation(LIKE_TARGET_PRODUCT);
 	const [createInquiry] = useMutation(CREATE_INQUIRY);
+	const [createComment] = useMutation(CREATE_COMMENT);
+	const [updateComment] = useMutation(UPDATE_COMMENT);
 
 	const {
 		loading: getProductLoading,
@@ -71,6 +84,29 @@ const ProductDetail: NextPage = () => {
 		},
 	});
 
+	const {
+		loading: commentsLoading,
+		data: commentsData,
+		error: commentsError,
+		refetch: commentsRefetch,
+	} = useQuery(GET_COMMENTS, {
+		fetchPolicy: 'network-only',
+		variables: {
+			input: {
+				page: 1,
+				limit: 100,
+				sort: 'createdAt',
+				direction: 'DESC',
+				search: {
+					commentRefId: id,
+				},
+			},
+		},
+		skip: !id || activeTab !== 2,
+		notifyOnNetworkStatusChange: true,
+	});
+
+	/** HANDLERS **/
 	const handleInquirySubmit = async () => {
 		try {
 			if (!user?._id) throw new Error(Message.NOT_AUTHENTICATED);
@@ -117,7 +153,7 @@ const ProductDetail: NextPage = () => {
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
-	/** HANDLERS **/
+
 	const handleImageSelect = (index: number) => {
 		setSelectedImage(index);
 	};
@@ -171,11 +207,14 @@ const ProductDetail: NextPage = () => {
 	};
 
 	const handleContact = () => {
-		// Navigate to contact/inquiry page
-		router.push({
-			pathname: '/mypage/contact',
-			query: { productId: product?._id },
-		});
+		setActiveTab(3);
+
+		setTimeout(() => {
+			inquiryRef.current?.scrollIntoView({
+				behavior: 'smooth',
+				block: 'start',
+			});
+		}, 100);
 	};
 
 	const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -185,6 +224,129 @@ const ProductDetail: NextPage = () => {
 	const handleContactMethodChange = (method: string) => {
 		setInquiryForm({ ...inquiryForm, preferredContactMethod: method });
 	};
+
+	const handleCommentSubmit = async () => {
+		try {
+			if (!user?._id) throw new Error(Message.NOT_AUTHENTICATED);
+			if (!product?._id) return;
+
+			if (!commentForm.commentContent.trim()) {
+				sweetMixinErrorAlert('Please write your review').then();
+				return;
+			}
+
+			if (commentForm.commentContent.length > 500) {
+				sweetMixinErrorAlert('Review must be less than 500 characters').then();
+				return;
+			}
+
+			await createComment({
+				variables: {
+					input: {
+						commentGroup: 'PRODUCT',
+						commentContent: commentForm.commentContent,
+						commentRefId: product._id,
+					},
+				},
+			});
+
+			sweetTopSmallSuccessAlert('Review posted successfully!', 1500);
+
+			setCommentForm({ commentContent: '' });
+
+			await getProductRefetch({ input: product._id });
+		} catch (err: any) {
+			console.log('ERROR, handleCommentSubmit:', err.message);
+			sweetMixinErrorAlert(err.message).then();
+		}
+	};
+
+	const handleEditComment = (commentId: string, commentContent: string) => {
+		setEditingCommentId(commentId);
+		setCommentForm({ commentContent });
+
+		window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+	};
+
+	const handleUpdateComment = async () => {
+		try {
+			if (!user?._id) throw new Error(Message.NOT_AUTHENTICATED);
+			if (!editingCommentId) return;
+
+			if (!commentForm.commentContent.trim()) {
+				sweetMixinErrorAlert('Please write your review').then();
+				return;
+			}
+
+			if (commentForm.commentContent.length > 500) {
+				sweetMixinErrorAlert('Review must be less than 500 characters').then();
+				return;
+			}
+
+			await updateComment({
+				variables: {
+					input: {
+						_id: editingCommentId,
+						commentContent: commentForm.commentContent.trim(),
+					},
+				},
+			});
+
+			sweetTopSmallSuccessAlert('You updated your Review !', 1000);
+
+			setCommentForm({ commentContent: '' });
+			setEditingCommentId(null);
+
+			await commentsRefetch();
+		} catch (err: any) {
+			console.log('ERROR, handleUpdateComment:', err.message);
+			sweetMixinErrorAlert(err.message).then();
+		}
+	};
+
+	const handleCancelEdit = () => {
+		setEditingCommentId(null);
+		setCommentForm({ commentContent: '' });
+	};
+
+	// const handleDeleteComment = async (commentId: string) => {
+	// 	try {
+	// 		if (!user?._id) throw new Error(Message.NOT_AUTHENTICATED);
+
+	// 		// Confirm deletion
+	// 		const result = await Swal.fire({
+	// 			title: 'Delete Review?',
+	// 			text: 'Are you sure you want to delete this review?',
+	// 			icon: 'warning',
+	// 			showCancelButton: true,
+	// 			confirmButtonColor: '#ef4444',
+	// 			cancelButtonColor: '#6b7280',
+	// 			confirmButtonText: 'Yes, delete it',
+	// 			cancelButtonText: 'Cancel',
+	// 		});
+
+	// 		if (!result.isConfirmed) return;
+
+	// 		// Delete comment (use UPDATE_COMMENT with commentStatus: 'DELETE')
+	// 		await updateComment({
+	// 			variables: {
+	// 				input: {
+	// 					_id: commentId,
+	// 					commentStatus: 'DELETE',
+	// 				},
+	// 			},
+	// 		});
+
+	// 		sweetTopSmallSuccessAlert('Review deleted successfully!', 1500);
+
+	// 		// Refetch comments and product
+	// 		await commentsRefetch();
+	// 		await getProductRefetch({ input: product._id });
+	// 	} catch (err: any) {
+	// 		console.log('ERROR, handleDeleteComment:', err.message);
+	// 		sweetMixinErrorAlert(err.message).then();
+	// 	}
+	// };
 
 	if (device === 'mobile') {
 		return <h1>PRODUCT DETAIL MOBILE</h1>;
@@ -272,21 +434,28 @@ const ProductDetail: NextPage = () => {
 							{/* <Typography className="section-title">Specifications</Typography> */}
 
 							<Stack className="spec-row">
-								<Typography className="spec-label">Price</Typography>
+								<Typography className="spec-label">가격</Typography>
 								<Typography className="spec-value">
 									{product.productPrice?.toLocaleString()} {product.productCurrency}
 								</Typography>
 							</Stack>
 
 							<Stack className="spec-row">
-								<Typography className="spec-label">Brand</Typography>
+								<Typography className="spec-label">브랜드</Typography>
 								<Typography className="spec-value">{product.productBrand || '-'}</Typography>
 							</Stack>
 
 							<Stack className="spec-row">
-								<Typography className="spec-label">Model</Typography>
+								<Typography className="spec-label">모델</Typography>
 								<Typography className="spec-value">{product.productModel || '-'}</Typography>
 							</Stack>
+
+							{product.productBuildYear && (
+								<Stack className="spec-row">
+									<Typography className="spec-label">건설 연도</Typography>
+									<Typography className="spec-value">{product.productBuildYear}</Typography>
+								</Stack>
+							)}
 
 							{/* <Stack className="spec-row">
 								<Typography className="spec-label">Condition</Typography>
@@ -319,13 +488,6 @@ const ProductDetail: NextPage = () => {
 								</Stack>
 							)} */}
 
-							{product.productBuildYear && (
-								<Stack className="spec-row">
-									<Typography className="spec-label">Build Year</Typography>
-									<Typography className="spec-value">{product.productBuildYear}</Typography>
-								</Stack>
-							)}
-
 							{/* <Stack className="spec-row">
 								<Typography className="spec-label">Location</Typography>
 								<Typography className="spec-value">{product.productAddress || '-'}</Typography>
@@ -346,16 +508,16 @@ const ProductDetail: NextPage = () => {
 							<Stack className="contact-buttons">
 								<Button className="kakao-btn" onClick={handleContactKakao}>
 									<img src="/img/icons/kakao_logo.svg" alt="KakaoTalk" />
-									<span>KakaoTalk</span>
+									<span>카카오톡</span>
 								</Button>
 								<Button className="naver-btn" onClick={handleContactNaver}>
 									<img src="/img/icons/naver_logo.png" alt="Naver" />
-									<span>Naver Talk</span>
+									<span>네이버톡</span>
 								</Button>
 							</Stack>
 							<Stack className="contact-share">
 								<Button className="contact-btn" onClick={handleContact} variant="contained" fullWidth>
-									Contact
+									연락하다
 								</Button>
 								<Button
 									className="share-btn"
@@ -408,7 +570,7 @@ const ProductDetail: NextPage = () => {
 								{/* Product Title */}
 								<Box className="spec-card">
 									<Box className="spec-icon">
-										<img src="/img/icons/product.svg" alt="Product" />
+										<img src="/img/icons/title.png" alt="Product" />
 									</Box>
 									<Stack className="spec-content">
 										<Typography className="spec-label">Product Title</Typography>
@@ -419,7 +581,7 @@ const ProductDetail: NextPage = () => {
 								{/* Brand */}
 								<Box className="spec-card">
 									<Box className="spec-icon brand-icon">
-										<img src="/img/icons/brand.svg" alt="Brand" />
+										<img src="/img/icons/brand.png" alt="Brand" />
 									</Box>
 									<Stack className="spec-content">
 										<Typography className="spec-label">Brand</Typography>
@@ -430,7 +592,7 @@ const ProductDetail: NextPage = () => {
 								{/* Model */}
 								<Box className="spec-card">
 									<Box className="spec-icon">
-										<img src="/img/icons/model.svg" alt="Model" />
+										<img src="/img/icons/model.png" alt="Model" />
 									</Box>
 									<Stack className="spec-content">
 										<Typography className="spec-label">Model</Typography>
@@ -571,9 +733,70 @@ const ProductDetail: NextPage = () => {
 					{activeTab === 2 && (
 						<Stack className="tab-panel reviews-panel">
 							<Typography className="panel-title">Product Reviews</Typography>
-							<Stack className="reviews-list">
-								{product.productComments && product.productComments > 0 ? (
-									<Typography className="no-reviews">Comments will be displayed here</Typography>
+
+							{/* Reviews Count */}
+							{commentsData?.getComments?.metaCounter?.total > 0 && (
+								<Typography className="reviews-count">
+									{commentsData.getComments.metaCounter.total} Review
+									{commentsData.getComments.metaCounter.total !== 1 ? 's' : ''}
+								</Typography>
+							)}
+
+							{/* Comments List */}
+							<Stack className="comments-list">
+								{commentsLoading ? (
+									<Stack className="loading-container">
+										<Typography>Loading reviews...</Typography>
+									</Stack>
+								) : commentsData?.getComments?.list && commentsData.getComments.list.length > 0 ? (
+									commentsData.getComments.list.map((comment: any) => (
+										<Box key={comment._id} className="comment-card">
+											{/* Comment Header */}
+											<Stack className="comment-header">
+												<Box className="user-avatar">
+													<img
+														src={
+															comment.memberData?.memberImage
+																? `${comment.memberData.memberImage}`
+																: '/img/profile/default-user.png'
+														}
+														alt={comment.memberData?.memberNick || 'User'}
+													/>
+												</Box>
+												<Stack className="user-info">
+													<Typography className="user-name">
+														{comment.memberData?.memberNick || comment.memberData?.memberFullName || 'Anonymous'}
+													</Typography>
+													<Typography className="comment-date">
+														{moment(comment.createdAt).format('MMM DD, YYYY')}
+													</Typography>
+												</Stack>
+
+												{/* Edit/Delete buttons if user owns comment */}
+												{user?._id === comment.memberId && (
+													<Stack className="comment-actions">
+														<IconButton
+															className="action-btn"
+															size="small"
+															onClick={() => handleEditComment(comment._id, comment.commentContent)}
+														>
+															<EditIcon fontSize="small" />
+														</IconButton>
+														<IconButton
+															className="action-btn"
+															size="small"
+															// onClick={() => handleDeleteComment(comment._id)}
+														>
+															<DeleteIcon fontSize="small" />
+														</IconButton>
+													</Stack>
+												)}
+											</Stack>
+
+											{/* Comment Content */}
+											<Typography className="comment-content">{comment.commentContent}</Typography>
+										</Box>
+									))
 								) : (
 									<Stack className="no-reviews-container">
 										<Typography className="no-reviews">No reviews yet</Typography>
@@ -581,12 +804,54 @@ const ProductDetail: NextPage = () => {
 									</Stack>
 								)}
 							</Stack>
+
+							{/* Write Review Form - AT BOTTOM */}
+							<Stack className="write-review-section">
+								<Box className="review-form-header">
+									<Typography className="review-form-title">
+										{editingCommentId ? 'Edit Your Review' : 'Write a Review'}
+									</Typography>
+									<Typography className="review-form-subtitle">Share your experience with this product</Typography>
+								</Box>
+
+								<Stack className="review-form">
+									<TextField
+										fullWidth
+										multiline
+										rows={4}
+										placeholder="Share your thoughts about this product..."
+										value={commentForm.commentContent}
+										onChange={(e) => setCommentForm({ ...commentForm, commentContent: e.target.value })}
+										className="review-textarea"
+										variant="outlined"
+									/>
+
+									<Stack className="review-form-actions">
+										<Typography className="character-count">{commentForm.commentContent.length} / 500</Typography>
+										<Stack className="action-buttons">
+											{editingCommentId && (
+												<Button variant="outlined" className="cancel-btn" onClick={handleCancelEdit}>
+													Cancel
+												</Button>
+											)}
+											<Button
+												variant="contained"
+												className="submit-review-btn"
+												onClick={editingCommentId ? handleUpdateComment : handleCommentSubmit}
+												disabled={!commentForm.commentContent.trim()}
+											>
+												{editingCommentId ? 'Update Review' : 'Post Review'}
+											</Button>
+										</Stack>
+									</Stack>
+								</Stack>
+							</Stack>
 						</Stack>
 					)}
 
-					{/* Tab 3: Send Inquiry - UPDATED */}
+					{/* Tab 3: Send Inquiry   */}
 					{activeTab === 3 && (
-						<Stack className="tab-panel inquiry-panel">
+						<Stack className="tab-panel inquiry-panel" ref={inquiryRef}>
 							<Typography className="panel-title">Send Product Inquiry</Typography>
 
 							<Stack className="inquiry-form">
