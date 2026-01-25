@@ -5,6 +5,7 @@ import TuneIcon from '@mui/icons-material/Tune';
 import { EventsInquiry } from '../../types/event/event.input';
 import { EventCategory, EventAvailabilityStatus } from '../../enums/event.enum';
 import { Event } from '../../types/event/event';
+import Chip from '@mui/material/Chip';
 
 interface EventFilterProps {
 	searchFilter: EventsInquiry;
@@ -166,24 +167,12 @@ const EventFilter = (props: EventFilterProps) => {
 				>
 					Category
 				</Button>
-				<Menu
-					anchorEl={categoryAnchor}
-					open={categoryOpen}
-					onClose={handleCategoryClose}
-					className="filter-menu"
-					PaperProps={{
-						style: { minWidth: '700px', maxHeight: '400px' },
-					}}
-				>
-					{categories.map((category) => (
-						<MenuItem key={category} onClick={() => handleCategorySelect(category)} disableRipple>
-							<FormControlLabel
-								control={<Checkbox checked={selectedCategories.includes(category)} />}
-								label={category.replace(/_/g, ' ')}
-								sx={{ width: '100%', margin: 0 }}
-							/>
-						</MenuItem>
-					))}
+				<Menu open={categoryOpen} onClose={handleCategoryClose} anchorEl={categoryAnchor}>
+					<Box display="flex" flexWrap="wrap" gap={1.5}>
+						{categories.map((category) => (
+							<Chip key={category} label={category.replace(/_/g, ' ')} onClick={() => handleCategorySelect(category)} />
+						))}
+					</Box>
 				</Menu>
 
 				{/* Availability Filter */}
@@ -245,55 +234,13 @@ const EventFilter = (props: EventFilterProps) => {
 							<Button size="small" onClick={handlePriceClear}>
 								Clear
 							</Button>
-							<Button size="small" variant="contained" onClick={handlePriceApply}>
+							<Button size="small" variant="contained" onClick={handlePriceApply} className="apply-btn">
 								Apply
 							</Button>
 						</Stack>
 					</Box>
 				</Menu>
 			</Stack>
-
-			{/* Mobile Filters Button */}
-			<Button className="mobile-filters-btn" onClick={handleFiltersClick} startIcon={<TuneIcon />}>
-				Filters · {getActiveFilterCount()}
-			</Button>
-			<Menu
-				anchorEl={filtersAnchor}
-				open={filtersOpen}
-				onClose={handleFiltersClose}
-				className="filter-menu mobile-filters-menu"
-				PaperProps={{
-					style: { width: '90%', maxWidth: '400px', maxHeight: '80vh' },
-				}}
-			>
-				<Typography className="menu-title">Filters</Typography>
-				{/* Mobile filter content */}
-				<Box className="mobile-filter-content">
-					<Typography className="filter-section-title">Category</Typography>
-					{categories.map((category) => (
-						<MenuItem key={category} onClick={() => handleCategorySelect(category)} disableRipple>
-							<FormControlLabel
-								control={<Checkbox checked={selectedCategories.includes(category)} />}
-								label={category.replace(/_/g, ' ')}
-								sx={{ width: '100%', margin: 0 }}
-							/>
-						</MenuItem>
-					))}
-
-					<Typography className="filter-section-title" sx={{ mt: 2 }}>
-						Availability
-					</Typography>
-					{availabilityStatuses.map((status) => (
-						<MenuItem key={status} onClick={() => handleAvailabilitySelect(status)} disableRipple>
-							<FormControlLabel
-								control={<Checkbox checked={selectedAvailabilities.includes(status)} />}
-								label={status}
-								sx={{ width: '100%', margin: 0 }}
-							/>
-						</MenuItem>
-					))}
-				</Box>
-			</Menu>
 		</Stack>
 	);
 };

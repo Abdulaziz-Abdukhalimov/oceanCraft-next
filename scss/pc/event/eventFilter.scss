@@ -96,28 +96,6 @@
 		}
 	}
 
-	// Mobile Filters Button
-	.mobile-filters-btn {
-		display: none;
-		padding: 10px 20px;
-		border: 1px solid #ddd;
-		border-radius: 24px;
-		color: #181a20;
-		font-family: $font;
-		font-size: 14px;
-		font-weight: 500;
-		text-transform: none;
-
-		&:hover {
-			background: #f9fafb;
-			border-color: #bbb;
-		}
-
-		svg {
-			font-size: 20px;
-		}
-	}
-
 	// Filter Menu
 	.filter-menu {
 		.MuiPaper-root {
@@ -192,30 +170,6 @@
 							background: #1f2937;
 						}
 					}
-				}
-			}
-		}
-
-		// Mobile Filters Menu
-		&.mobile-filters-menu {
-			.menu-title {
-				padding: 16px;
-				font-family: $font;
-				font-size: 18px;
-				font-weight: 600;
-				color: #181a20;
-				border-bottom: 1px solid #e5e7eb;
-			}
-
-			.mobile-filter-content {
-				padding: 16px;
-
-				.filter-section-title {
-					font-family: $font;
-					font-size: 16px;
-					font-weight: 600;
-					color: #181a20;
-					margin-bottom: 8px;
 				}
 			}
 		}

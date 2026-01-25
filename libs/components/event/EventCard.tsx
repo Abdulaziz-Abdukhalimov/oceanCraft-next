@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Stack, Box, Typography, IconButton } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -7,6 +7,8 @@ import StarIcon from '@mui/icons-material/Star';
 import { useReactiveVar } from '@apollo/client';
 import { Event } from '../../types/event/event';
 import { userVar } from '../../../apollo/store';
+import { sweetMixinErrorAlert } from '../../sweetAlert';
+import { Message } from '../../enums/common.enum';
 
 interface EventCardProps {
 	event: Event;
@@ -17,12 +19,23 @@ const EventCard = (props: EventCardProps) => {
 	const { event, likeEventHandler } = props;
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
+	const initialLiked = event?.meLiked && event?.meLiked[0]?.myFavorite;
+	const [isLiked, setIsLiked] = useState(initialLiked);
 
 	/** HANDLERS **/
 	const handleLikeEvent = async (e: React.MouseEvent) => {
 		e.stopPropagation();
-		if (likeEventHandler && user) {
-			await likeEventHandler(user, event._id);
+
+		if (!user?._id) {
+			await sweetMixinErrorAlert(Message.NOT_AUTHENTICATED);
+			return;
+		}
+
+		setIsLiked((prev) => !prev);
+		try {
+			await likeEventHandler?.(user, event._id);
+		} catch {
+			setIsLiked((prev) => !prev);
 		}
 	};
 
@@ -44,8 +57,6 @@ const EventCard = (props: EventCardProps) => {
 	const getImageUrl = (imagePath: string) => {
 		return `${imagePath}`;
 	};
-
-	const isLiked = event?.meLiked && event?.meLiked[0]?.myFavorite;
 
 	return (
 		<Stack className="event-card">
