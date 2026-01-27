@@ -49,3 +49,10 @@ export interface Reservations {
 	list: Reservation[];
 	metaCounter?: { total: number }[];
 }
+
+export interface AvailableDate {
+	date: string;
+	remainingCapacity: number;
+	isAvailable: boolean;
+	isPastDate: boolean;
+}
