@@ -1,79 +1,70 @@
 import React from 'react';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Stack, Box, Typography } from '@mui/material';
+import { Stack, Box } from '@mui/material';
 import Link from 'next/link';
-import { REACT_APP_API_URL } from '../../config';
-import IconButton from '@mui/material/IconButton';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { useReactiveVar } from '@apollo/client';
-import { userVar } from '../../../apollo/store';
 
 interface AgentCardProps {
 	agent: any;
-	likeMemberHandler: any;
 }
 
 const AgentCard = (props: AgentCardProps) => {
-	const { agent, likeMemberHandler } = props;
+	const { agent } = props;
 	const device = useDeviceDetect();
-	const user = useReactiveVar(userVar);
-	const imagePath: string = agent?.memberImage
-		? `${REACT_APP_API_URL}/${agent?.memberImage}`
-		: '/img/profile/defaultUser.svg';
+	const imagePath: string = agent?.memberImage ? `${agent?.memberImage}` : '/img/profile/defaultUser.svg';
 
 	if (device === 'mobile') {
 		return <div>AGENT CARD</div>;
 	} else {
 		return (
-			<Stack className="agent-general-card">
+			<Stack className="agent-card">
 				<Link
 					href={{
 						pathname: '/agent/detail',
 						query: { agentId: agent?._id },
 					}}
 				>
-					<Box
-						component={'div'}
-						className={'agent-img'}
-						style={{
-							backgroundImage: `url(${imagePath})`,
-							backgroundSize: 'cover',
-							backgroundPosition: 'center',
-							backgroundRepeat: 'no-repeat',
-						}}
-					>
-						<div>{agent?.memberProperties} properties</div>
+					<Box className={'agent-avatar'}>
+						<img src={imagePath} alt={agent?.memberFullName || agent?.memberNick} />
+						{agent?.memberRank > 10 && (
+							<Box className={'verified-badge'}>
+								<img src="/img/profile/agent.png" alt="verified" />
+								<span>VERIFIED</span>
+							</Box>
+						)}
 					</Box>
 				</Link>
 
-				<Stack className={'agent-desc'}>
-					<Box component={'div'} className={'agent-info'}>
-						<Link
-							href={{
-								pathname: '/agent/detail',
-								query: { agentId: 'id' },
-							}}
-						>
-							<strong>{agent?.memberFullName ?? agent?.memberNick}</strong>
-						</Link>
-						<span>Agent</span>
+				<Stack className={'agent-info'}>
+					<Link
+						href={{
+							pathname: '/agent/detail',
+							query: { agentId: agent?._id },
+						}}
+					>
+						<h3>{agent?.memberFullName ?? agent?.memberNick}</h3>
+					</Link>
+					<p className={'agent-type'}>{agent?.memberType || 'COMPANY AGENT'}</p>
+
+					<Box className={'agent-stats'}>
+						<p>
+							Products: <strong>{agent?.memberProducts || 0}</strong>
+						</p>
+						<p>
+							Events: <strong>{agent?.memberEvents || 0}</strong>
+						</p>
+						<p>
+							Language: <strong>English , Korean </strong>
+						</p>
 					</Box>
-					<Box component={'div'} className={'buttons'}>
-						<IconButton color={'default'}>
-							<RemoveRedEyeIcon />
-						</IconButton>
-						<Typography className="view-cnt">{agent?.memberViews}</Typography>
-						<IconButton color={'default'} onClick={() => likeMemberHandler(user, agent?._id)}>
-							{agent?.meLiked && agent?.meLiked[0]?.myFavorite ? (
-								<FavoriteIcon color={'primary'} />
-							) : (
-								<FavoriteBorderIcon />
-							)}
-						</IconButton>
-						<Typography className="view-cnt">{agent?.memberLikes}</Typography>
-					</Box>
+
+					<Link
+						href={{
+							pathname: '/agent/detail',
+							query: { agentId: agent?._id },
+						}}
+					>
+						<button className={'view-profile-btn'}>View Profile</button>
+					</Link>
 				</Stack>
 			</Stack>
 		);

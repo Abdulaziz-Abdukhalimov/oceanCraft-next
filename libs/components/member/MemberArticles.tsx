@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import { Pagination, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { useRouter } from 'next/router';
-import CommunityCard from '../common/CommunityCard';
+import CommunityCard from '../common/EventBigCard';
 import { T } from '../../types/common';
 import { BoardArticle } from '../../types/event/event';
 import { BoardArticlesInquiry } from '../../types/event/event.input';

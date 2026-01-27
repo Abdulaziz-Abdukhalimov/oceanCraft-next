@@ -2,25 +2,31 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import PropertyBigCard from '../../libs/components/common/PropertyBigCard';
 import ReviewCard from '../../libs/components/agent/ReviewCard';
 import { Box, Button, Pagination, Stack, Typography } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { Property } from '../../libs/types/product/product';
+import { Product } from '../../libs/types/product/product';
+import { Event } from '../../libs/types/event/event';
 import { Member } from '../../libs/types/member/member';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { userVar } from '../../apollo/store';
-import { PropertiesInquiry } from '../../libs/types/product/product.input';
+import { ProductsInquiry } from '../../libs/types/product/product.input';
+import { EventsInquiry } from '../../libs/types/event/event.input';
 import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
 import { Comment } from '../../libs/types/comment/comment';
 import { CommentGroup } from '../../libs/enums/comment.enum';
-import { Messages, REACT_APP_API_URL } from '../../libs/config';
+import { Messages } from '../../libs/config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { CREATE_COMMENT, LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
-import { GET_COMMENTS, GET_MEMBER, GET_PROPERTIES } from '../../apollo/user/query';
+import { CREATE_COMMENT, LIKE_TARGET_PRODUCT, LIKE_TARGET_EVENT } from '../../apollo/user/mutation';
+import { GET_COMMENTS, GET_MEMBER, GET_PRODUCTS, GET_EVENTS } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
+import ProductCard from '../../libs/components/product/ProductCard';
+import EventCard from '../../libs/components/event/EventCard';
+import withLayoutMain from '../../libs/components/layout/LayoutHome';
+import ProductBigCard from '../../libs/components/common/ProductBigCard';
+import EventBigCard from '../../libs/components/common/EventBigCard';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -28,15 +34,22 @@ export const getStaticProps = async ({ locale }: any) => ({
 	},
 });
 
-const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) => {
+const AgentDetail: NextPage = ({ initialProductInput, initialEventInput, initialComment, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const [agentId, setAgentId] = useState<string | null>(null);
 	const [agent, setAgent] = useState<Member | null>(null);
-	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(initialInput);
-	const [agentProperties, setAgentProperties] = useState<Property[]>([]);
-	const [propertyTotal, setPropertyTotal] = useState<number>(0);
+	const [activeTab, setActiveTab] = useState<'products' | 'events'>('products');
+
+	const [productFilter, setProductFilter] = useState<ProductsInquiry>(initialProductInput);
+	const [agentProducts, setAgentProducts] = useState<Product[]>([]);
+	const [productTotal, setProductTotal] = useState<number>(0);
+
+	const [eventFilter, setEventFilter] = useState<EventsInquiry>(initialEventInput);
+	const [agentEvents, setAgentEvents] = useState<Event[]>([]);
+	const [eventTotal, setEventTotal] = useState<number>(0);
+
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
 	const [agentComments, setAgentComments] = useState<Comment[]>([]);
 	const [commentTotal, setCommentTotal] = useState<number>(0);
@@ -47,9 +60,9 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	});
 
 	/** APOLLO REQUESTS **/
-
 	const [createComment] = useMutation(CREATE_COMMENT);
-	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+	const [likeTargetProduct] = useMutation(LIKE_TARGET_PRODUCT);
+	const [likeTargetEvent] = useMutation(LIKE_TARGET_EVENT);
 
 	const {
 		loading: getMemberLoading,
@@ -63,18 +76,19 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		onCompleted: (data: T) => {
 			setAgent(data?.getMember);
 
-			setSearchFilter({
-				...searchFilter,
-				search: {
-					memberId: data?.getMember?._id,
-				},
+			setProductFilter({
+				...productFilter,
+				search: { memberId: data?.getMember?._id },
+			});
+
+			setEventFilter({
+				...eventFilter,
+				search: { memberId: data?.getMember?._id },
 			});
 
 			setCommentInquiry({
 				...commentInquiry,
-				search: {
-					commentRefId: data?.getMember?._id,
-				},
+				search: { commentRefId: data?.getMember?._id },
 			});
 
 			setInsertCommentData({
@@ -84,21 +98,35 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		},
 	});
 
-	console.log('searchFilter:', searchFilter);
-
 	const {
-		loading: getPropertiesLoading,
-		data: getPropertiesData,
-		error: getPropertiesError,
-		refetch: getPropertiesRefetch,
-	} = useQuery(GET_PROPERTIES, {
+		loading: getProductsLoading,
+		data: getProductsData,
+		error: getProductsError,
+		refetch: getProductsRefetch,
+	} = useQuery(GET_PRODUCTS, {
 		fetchPolicy: 'network-only',
-		variables: { input: searchFilter },
-		skip: !searchFilter.search.memberId,
+		variables: { input: productFilter },
+		skip: !productFilter.search.memberId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setAgentProperties(data?.getProperties?.list);
-			setPropertyTotal(data?.getProperties?.metaCounter[0]?.total ?? 0);
+			setAgentProducts(data?.getProducts?.list);
+			setProductTotal(data?.getProducts?.metaCounter[0]?.total ?? 0);
+		},
+	});
+
+	const {
+		loading: getEventsLoading,
+		data: getEventsData,
+		error: getEventsError,
+		refetch: getEventsRefetch,
+	} = useQuery(GET_EVENTS, {
+		fetchPolicy: 'network-only',
+		variables: { input: eventFilter },
+		skip: !eventFilter.search.memberId,
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setAgentEvents(data?.getEvents?.list);
+			setEventTotal(data?.getEvents?.metaCounter[0]?.total ?? 0);
 		},
 	});
 
@@ -124,10 +152,16 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	}, [router]);
 
 	useEffect(() => {
-		if (searchFilter.search.memberId) {
-			getPropertiesRefetch({ variables: { input: searchFilter } }).then();
+		if (productFilter.search.memberId) {
+			getProductsRefetch({ variables: { input: productFilter } }).then();
 		}
-	}, [searchFilter]);
+	}, [productFilter]);
+
+	useEffect(() => {
+		if (eventFilter.search.memberId) {
+			getEventsRefetch({ variables: { input: eventFilter } }).then();
+		}
+	}, [eventFilter]);
 
 	useEffect(() => {
 		if (commentInquiry.search.commentRefId) {
@@ -136,18 +170,14 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	}, [commentInquiry]);
 
 	/** HANDLERS **/
-	const redirectToMemberPageHandler = async (memberId: string) => {
-		try {
-			if (memberId === user?._id) await router.push(`/mypage?memberId=${memberId}`);
-			else await router.push(`/member?memberId=${memberId}`);
-		} catch (error) {
-			await sweetErrorHandling(error);
-		}
+	const productPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
+		productFilter.page = value;
+		setProductFilter({ ...productFilter });
 	};
 
-	const propertyPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
-		searchFilter.page = value;
-		setSearchFilter({ ...searchFilter });
+	const eventPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
+		eventFilter.page = value;
+		setEventFilter({ ...eventFilter });
 	};
 
 	const commentPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
@@ -168,16 +198,30 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		}
 	};
 
-	const likePropertyHandler = async (user: any, id: string) => {
+	const likeProductHandler = async (user: any, id: string) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Messages.error2);
 
-			await likeTargetProperty({ variables: { input: id } });
-			await getPropertiesRefetch({ variables: { input: searchFilter } });
+			await likeTargetProduct({ variables: { input: id } });
+			await getProductsRefetch({ variables: { input: productFilter } });
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
-			console.log('ERROR:likePropertyHandler', err.mssage);
+			console.log('ERROR:likeProductHandler', err.message);
+			sweetMixinErrorAlert(err.message).then();
+		}
+	};
+
+	const likeEventHandler: any = async (user: any, id: string) => {
+		try {
+			if (!id) return;
+			if (!user._id) throw new Error(Messages.error2);
+
+			await likeTargetEvent({ variables: { input: id } });
+			await getEventsRefetch({ variables: { input: eventFilter } });
+			await sweetTopSmallSuccessAlert('success', 800);
+		} catch (err: any) {
+			console.log('ERROR:likeEventHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
@@ -188,115 +232,143 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		return (
 			<Stack className={'agent-detail-page'}>
 				<Stack className={'container'}>
-					<Stack className={'agent-info'}>
-						<img
-							src={agent?.memberImage ? `${REACT_APP_API_URL}/${agent?.memberImage}` : '/img/profile/defaultUser.svg'}
-							alt=""
-						/>
-						<Box component={'div'} className={'info'} onClick={() => redirectToMemberPageHandler(agent?._id as string)}>
-							<strong>{agent?.memberFullName ?? agent?.memberNick}</strong>
-							<div>
-								<img src="/img/icons/call.svg" alt="" />
-								<span>{agent?.memberPhone}</span>
-							</div>
+					{/* Agent Header */}
+					<Stack className={'agent-header'}>
+						<Box className={'agent-avatar'}>
+							<img
+								src={agent?.memberImage ? `${agent?.memberImage}` : '/img/profile/defaultUser.svg'}
+								alt={agent?.memberFullName || agent?.memberNick}
+							/>
 						</Box>
-					</Stack>
-					<Stack className={'agent-home-list'}>
-						<Stack className={'card-wrap'}>
-							{agentProperties.map((property: Property) => {
-								return (
-									<div className={'wrap-main'} key={property?._id}>
-										<PropertyBigCard
-											property={property}
-											key={property?._id}
-											likePropertyHandler={likePropertyHandler}
-										/>
-									</div>
-								);
-							})}
+						<Stack className={'agent-details'}>
+							<Typography className={'agent-type'}>{agent?.memberType || 'COMPANY AGENT'}</Typography>
+							<Box className={'agent-name-wrapper'}>
+								<Typography className={'agent-name'}>{agent?.memberFullName ?? agent?.memberNick}</Typography>
+								{/* {agent?.memberPoints > 10 && (
+									<Box className={'verified-badge'}>
+										<img src="/img/profile/agent.png" alt="verified" />
+										<span>VERIFIED</span>
+									</Box>
+								)} */}
+							</Box>
+							<Box className={'agent-rating'}>
+								<Box className={'stars'}>
+									{[1, 2, 3, 4, 5].map((star) => (
+										<StarIcon key={star} className={star <= 3 ? 'filled' : 'empty'} />
+									))}
+								</Box>
+								<Typography className={'rating-text'}>3.4</Typography>
+								<Typography className={'reviews-link'}>See all reviews</Typography>
+							</Box>
+							<Typography className={'agent-specialty'}>
+								{agent?.memberDesc || 'MODERN WATER SPORT EQUIPMENTS'}
+							</Typography>
+							<Box className={'agent-actions'}>
+								<Button className={'ask-btn'}>
+									<img src="/img/icons/chat.svg" alt="" />
+									Ask a question
+								</Button>
+								<Button className={'call-btn'}>
+									<img src="/img/icons/call.svg" alt="" />
+									{agent?.memberPhone || '321 456 9874'}
+								</Button>
+							</Box>
 						</Stack>
-						<Stack className={'pagination'}>
-							{propertyTotal ? (
+					</Stack>
+
+					{/* Main Content Area */}
+					<Stack className={'main-content'}>
+						{/* Left Side - Listings */}
+						<Stack className={'listings-section'}>
+							{/* Tabs */}
+							<Box className={'tabs-wrapper'}>
+								<Button
+									className={`tab ${activeTab === 'products' ? 'active' : ''}`}
+									onClick={() => setActiveTab('products')}
+								>
+									Products ({productTotal})
+								</Button>
+								<Button
+									className={`tab ${activeTab === 'events' ? 'active' : ''}`}
+									onClick={() => setActiveTab('events')}
+								>
+									Events ({eventTotal})
+								</Button>
+							</Box>
+
+							{/* Filter Buttons */}
+							<Box className={'filter-buttons'}>
+								<Button className={'filter-btn active'}>ALL</Button>
+								<Button className={'filter-btn'}>FOR RENT</Button>
+								<Button className={'filter-btn'}>FOR SALE</Button>
+							</Box>
+
+							{/* Products/Events Grid */}
+							{activeTab === 'products' ? (
 								<>
-									<Stack className="pagination-box">
-										<Pagination
-											page={searchFilter.page}
-											count={Math.ceil(propertyTotal / searchFilter.limit) || 1}
-											onChange={propertyPaginationChangeHandler}
-											shape="circular"
-											color="primary"
-										/>
+									<Stack className={'items-grid'}>
+										{agentProducts.length === 0 ? (
+											<div className={'no-data'}>
+												<img src="/img/icons/icoAlert.svg" alt="" />
+												<p>No products found!</p>
+											</div>
+										) : (
+											agentProducts.map((product: Product) => (
+												<ProductBigCard product={product} key={product._id} likeProductHandler={likeProductHandler} />
+											))
+										)}
 									</Stack>
-									<span>
-										Total {propertyTotal} propert{propertyTotal > 1 ? 'ies' : 'y'} available
-									</span>
+									{productTotal > 0 && Math.ceil(productTotal / productFilter.limit) > 1 && (
+										<Stack className={'pagination'}>
+											<Pagination
+												page={productFilter.page}
+												count={Math.ceil(productTotal / productFilter.limit) || 1}
+												onChange={productPaginationChangeHandler}
+												shape="circular"
+												color="primary"
+											/>
+										</Stack>
+									)}
 								</>
 							) : (
-								<div className={'no-data'}>
-									<img src="/img/icons/icoAlert.svg" alt="" />
-									<p>No properties found!</p>
-								</div>
+								<>
+									<Stack className={'items-list'}>
+										{agentEvents.length === 0 ? (
+											<div className={'no-data'}>
+												<img src="/img/icons/icoAlert.svg" alt="" />
+												<p>No events found!</p>
+											</div>
+										) : (
+											agentEvents.map((event: Event) => (
+												<EventBigCard event={event} key={event._id} likeEventHandler={likeEventHandler} />
+											))
+										)}
+									</Stack>
+									{eventTotal > 0 && Math.ceil(eventTotal / eventFilter.limit) > 1 && (
+										<Stack className={'pagination'}>
+											<Pagination
+												page={eventFilter.page}
+												count={Math.ceil(eventTotal / eventFilter.limit) || 1}
+												onChange={eventPaginationChangeHandler}
+												shape="circular"
+												color="primary"
+											/>
+										</Stack>
+									)}
+								</>
 							)}
 						</Stack>
-					</Stack>
-					<Stack className={'review-box'}>
-						<Stack className={'main-intro'}>
-							<span>Reviews</span>
-							<p>we are glad to see you again</p>
-						</Stack>
-						{commentTotal !== 0 && (
-							<Stack className={'review-wrap'}>
-								<Box component={'div'} className={'title-box'}>
-									<StarIcon />
-									<span>
-										{commentTotal} review{commentTotal > 1 ? 's' : ''}
-									</span>
-								</Box>
-								{agentComments?.map((comment: Comment) => {
-									return <ReviewCard comment={comment} key={comment?._id} />;
-								})}
-								<Box component={'div'} className={'pagination-box'}>
-									<Pagination
-										page={commentInquiry.page}
-										count={Math.ceil(commentTotal / commentInquiry.limit) || 1}
-										onChange={commentPaginationChangeHandler}
-										shape="circular"
-										color="primary"
-									/>
-								</Box>
-							</Stack>
-						)}
 
-						<Stack className={'leave-review-config'}>
-							<Typography className={'main-title'}>Leave A Review</Typography>
-							<Typography className={'review-title'}>Review</Typography>
-							<textarea
-								onChange={({ target: { value } }: any) => {
-									setInsertCommentData({ ...insertCommentData, commentContent: value });
-								}}
-								value={insertCommentData.commentContent}
-							></textarea>
-							<Box className={'submit-btn'} component={'div'}>
-								<Button
-									className={'submit-review'}
-									disabled={insertCommentData.commentContent === '' || user?._id === ''}
-									onClick={createCommentHandler}
-								>
-									<Typography className={'title'}>Submit Review</Typography>
-									<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
-										<g clipPath="url(#clip0_6975_3642)">
-											<path
-												d="M16.1571 0.5H6.37936C6.1337 0.5 5.93491 0.698792 5.93491 0.944458C5.93491 1.19012 6.1337 1.38892 6.37936 1.38892H15.0842L0.731781 15.7413C0.558156 15.915 0.558156 16.1962 0.731781 16.3698C0.818573 16.4566 0.932323 16.5 1.04603 16.5C1.15974 16.5 1.27345 16.4566 1.36028 16.3698L15.7127 2.01737V10.7222C15.7127 10.9679 15.9115 11.1667 16.1572 11.1667C16.4028 11.1667 16.6016 10.9679 16.6016 10.7222V0.944458C16.6016 0.698792 16.4028 0.5 16.1571 0.5Z"
-												fill="#181A20"
-											/>
-										</g>
-										<defs>
-											<clipPath id="clip0_6975_3642">
-												<rect width="16" height="16" fill="white" transform="translate(0.601562 0.5)" />
-											</clipPath>
-										</defs>
-									</svg>
-								</Button>
+						{/* Right Side - About Agent */}
+						<Stack className={'about-section'}>
+							<Typography className={'about-title'}>About {agent?.memberFullName ?? agent?.memberNick}</Typography>
+							<Typography className={'about-text'}>
+								{agent?.memberDesc ||
+									`A knowledgeable water sports sales agent who helps customers choose the right equipment and experiences for safe, fun, and unforgettable adventures on the water.`}
+							</Typography>
+							<Box className={'language-info'}>
+								<img src="/img/icons/keywording.svg" alt="" />
+								<Typography>Language: English, Spanish, French</Typography>
 							</Box>
 						</Stack>
 					</Stack>
@@ -307,9 +379,16 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 };
 
 AgentDetail.defaultProps = {
-	initialInput: {
+	initialProductInput: {
 		page: 1,
-		limit: 9,
+		limit: 6,
+		search: {
+			memberId: '',
+		},
+	},
+	initialEventInput: {
+		page: 1,
+		limit: 6,
 		search: {
 			memberId: '',
 		},
@@ -318,11 +397,11 @@ AgentDetail.defaultProps = {
 		page: 1,
 		limit: 5,
 		sort: 'createdAt',
-		direction: 'ASC',
+		direction: 'DESC',
 		search: {
 			commentRefId: '',
 		},
 	},
 };
 
-export default withLayoutBasic(AgentDetail);
+export default withLayoutMain(AgentDetail);
