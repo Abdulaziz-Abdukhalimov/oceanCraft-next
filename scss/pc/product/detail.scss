@@ -530,7 +530,7 @@
 					// Specs Grid Layout
 					.specs-grid {
 						display: grid;
-						grid-template-columns: repeat(3, 1fr);
+						grid-template-columns: repeat(4, 1fr);
 						gap: 20px;
 						margin-bottom: 32px;
 
@@ -542,8 +542,6 @@
 							gap: 16px;
 							padding: 20px;
 							background: #f9fafb;
-							border-radius: 12px;
-							border: 1px solid #e5e7eb;
 							transition: all 0.3s ease;
 
 							&:hover {
@@ -555,13 +553,7 @@
 
 							// Highlight Card (Price)
 							&.highlight-card {
-								background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-								border-color: #fecaca;
-
-								&:hover {
-									background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-									border-color: #fca5a5;
-								}
+								border-color: #dc2626;
 							}
 
 							// Icon Container
@@ -578,32 +570,32 @@
 								box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 
 								img {
-									width: 28px;
-									height: 28px;
+									width: 40px;
+									height: 40px;
 									object-fit: contain;
 								}
 
 								// Icon variations
-								&.brand-icon {
-									background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-								}
+								// &.brand-icon {
+								// 	background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+								// }
 
-								&.category-icon {
-									background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-								}
+								// &.category-icon {
+								// 	background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+								// }
 
-								&.condition-icon {
-									background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-								}
+								// &.condition-icon {
+								// 	background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+								// }
 
-								&.price-type-icon {
-									background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
-								}
+								// &.price-type-icon {
+								// 	background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+								// }
 
-								&.price-icon {
-									background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
-									font-size: 28px;
-								}
+								// &.price-icon {
+								// 	background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+								// 	font-size: 28px;
+								// }
 
 								&.engine-icon {
 									background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
@@ -622,15 +614,7 @@
 								}
 
 								&.location-icon {
-									background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
-								}
-
-								&.views-icon {
-									background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
-								}
-
-								&.likes-icon {
-									background: linear-gradient(135deg, #ffe4e6 0%, #fecdd3 100%);
+									color: #ff0000;
 								}
 
 								&.description-icon {

@@ -163,7 +163,7 @@
 				img {
 					width: 356px;
 					height: 180px;
-					object-fit: cover; // or 'contain' if you want to see full image without cropping
+					object-fit: cover;
 					display: block;
 				}
 			}
@@ -1126,7 +1126,7 @@
 			.category-tabs {
 				margin-top: 40px;
 				display: grid;
-				grid-template-columns: repeat(7, 1fr);
+				grid-template-columns: repeat(6, 1fr);
 				border: 1px solid #e5e7eb;
 				margin-left: 90px;
 				margin-right: 90px;

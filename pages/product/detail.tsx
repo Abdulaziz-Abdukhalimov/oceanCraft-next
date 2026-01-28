@@ -592,7 +592,7 @@ const ProductDetail: NextPage = () => {
 								{/* Model */}
 								<Box className="spec-card">
 									<Box className="spec-icon">
-										<img src="/img/icons/model.png" alt="Model" />
+										<img src="/img/icons/model.svg" alt="Model" />
 									</Box>
 									<Stack className="spec-content">
 										<Typography className="spec-label">Model</Typography>
@@ -603,7 +603,7 @@ const ProductDetail: NextPage = () => {
 								{/* Category */}
 								<Box className="spec-card">
 									<Box className="spec-icon category-icon">
-										<ClassIcon />
+										<img src="/img/icons/category.svg" alt="Model" />
 									</Box>
 									<Stack className="spec-content">
 										<Typography className="spec-label">Category</Typography>
@@ -645,7 +645,9 @@ const ProductDetail: NextPage = () => {
 								{/* Engine Type */}
 								{product.productEngineType && (
 									<Box className="spec-card">
-										<Box className="spec-icon engine-icon">⚙️</Box>
+										<Box className="spec-icon">
+											<img src="/img/icons/engine.svg" alt="Product" />
+										</Box>
 										<Stack className="spec-content">
 											<Typography className="spec-label">Engine Type</Typography>
 											<Typography className="spec-value">{product.productEngineType}</Typography>
@@ -656,7 +658,9 @@ const ProductDetail: NextPage = () => {
 								{/* Max Speed */}
 								{product.productSpeed && (
 									<Box className="spec-card">
-										<Box className="spec-icon speed-icon">⚡</Box>
+										<Box className="spec-icon">
+											<img src="/img/icons/speed.svg" alt="Product" />
+										</Box>
 										<Stack className="spec-content">
 											<Typography className="spec-label">Max Speed</Typography>
 											<Typography className="spec-value">{product.productSpeed} km/h</Typography>
@@ -667,7 +671,9 @@ const ProductDetail: NextPage = () => {
 								{/* Length */}
 								{product.productLength && (
 									<Box className="spec-card">
-										<Box className="spec-icon length-icon">📏</Box>
+										<Box className="spec-icon">
+											<img src="/img/icons/length.svg" alt="Product" />
+										</Box>
 										<Stack className="spec-content">
 											<Typography className="spec-label">Length</Typography>
 											<Typography className="spec-value">{product.productLength} m</Typography>
@@ -678,7 +684,9 @@ const ProductDetail: NextPage = () => {
 								{/* Build Year */}
 								{product.productBuildYear && (
 									<Box className="spec-card">
-										<Box className="spec-icon year-icon">📆</Box>
+										<Box className="spec-icon">
+											<img src="/img/icons/year.svg" alt="Product" />
+										</Box>
 										<Stack className="spec-content">
 											<Typography className="spec-label">Build Year</Typography>
 											<Typography className="spec-value">{product.productBuildYear}</Typography>

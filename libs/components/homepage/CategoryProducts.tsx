@@ -11,12 +11,11 @@ import CategoryProductSlider from './CategoryProductCard';
 
 const CATEGORIES = [
 	{ key: 'YACHT', label: '요트', imgUrl: '/img/icons/ca_ico04.png' },
-	{ key: 'BOAT', label: '고무보트', imgUrl: '/img/icons/ca_ico05.png' },
-	{ key: 'JET_SKIS', label: '제트스키', imgUrl: '/img/icons/ca_ico03.png' },
-	{ key: 'ENGINES', label: '선외기', imgUrl: '/img/icons/ca_ico01.png' },
-	{ key: 'SNOWMOBILE', label: '설상차', imgUrl: '/img/icons/ca_ico05.png' },
-	{ key: 'OTHER', label: '어탐기·GPS', imgUrl: '/img/icons/ca_ico04.png' },
-	{ key: 'ATV', label: 'ATV', imgUrl: '/img/icons/ca_ico01.png' },
+	{ key: 'BOAT', label: '고무보트', imgUrl: '/img/icons/ca_ico03.png' },
+	{ key: 'JET_SKIS', label: '제트스키', imgUrl: '/img/icons/ca_ico04.png' },
+	{ key: 'ENGINES', label: '선외기', imgUrl: '/img/icons/ca_ico05.png' },
+	{ key: 'SNOWMOBILE', label: '설상차', imgUrl: '/img/icons/ca_ico04.png' },
+	{ key: 'OTHER', label: '어탐기·GPS', imgUrl: '/img/icons/ca_ico07.png' },
 ];
 
 const CategoryPopularProducts = () => {
