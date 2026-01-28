@@ -12,14 +12,18 @@ const Notice = () => {
 	const data = [
 		{
 			no: 1,
-			event: true,
-			title: 'Register to use and get discounts',
-			date: '01.03.2024',
+			title: 'Now you can get discounts by booking 2 activities at once 🪅',
+			date: '28.01.2026',
 		},
 		{
 			no: 2,
-			title: "It's absolutely free to upload and trade properties",
-			date: '31.03.2024',
+			title: "It's free to trade here , grow your business with us ",
+			date: '31.01.2026',
+		},
+		{
+			no: 3,
+			title: 'New feature added 📲!  Now you can use our platform on dark/white mode',
+			date: '1.02.2026',
 		},
 	];
 
@@ -30,15 +34,9 @@ const Notice = () => {
 			<Stack className={'notice-content'}>
 				<span className={'title'}>Notice</span>
 				<Stack className={'main'}>
-					<Box component={'div'} className={'top'}>
-						<span>number</span>
-						<span>title</span>
-						<span>date</span>
-					</Box>
 					<Stack className={'bottom'}>
 						{data.map((ele: any) => (
 							<div className={`notice-card ${ele?.event && 'event'}`} key={ele.title}>
-								{ele?.event ? <div>event</div> : <span className={'notice-number'}>{ele.no}</span>}
 								<span className={'notice-title'}>{ele.title}</span>
 								<span className={'notice-date'}>{ele.date}</span>
 							</div>
