@@ -276,7 +276,7 @@ const Top = () => {
 								</button>
 							</Box>
 							<Box className={'search-tabs'}>
-								<Link href={'/cs'}>
+								<Link href={'/about'}>
 									<span className={'tab-item'}>회사 소개</span>
 								</Link>
 								<Link href={'/cs'}>
