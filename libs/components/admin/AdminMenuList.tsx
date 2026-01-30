@@ -29,7 +29,7 @@ const AdminMenuList = (props: any) => {
 			case 'products':
 				setClickMenu([]);
 				break;
-			case 'community':
+			case 'events':
 				setClickMenu([]);
 				break;
 			case 'cs':
@@ -76,9 +76,9 @@ const AdminMenuList = (props: any) => {
 			hasSubmenu: false,
 		},
 		{
-			title: 'Community',
+			title: 'Events',
 			icon: <ForumOutlinedIcon sx={{ fontSize: 20 }} />,
-			url: '/_admin/community',
+			url: '/_admin/events',
 			hasSubmenu: false,
 		},
 		{
