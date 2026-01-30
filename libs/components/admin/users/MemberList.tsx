@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import {
 	TableCell,
@@ -11,10 +11,16 @@ import {
 	Menu,
 	Fade,
 	MenuItem,
+	Select,
+	Box,
+	Stack,
+	Typography,
 } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
-import { Stack } from '@mui/material';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Member } from '../../../types/member/member';
 import { REACT_APP_API_URL } from '../../../config';
 import { MemberStatus, MemberType } from '../../../enums/member.enum';
@@ -29,18 +35,6 @@ interface Data {
 	warning: string;
 	block: string;
 }
-
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-	if (b[orderBy] < a[orderBy]) {
-		return -1;
-	}
-	if (b[orderBy] > a[orderBy]) {
-		return 1;
-	}
-	return 0;
-}
-
-type Order = 'asc' | 'desc';
 
 interface HeadCell {
 	disablePadding: boolean;
@@ -60,13 +54,7 @@ const headCells: readonly HeadCell[] = [
 		id: 'nickname',
 		numeric: true,
 		disablePadding: false,
-		label: 'NICK NAME',
-	},
-	{
-		id: 'fullname',
-		numeric: false,
-		disablePadding: false,
-		label: 'FULL NAME',
+		label: 'NAME',
 	},
 	{
 		id: 'phone',
@@ -100,18 +88,7 @@ const headCells: readonly HeadCell[] = [
 	},
 ];
 
-interface EnhancedTableProps {
-	numSelected: number;
-	onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
-	onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	order: Order;
-	orderBy: string;
-	rowCount: number;
-}
-
-function EnhancedTableHead(props: EnhancedTableProps) {
-	const { onSelectAllClick } = props;
-
+function EnhancedTableHead() {
 	return (
 		<TableHead>
 			<TableRow>
@@ -120,6 +97,16 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 						key={headCell.id}
 						align={headCell.numeric ? 'left' : 'center'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
+						sx={{
+							background: '#f8f9fa',
+							borderBottom: '1px solid #e8ebed',
+							padding: '16px 20px',
+							fontSize: '12px',
+							fontWeight: 600,
+							color: '#64748b',
+							textTransform: 'uppercase',
+							letterSpacing: '0.5px',
+						}}
 					>
 						{headCell.label}
 					</TableCell>
@@ -140,48 +127,225 @@ interface MemberPanelListType {
 export const MemberPanelList = (props: MemberPanelListType) => {
 	const { members, anchorEl, menuIconClickHandler, menuIconCloseHandler, updateMemberHandler } = props;
 
+	const [filterDate, setFilterDate] = useState('All Dates');
+	const [filterType, setFilterType] = useState('all');
+	const [filterStatus, setFilterStatus] = useState('all');
+
+	const handleResetFilter = () => {
+		setFilterDate('All Dates');
+		setFilterType('all');
+		setFilterStatus('all');
+	};
+
+	const filteredMembers = members.filter((member) => {
+		if (filterType !== 'all' && member.memberType !== filterType) {
+			return false;
+		}
+
+		if (filterStatus !== 'all' && member.memberStatus !== filterStatus) {
+			return false;
+		}
+
+		return true;
+	});
+
+	const getStatusBadgeClass = (status: string) => {
+		switch (status) {
+			case MemberStatus.ACTIVE:
+				return 'status-badge completed';
+			case MemberStatus.BLOCK:
+				return 'status-badge rejected';
+			case MemberStatus.DELETE:
+				return 'status-badge rejected';
+			default:
+				return 'status-badge processing';
+		}
+	};
+
+	const getTypeBadgeClass = (type: string) => {
+		switch (type) {
+			case MemberType.USER:
+				return 'status-badge processing';
+			case MemberType.AGENT:
+				return 'status-badge completed';
+			case MemberType.ADMIN:
+				return 'status-badge pending';
+			default:
+				return 'status-badge';
+		}
+	};
+
 	return (
-		<Stack>
-			<TableContainer>
+		<Box className="member-list-container fade-in">
+			<Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
+				<Typography sx={{ color: '#64748b', fontSize: '14px' }}>
+					Showing {filteredMembers.length} of {members.length} members
+				</Typography>
+			</Stack>
+
+			{/* Filter Section */}
+			<Box className="filter-section" sx={{ mb: 3 }}>
+				<Box className="filter-label">
+					<FilterListIcon />
+					<Typography sx={{ fontWeight: 600, fontSize: '14px' }}>Filter By</Typography>
+				</Box>
+
+				<Select
+					value={filterDate}
+					onChange={(e) => setFilterDate(e.target.value)}
+					size="small"
+					sx={{
+						minWidth: 160,
+						borderRadius: '8px',
+						fontSize: '14px',
+						'& .MuiOutlinedInput-notchedOutline': {
+							borderColor: '#e8ebed',
+						},
+					}}
+				>
+					<MenuItem value="All Dates">All Dates</MenuItem>
+					<MenuItem value="Today">Today</MenuItem>
+					<MenuItem value="This Week">This Week</MenuItem>
+					<MenuItem value="This Month">This Month</MenuItem>
+				</Select>
+
+				<Select
+					value={filterType}
+					onChange={(e) => setFilterType(e.target.value)}
+					size="small"
+					displayEmpty
+					sx={{
+						minWidth: 160,
+						borderRadius: '8px',
+						fontSize: '14px',
+						'& .MuiOutlinedInput-notchedOutline': {
+							borderColor: '#e8ebed',
+						},
+					}}
+				>
+					<MenuItem value="all">Member Type</MenuItem>
+					<MenuItem value={MemberType.USER}>USER</MenuItem>
+					<MenuItem value={MemberType.AGENT}>AGENT</MenuItem>
+					<MenuItem value={MemberType.ADMIN}>ADMIN</MenuItem>
+				</Select>
+
+				<Select
+					value={filterStatus}
+					onChange={(e) => setFilterStatus(e.target.value)}
+					size="small"
+					displayEmpty
+					sx={{
+						minWidth: 160,
+						borderRadius: '8px',
+						fontSize: '14px',
+						'& .MuiOutlinedInput-notchedOutline': {
+							borderColor: '#e8ebed',
+						},
+					}}
+				>
+					<MenuItem value="all">Member Status</MenuItem>
+					<MenuItem value={MemberStatus.ACTIVE}>ACTIVE</MenuItem>
+					<MenuItem value={MemberStatus.BLOCK}>BLOCK</MenuItem>
+					<MenuItem value={MemberStatus.DELETE}>DELETE</MenuItem>
+				</Select>
+
+				<Box className="reset-filter" onClick={handleResetFilter}>
+					<RefreshIcon />
+					<Typography sx={{ fontSize: '14px', fontWeight: 500 }}>Reset Filter</Typography>
+				</Box>
+			</Box>
+
+			{/* Members Table */}
+			<TableContainer className="admin-table">
 				<Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'medium'}>
-					{/*@ts-ignore*/}
 					<EnhancedTableHead />
 					<TableBody>
-						{members.length === 0 && (
+						{filteredMembers.length === 0 && (
 							<TableRow>
-								<TableCell align="center" colSpan={8}>
-									<span className={'no-data'}>data not found!</span>
+								<TableCell align="center" colSpan={7} sx={{ py: 6 }}>
+									<Typography sx={{ color: '#94a3b8', fontSize: '14px' }}>No data found!</Typography>
 								</TableCell>
 							</TableRow>
 						)}
 
-						{members.length !== 0 &&
-							members.map((member: Member, index: number) => {
-								const member_image = member.memberImage
-									? `${REACT_APP_API_URL}/${member.memberImage}`
-									: '/img/profile/defaultUser.svg';
+						{filteredMembers.length !== 0 &&
+							filteredMembers.map((member: Member, index: number) => {
+								const member_image = member.memberImage ? `${member.memberImage}` : '/img/profile/defaultUser.svg';
 								return (
-									<TableRow hover key={member?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-										<TableCell align="left">{member._id}</TableCell>
+									<TableRow
+										hover
+										key={member?._id}
+										sx={{
+											borderBottom: '1px solid #e8ebed',
+											transition: 'background 0.2s ease',
+											'&:hover': {
+												background: 'rgba(65, 105, 225, 0.02)',
+											},
+											'&:last-child': {
+												borderBottom: 'none',
+											},
+										}}
+									>
+										{/* ID Column */}
+										<TableCell
+											align="left"
+											sx={{
+												padding: '16px 20px',
+												fontSize: '14px',
+												fontWeight: 600,
+												color: '#64748b',
+											}}
+										>
+											{member._id}
+										</TableCell>
 
-										<TableCell align="left" className={'name'}>
-											<Stack direction={'row'}>
-												<Link href={`/member?memberId=${member._id}`}>
-													<div>
-														<Avatar alt="Remy Sharp" src={member_image} sx={{ ml: '2px', mr: '10px' }} />
-													</div>
-												</Link>
-												<Link href={`/member?memberId=${member._id}`}>
-													<div>{member.memberNick}</div>
-												</Link>
+										{/* Name Column with Avatar */}
+										<TableCell align="left" sx={{ padding: '16px 20px' }}>
+											<Stack direction={'row'} alignItems="center" spacing={1.5}>
+												<Avatar alt={member.memberNick} src={member_image} sx={{ width: 40, height: 40 }} />
+												<Typography
+													sx={{
+														fontWeight: 500,
+														color: '#1e293b',
+														fontSize: '14px',
+														cursor: 'pointer',
+														'&:hover': {
+															color: '#4169e1',
+														},
+													}}
+												>
+													{member.memberNick}
+												</Typography>
 											</Stack>
 										</TableCell>
 
-										<TableCell align="center">{member.memberFullName ?? '-'}</TableCell>
-										<TableCell align="left">{member.memberPhone}</TableCell>
+										{/* Phone Column */}
+										<TableCell
+											align="left"
+											sx={{
+												padding: '16px 20px',
+												fontSize: '14px',
+												color: '#64748b',
+											}}
+										>
+											{member.memberPhone}
+										</TableCell>
 
-										<TableCell align="center">
-											<Button onClick={(e: any) => menuIconClickHandler(e, index)} className={'badge success'}>
+										{/* Member Type Column */}
+										<TableCell align="center" sx={{ padding: '16px 20px' }}>
+											<Button
+												onClick={(e: any) => menuIconClickHandler(e, index)}
+												className={getTypeBadgeClass(member.memberType)}
+												sx={{
+													minWidth: '100px',
+													textTransform: 'capitalize',
+													cursor: 'pointer',
+													border: 'none',
+													'&:hover': {
+														opacity: 0.8,
+													},
+												}}
+											>
 												{member.memberType}
 											</Button>
 
@@ -194,7 +358,13 @@ export const MemberPanelList = (props: MemberPanelListType) => {
 												open={Boolean(anchorEl[index])}
 												onClose={menuIconCloseHandler}
 												TransitionComponent={Fade}
-												sx={{ p: 1 }}
+												PaperProps={{
+													sx: {
+														boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+														borderRadius: '8px',
+														mt: 1,
+													},
+												}}
 											>
 												{Object.values(MemberType)
 													.filter((ele) => ele !== member?.memberType)
@@ -202,8 +372,9 @@ export const MemberPanelList = (props: MemberPanelListType) => {
 														<MenuItem
 															onClick={() => updateMemberHandler({ _id: member._id, memberType: type })}
 															key={type}
+															sx={{ px: 2, py: 1 }}
 														>
-															<Typography variant={'subtitle1'} component={'span'}>
+															<Typography variant={'subtitle1'} component={'span'} sx={{ fontSize: '14px' }}>
 																{type}
 															</Typography>
 														</MenuItem>
@@ -211,10 +382,47 @@ export const MemberPanelList = (props: MemberPanelListType) => {
 											</Menu>
 										</TableCell>
 
-										<TableCell align="center">{member.memberWarnings}</TableCell>
-										<TableCell align="center">{member.memberBlocks}</TableCell>
-										<TableCell align="center">
-											<Button onClick={(e: any) => menuIconClickHandler(e, member._id)} className={'badge success'}>
+										{/* Warning Column */}
+										<TableCell
+											align="center"
+											sx={{
+												padding: '16px 20px',
+												fontSize: '14px',
+												color: '#1e293b',
+												fontWeight: 500,
+											}}
+										>
+											{member.memberWarnings}
+										</TableCell>
+
+										{/* Block Crimes Column */}
+										<TableCell
+											align="center"
+											sx={{
+												padding: '16px 20px',
+												fontSize: '14px',
+												color: '#1e293b',
+												fontWeight: 500,
+											}}
+										>
+											{member.memberBlocks}
+										</TableCell>
+
+										{/* Status Column */}
+										<TableCell align="center" sx={{ padding: '16px 20px' }}>
+											<Button
+												onClick={(e: any) => menuIconClickHandler(e, member._id)}
+												className={getStatusBadgeClass(member.memberStatus)}
+												sx={{
+													minWidth: '100px',
+													textTransform: 'capitalize',
+													cursor: 'pointer',
+													border: 'none',
+													'&:hover': {
+														opacity: 0.8,
+													},
+												}}
+											>
 												{member.memberStatus}
 											</Button>
 
@@ -227,7 +435,13 @@ export const MemberPanelList = (props: MemberPanelListType) => {
 												open={Boolean(anchorEl[member._id])}
 												onClose={menuIconCloseHandler}
 												TransitionComponent={Fade}
-												sx={{ p: 1 }}
+												PaperProps={{
+													sx: {
+														boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+														borderRadius: '8px',
+														mt: 1,
+													},
+												}}
 											>
 												{Object.values(MemberStatus)
 													.filter((ele: string) => ele !== member?.memberStatus)
@@ -235,8 +449,9 @@ export const MemberPanelList = (props: MemberPanelListType) => {
 														<MenuItem
 															onClick={() => updateMemberHandler({ _id: member._id, memberStatus: status })}
 															key={status}
+															sx={{ px: 2, py: 1 }}
 														>
-															<Typography variant={'subtitle1'} component={'span'}>
+															<Typography variant={'subtitle1'} component={'span'} sx={{ fontSize: '14px' }}>
 																{status}
 															</Typography>
 														</MenuItem>
@@ -249,6 +464,6 @@ export const MemberPanelList = (props: MemberPanelListType) => {
 					</TableBody>
 				</Table>
 			</TableContainer>
-		</Stack>
+		</Box>
 	);
 };

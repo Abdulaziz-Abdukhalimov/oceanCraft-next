@@ -163,94 +163,12 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 
 	return (
 		<Box component={'div'} className={'content'}>
-			<Typography variant={'h2'} className={'tit'} sx={{ mb: '24px' }}>
+			<Typography variant={'h2'} className={'page-title'} sx={{ mb: '24px' }}>
 				Member List
 			</Typography>
 			<Box component={'div'} className={'table-wrap'}>
 				<Box component={'div'} sx={{ width: '100%', typography: 'body1' }}>
 					<TabContext value={value}>
-						<Box component={'div'}>
-							<List className={'tab-menu'}>
-								<ListItem
-									onClick={(e: any) => tabChangeHandler(e, 'ALL')}
-									value="ALL"
-									className={value === 'ALL' ? 'li on' : 'li'}
-								>
-									All
-								</ListItem>
-								<ListItem
-									onClick={(e: any) => tabChangeHandler(e, 'ACTIVE')}
-									value="ACTIVE"
-									className={value === 'ACTIVE' ? 'li on' : 'li'}
-								>
-									Active
-								</ListItem>
-								<ListItem
-									onClick={(e: any) => tabChangeHandler(e, 'BLOCK')}
-									value="BLOCK"
-									className={value === 'BLOCK' ? 'li on' : 'li'}
-								>
-									Blocked
-								</ListItem>
-								<ListItem
-									onClick={(e: any) => tabChangeHandler(e, 'DELETE')}
-									value="DELETE"
-									className={value === 'DELETE' ? 'li on' : 'li'}
-								>
-									Deleted
-								</ListItem>
-							</List>
-							<Divider />
-							<Stack className={'search-area'} sx={{ m: '24px' }}>
-								<OutlinedInput
-									value={searchText}
-									onChange={(e: any) => textHandler(e.target.value)}
-									sx={{ width: '100%' }}
-									className={'search'}
-									placeholder="Search user name"
-									onKeyDown={(event) => {
-										if (event.key == 'Enter') searchTextHandler();
-									}}
-									endAdornment={
-										<>
-											{searchText && (
-												<CancelRoundedIcon
-													style={{ cursor: 'pointer' }}
-													onClick={async () => {
-														setSearchText('');
-														setMembersInquiry({
-															...membersInquiry,
-															search: {
-																...membersInquiry.search,
-																text: '',
-															},
-														});
-													}}
-												/>
-											)}
-											<InputAdornment position="end" onClick={() => searchTextHandler()}>
-												<img src="/img/icons/search_icon.png" alt={'searchIcon'} />
-											</InputAdornment>
-										</>
-									}
-								/>
-								<Select sx={{ width: '160px', ml: '20px' }} value={searchType}>
-									<MenuItem value={'ALL'} onClick={() => searchTypeHandler('ALL')}>
-										All
-									</MenuItem>
-									<MenuItem value={'USER'} onClick={() => searchTypeHandler('USER')}>
-										User
-									</MenuItem>
-									<MenuItem value={'AGENT'} onClick={() => searchTypeHandler('AGENT')}>
-										Agent
-									</MenuItem>
-									<MenuItem value={'ADMIN'} onClick={() => searchTypeHandler('ADMIN')}>
-										Admin
-									</MenuItem>
-								</Select>
-							</Stack>
-							<Divider />
-						</Box>
 						<MemberPanelList
 							members={members}
 							anchorEl={anchorEl}

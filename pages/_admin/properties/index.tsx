@@ -9,20 +9,18 @@ import MenuItem from '@mui/material/MenuItem';
 import { TabContext } from '@mui/lab';
 import TablePagination from '@mui/material/TablePagination';
 import { PropertyPanelList } from '../../../libs/components/admin/properties/PropertyList';
-import { AllPropertiesInquiry } from '../../../libs/types/product/product.input';
-import { Property } from '../../../libs/types/product/product';
-import { PropertyLocation, PropertyStatus } from '../../../libs/enums/product.enum';
 import { sweetConfirmAlert, sweetErrorHandling } from '../../../libs/sweetAlert';
-import { PropertyUpdate } from '../../../libs/types/product/property.update';
-import { useMutation, useQuery } from '@apollo/client';
-import { REMOVE_PROPERTY_BY_ADMIN, UPDATE_PROPERTY_BY_ADMIN } from '../../../apollo/admin/mutation';
-import { GET_ALL_PROPERTIES_BY_ADMIN } from '../../../apollo/admin/query';
 import { T } from '../../../libs/types/common';
+import { REMOVE_PRODUCT_BY_ADMIN, UPDATE_PRODUCT_BY_ADMIN } from '../../../apollo/admin/mutation';
+import { useMutation, useQuery } from '@apollo/client';
+import { GET_ALL_PRODUCT_BY_ADMIN } from '../../../apollo/admin/query';
+import { AllProductsInquiry } from '../../../libs/types/product/product.input';
+import { Product } from '../../../libs/types/product/product';
 
 const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 	const [anchorEl, setAnchorEl] = useState<[] | HTMLElement[]>([]);
-	const [propertiesInquiry, setPropertiesInquiry] = useState<AllPropertiesInquiry>(initialInquiry);
-	const [properties, setProperties] = useState<Property[]>([]);
+	const [propertiesInquiry, setPropertiesInquiry] = useState<AllProductsInquiry>(initialInquiry);
+	const [properties, setProperties] = useState<Product[]>([]);
 	const [propertiesTotal, setPropertiesTotal] = useState<number>(0);
 	const [value, setValue] = useState(
 		propertiesInquiry?.search?.propertyStatus ? propertiesInquiry?.search?.propertyStatus : 'ALL',
@@ -31,15 +29,15 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 
 	/** APOLLO REQUESTS **/
 
-	const [updatePropertyByAdmin] = useMutation(UPDATE_PROPERTY_BY_ADMIN);
-	const [removePropertyByAdmin] = useMutation(REMOVE_PROPERTY_BY_ADMIN);
+	const [updatePropertyByAdmin] = useMutation(UPDATE_PRODUCT_BY_ADMIN);
+	const [removePropertyByAdmin] = useMutation(REMOVE_PRODUCT_BY_ADMIN);
 
 	const {
 		loading: getAllPropertiesByAdminLoading,
 		data: getAllPropertiesByAdminData,
 		error: getAllPropertiesByAdminError,
 		refetch: getAllPropertiesRefetch,
-	} = useQuery(GET_ALL_PROPERTIES_BY_ADMIN, {
+	} = useQuery(GET_ALL_PRODUCT_BY_ADMIN, {
 		fetchPolicy: 'network-only',
 		variables: { input: propertiesInquiry },
 		notifyOnNetworkStatusChange: true,
