@@ -26,7 +26,7 @@ const AdminMenuList = (props: any) => {
 	/** LIFECYCLES **/
 	useEffect(() => {
 		switch (pathnames[1]) {
-			case 'properties':
+			case 'products':
 				setClickMenu([]);
 				break;
 			case 'community':
@@ -70,9 +70,9 @@ const AdminMenuList = (props: any) => {
 			hasSubmenu: false,
 		},
 		{
-			title: 'Properties',
+			title: 'Products',
 			icon: <GridViewOutlinedIcon sx={{ fontSize: 20 }} />,
-			url: '/_admin/properties',
+			url: '/_admin/products',
 			hasSubmenu: false,
 		},
 		{
