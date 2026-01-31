@@ -26,76 +26,31 @@ const AdminNotice: NextPage = (props: any) => {
 		<Box component={'div'} className={'content'}>
 			<Box component={'div'} className={'title flex_space'}>
 				<Typography variant={'h2'}>Notice Management</Typography>
-				<Button
-					className="btn_add"
-					variant={'contained'}
-					size={'medium'}
-					// onClick={() => router.push(`/_admin/cs/faq_create`)}
-				>
-					<AddRoundedIcon sx={{ mr: '8px' }} />
-					ADD
-				</Button>
 			</Box>
 			<Box component={'div'} className={'table-wrap'}>
 				<Box component={'div'} sx={{ width: '100%', typography: 'body1' }}>
 					<TabContext value={'value'}>
 						<Box component={'div'}>
-							<List className={'tab-menu'}>
-								<ListItem
-									// onClick={(e) => handleTabChange(e, 'all')}
-									value="all"
-									className={'all' === 'all' ? 'li on' : 'li'}
-								>
-									All (0)
-								</ListItem>
-								<ListItem
-									// onClick={(e) => handleTabChange(e, 'active')}
-									value="active"
-									className={'all' === 'all' ? 'li on' : 'li'}
-								>
-									Active (0)
-								</ListItem>
-								<ListItem
-									// onClick={(e) => handleTabChange(e, 'blocked')}
-									value="blocked"
-									className={'all' === 'all' ? 'li on' : 'li'}
-								>
-									Blocked (0)
-								</ListItem>
-								<ListItem
-									// onClick={(e) => handleTabChange(e, 'deleted')}
-									value="deleted"
-									className={'all' === 'all' ? 'li on' : 'li'}
-								>
-									Deleted (0)
-								</ListItem>
-							</List>
-							<Divider />
-							<Stack className={'search-area'} sx={{ m: '24px' }}>
-								<Select sx={{ width: '160px', mr: '20px' }} value={'searchCategory'}>
-									<MenuItem value={'mb_nick'}>mb_nick</MenuItem>
-									<MenuItem value={'mb_id'}>mb_id</MenuItem>
-								</Select>
+							<Select
+								size="small"
+								displayEmpty
+								sx={{
+									minWidth: 160,
+									borderRadius: '8px',
+									marginTop: '40px',
+									marginBottom: '20px',
+									fontSize: '14px',
+									'& .MuiOutlinedInput-notchedOutline': {
+										borderColor: '#e8ebed',
+									},
+								}}
+							>
+								<MenuItem value="all"> Filter by</MenuItem>
 
-								<OutlinedInput
-									value={'searchInput'}
-									// onChange={(e) => handleInput(e.target.value)}
-									sx={{ width: '100%' }}
-									className={'search'}
-									placeholder="Search user name"
-									onKeyDown={(event) => {
-										// if (event.key == 'Enter') searchTargetHandler().then();
-									}}
-									endAdornment={
-										<>
-											{true && <CancelRoundedIcon onClick={() => {}} />}
-											<InputAdornment position="end" onClick={() => {}}>
-												<img src="/img/icons/search_icon.png" alt={'searchIcon'} />
-											</InputAdornment>
-										</>
-									}
-								/>
-							</Stack>
+								<MenuItem>Active</MenuItem>
+								<MenuItem>Published</MenuItem>
+								<MenuItem>Draft</MenuItem>
+							</Select>
 							<Divider />
 						</Box>
 						<NoticeList

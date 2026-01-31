@@ -271,7 +271,6 @@ export const EventPanelList = (props: EventPanelListType) => {
 				</Box>
 			</Box>
 
-			{/* Products Table */}
 			<TableContainer className="admin-table">
 				<Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'medium'}>
 					<EnhancedTableHead />

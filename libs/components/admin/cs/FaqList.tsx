@@ -79,6 +79,79 @@ const headCells: readonly HeadCell[] = [
 	},
 ];
 
+const faqList = [
+	{
+		category: 'General',
+		title: 'What is this platform about?',
+		writer: 'Admin',
+		date: '2025-01-05',
+		status: 'Published',
+	},
+	{
+		category: 'Account',
+		title: 'How do I reset my password?',
+		writer: 'Support Team',
+		date: '2025-01-10',
+		status: 'Published',
+	},
+	{
+		category: 'Billing',
+		title: 'What payment methods are accepted?',
+		writer: 'Finance Team',
+		date: '2025-01-12',
+		status: 'Draft',
+	},
+	{
+		category: 'Technical',
+		title: 'Why can’t I log into my account?',
+		writer: 'Tech Support',
+		date: '2025-01-15',
+		status: 'Published',
+	},
+	{
+		category: 'Account',
+		title: 'How do I change my email address?',
+		writer: 'Admin',
+		date: '2025-01-18',
+		status: 'Published',
+	},
+	{
+		category: 'Billing',
+		title: 'Can I get a refund?',
+		writer: 'Finance Team',
+		date: '2025-01-20',
+		status: 'Archived',
+	},
+	{
+		category: 'General',
+		title: 'Is my data secure?',
+		writer: 'Security Team',
+		date: '2025-01-22',
+		status: 'Published',
+	},
+	{
+		category: 'Technical',
+		title: 'Which browsers are supported?',
+		writer: 'Tech Team',
+		date: '2025-01-25',
+		status: 'Published',
+	},
+	{
+		category: 'Account',
+		title: 'How do I delete my account?',
+		writer: 'Support Team',
+		date: '2025-01-28',
+		status: 'Draft',
+	},
+	{
+		category: 'General',
+		title: 'How can I contact support?',
+		writer: 'Admin',
+		date: '2025-01-30',
+		status: 'Published',
+	},
+];
+
 interface EnhancedTableProps {
 	numSelected: number;
 	onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
@@ -99,6 +172,16 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 						key={headCell.id}
 						align={headCell.numeric ? 'left' : 'center'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
+						sx={{
+							background: '#f8f9fa',
+							borderBottom: '1px solid #e8ebed',
+							padding: '16px 20px',
+							fontSize: '12px',
+							fontWeight: 600,
+							color: '#64748b',
+							textTransform: 'uppercase',
+							letterSpacing: '0.5px',
+						}}
 					>
 						{headCell.label}
 					</TableCell>
@@ -141,55 +224,85 @@ export const FaqArticlesPanelList = (props: FaqArticlesPanelListType) => {
 					{/*@ts-ignore*/}
 					<EnhancedTableHead />
 					<TableBody>
-						{[1, 2, 3, 4, 5].map((ele: any, index: number) => {
+						{faqList.map((ele: any, index: number) => {
 							const member_image = '/img/profile/defaultUser.svg';
 
 							let status_class_name = '';
 
 							return (
-								<TableRow hover key={'member._id'} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-									<TableCell align="left">mb id</TableCell>
-									<TableCell align="left">member.mb_full_name</TableCell>
-									<TableCell align="left" className={'name'}>
-										<Stack direction={'row'}>
-											<Link href={`/_admin/users/detail?mb_id=$'{member._id'}`}>
-												<div>
-													<Avatar alt="Remy Sharp" src={member_image} sx={{ ml: '2px', mr: '10px' }} />
-												</div>
-											</Link>
-											<Link href={`/_admin/users/detail?mb_id=${'member._id'}`}>
-												<div>member.mb_nick</div>
-											</Link>
-										</Stack>
+								<TableRow
+									hover
+									sx={{
+										borderBottom: '1px solid #e8ebed',
+										transition: 'background 0.2s ease',
+										'&:hover': {
+											background: 'rgba(65, 105, 225, 0.02)',
+										},
+										'&:last-child': {
+											borderBottom: 'none',
+										},
+									}}
+								>
+									{/* ID Column */}
+									<TableCell
+										align="left"
+										sx={{
+											padding: '16px 20px',
+											fontSize: '14px',
+											fontWeight: 600,
+											color: '#64748b',
+										}}
+									>
+										{ele.category}
 									</TableCell>
-									<TableCell align="left">member.mb_phone</TableCell>
-									<TableCell align="center">
-										<Button onClick={(e: any) => handleMenuIconClick(e, index)} className={'badge success'}>
-											member.mb_type
-										</Button>
 
-										<Menu
-											className={'menu-modal'}
-											MenuListProps={{
-												'aria-labelledby': 'fade-button',
+									{/* Title Column with Image */}
+									<TableCell align="left" sx={{ padding: '16px 20px' }}>
+										<Typography
+											sx={{
+												fontWeight: 500,
+												color: '#1e293b',
+												fontSize: '14px',
 											}}
-											anchorEl={anchorEl[index]}
-											open={Boolean(anchorEl[index])}
-											onClose={handleMenuIconClose}
-											TransitionComponent={Fade}
-											sx={{ p: 1 }}
 										>
-											<MenuItem onClick={(e) => generateMentorTypeHandle('member._id', 'mentor', 'originate')}>
-												<Typography variant={'subtitle1'} component={'span'}>
-													MENTOR
-												</Typography>
-											</MenuItem>
-											<MenuItem onClick={(e) => generateMentorTypeHandle('member._id', 'user', 'remove')}>
-												<Typography variant={'subtitle1'} component={'span'}>
-													USER
-												</Typography>
-											</MenuItem>
-										</Menu>
+											{ele.title}
+										</Typography>
+									</TableCell>
+
+									<TableCell
+										align="center"
+										sx={{
+											padding: '16px 20px',
+											fontSize: '14px',
+											color: '#1e293b',
+											fontWeight: 600,
+										}}
+									>
+										{ele.writer}
+									</TableCell>
+
+									<TableCell
+										align="center"
+										sx={{
+											padding: '16px 20px',
+											fontSize: '14px',
+											color: '#1e293b',
+											fontWeight: 600,
+										}}
+									>
+										{ele.date}
+									</TableCell>
+
+									{/* Agent Column */}
+									<TableCell
+										align="center"
+										sx={{
+											padding: '16px 20px',
+											fontSize: '14px',
+											color: '#64748b',
+										}}
+									>
+										{ele.status}
 									</TableCell>
 								</TableRow>
 							);

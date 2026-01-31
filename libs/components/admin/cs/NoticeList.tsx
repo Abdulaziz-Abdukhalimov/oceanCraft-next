@@ -55,12 +55,6 @@ const headCells: readonly HeadCell[] = [
 		label: 'TITLE',
 	},
 	{
-		id: 'id',
-		numeric: true,
-		disablePadding: false,
-		label: 'ID',
-	},
-	{
 		id: 'writer',
 		numeric: true,
 		disablePadding: false,
@@ -83,6 +77,79 @@ const headCells: readonly HeadCell[] = [
 		numeric: false,
 		disablePadding: false,
 		label: 'ACTION',
+	},
+];
+
+const noticeList = [
+	{
+		category: 'General',
+		title: 'What is this platform about?',
+		writer: 'Admin',
+		date: '2025-01-05',
+		status: 'Published',
+	},
+	{
+		category: 'Account',
+		title: 'How do I reset my password?',
+		writer: 'Support Team',
+		date: '2025-01-10',
+		status: 'Published',
+	},
+	{
+		category: 'Billing',
+		title: 'What payment methods are accepted?',
+		writer: 'Finance Team',
+		date: '2025-01-12',
+		status: 'Draft',
+	},
+	{
+		category: 'Technical',
+		title: 'Why can’t I log into my account?',
+		writer: 'Tech Support',
+		date: '2025-01-15',
+		status: 'Published',
+	},
+	{
+		category: 'Account',
+		title: 'How do I change my email address?',
+		writer: 'Admin',
+		date: '2025-01-18',
+		status: 'Published',
+	},
+	{
+		category: 'Billing',
+		title: 'Can I get a refund?',
+		writer: 'Finance Team',
+		date: '2025-01-20',
+		status: 'Archived',
+	},
+	{
+		category: 'General',
+		title: 'Is my data secure?',
+		writer: 'Security Team',
+		date: '2025-01-22',
+		status: 'Published',
+	},
+	{
+		category: 'Technical',
+		title: 'Which browsers are supported?',
+		writer: 'Tech Team',
+		date: '2025-01-25',
+		status: 'Published',
+	},
+	{
+		category: 'Account',
+		title: 'How do I delete my account?',
+		writer: 'Support Team',
+		date: '2025-01-28',
+		status: 'Draft',
+	},
+	{
+		category: 'General',
+		title: 'How can I contact support?',
+		writer: 'Admin',
+		date: '2025-01-30',
+		status: 'Published',
 	},
 ];
 
@@ -198,7 +265,7 @@ export const NoticeList = (props: NoticeListType) => {
 					{/*@ts-ignore*/}
 					<EnhancedTableToolbar />
 					<TableBody>
-						{[1, 2, 3, 4, 5].map((ele: any, index: number) => {
+						{noticeList.map((ele: any, index: number) => {
 							const member_image = '/img/profile/defaultUser.svg';
 
 							return (
@@ -206,23 +273,11 @@ export const NoticeList = (props: NoticeListType) => {
 									<TableCell padding="checkbox">
 										<Checkbox color="primary" />
 									</TableCell>
-									<TableCell align="left">mb id</TableCell>
-									<TableCell align="left">member.mb_full_name</TableCell>
-									<TableCell align="left">member.mb_phone</TableCell>
-									<TableCell align="left" className={'name'}>
-										<Stack direction={'row'}>
-											<Link href={`/_admin/users/detail?mb_id=$'{member._id'}`}>
-												<div>
-													<Avatar alt="Remy Sharp" src={member_image} sx={{ ml: '2px', mr: '10px' }} />
-												</div>
-											</Link>
-											<Link href={`/_admin/users/detail?mb_id=${'member._id'}`}>
-												<div>member.mb_nick</div>
-											</Link>
-										</Stack>
-									</TableCell>
-									<TableCell align="left">member.mb_phone</TableCell>
-									<TableCell align="left">member.mb_phone</TableCell>
+									<TableCell align="left">{ele.category}</TableCell>
+									<TableCell align="left">{ele.title}</TableCell>
+									<TableCell align="left">{ele.writer}</TableCell>
+									<TableCell align="left">{ele.date}</TableCell>
+									<TableCell align="left">{ele.status}</TableCell>
 									<TableCell align="right">
 										<Tooltip title={'delete'}>
 											<IconButton>
