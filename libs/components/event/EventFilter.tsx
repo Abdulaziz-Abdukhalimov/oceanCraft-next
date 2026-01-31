@@ -92,7 +92,7 @@ const EventFilter = (props: EventFilterProps) => {
 		setPriceAnchor(null);
 	};
 
-	const handlePriceChange = (event: Event, newValue: number | number[]) => {
+	const handlePriceChange = (ivent: Event, newValue: number | number[]) => {
 		setPriceRange(newValue as number[]);
 	};
 
@@ -168,7 +168,7 @@ const EventFilter = (props: EventFilterProps) => {
 					Category
 				</Button>
 				<Menu open={categoryOpen} onClose={handleCategoryClose} anchorEl={categoryAnchor}>
-					<Box display="flex" flexWrap="wrap" gap={1.5}>
+					<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
 						{categories.map((category) => (
 							<Chip key={category} label={category.replace(/_/g, ' ')} onClick={() => handleCategorySelect(category)} />
 						))}

@@ -18,6 +18,7 @@ import { MemberType } from '../../enums/member.enum';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import SearchIcon from '@mui/icons-material/Search';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Link from 'next/link';
 
 const drawerWidth = 260;
 
@@ -80,11 +81,13 @@ const withAdminLayout = (Component: ComponentType) => {
 						className="admin-sidebar"
 					>
 						{/* Logo Section */}
-						<Box className="sidebar-logo" sx={{ p: '24px 20px' }}>
+						<Box className="sidebar-logo" sx={{ p: '24px 20px', cursor: 'pointer' }}>
 							<Stack direction="row" alignItems="center" spacing={1}>
-								<Typography variant="h5" component="h1" sx={{ fontWeight: 700, color: '#fff', fontSize: '24px' }}>
-									Ocean<span style={{ fontWeight: 400 }}>Craft</span>
-								</Typography>
+								<Link href={'/_admin'}>
+									<Typography variant="h5" component="h1" sx={{ fontWeight: 700, color: '#fff', fontSize: '24px' }}>
+										Ocean<span style={{ fontWeight: 400 }}>Craft</span>
+									</Typography>
+								</Link>
 							</Stack>
 						</Box>
 
