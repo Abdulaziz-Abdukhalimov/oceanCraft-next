@@ -46,7 +46,7 @@ const MyMenu = () => {
 							<Typography className={'p-number'}>{user?.memberPhone}</Typography>
 						</Box>
 						{user?.memberType === 'ADMIN' ? (
-							<a href="/_admin/users" target={'_blank'}>
+							<a href="/_admin" target={'_blank'}>
 								<Typography className={'view-list'}>{user?.memberType}</Typography>
 							</a>
 						) : (

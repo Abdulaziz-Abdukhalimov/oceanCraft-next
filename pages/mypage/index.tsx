@@ -8,7 +8,7 @@ import MyProperties from '../../libs/components/mypage/MyProperties';
 import MyFavorites from '../../libs/components/mypage/MyFavorites';
 import RecentlyVisited from '../../libs/components/mypage/RecentlyVisited';
 import AddProperty from '../../libs/components/mypage/AddNewProperty';
-import MyProfile from '../../libs/components/mypage/MyProfile';
+import MySettings from '../../libs/components/mypage/MySettings';
 import MyArticles from '../../libs/components/mypage/MyArticles';
 import { useMutation, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
@@ -19,6 +19,7 @@ import MemberFollowings from '../../libs/components/member/MemberFollowings';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '../../apollo/user/mutation';
 import { Messages } from '../../libs/config';
+import withLayoutMain from '../../libs/components/layout/LayoutHome';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -124,7 +125,7 @@ const MyPage: NextPage = () => {
 									{category === 'myFavorites' && <MyFavorites />}
 									{category === 'recentlyVisited' && <RecentlyVisited />}
 									{category === 'myArticles' && <MyArticles />}
-									{category === 'myProfile' && <MyProfile />}
+									{category === 'myProfile' && <MySettings />}
 									{category === 'followers' && (
 										<MemberFollowers
 											subscribeHandler={subscribeHandler}
@@ -151,4 +152,4 @@ const MyPage: NextPage = () => {
 	}
 };
 
-export default withLayoutBasic(MyPage);
+export default withLayoutMain(MyPage);
