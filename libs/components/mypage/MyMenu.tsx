@@ -10,6 +10,8 @@ import IconButton from '@mui/material/IconButton';
 import { REACT_APP_API_URL } from '../../config';
 import { logOut } from '../../auth';
 import { sweetConfirmAlert, sweetMixinErrorAlert } from '../../sweetAlert';
+import { borderTop } from '@mui/system';
+import AddchartIcon from '@mui/icons-material/Addchart';
 
 const MyMenu = () => {
 	const device = useDeviceDetect();
@@ -33,78 +35,118 @@ const MyMenu = () => {
 		return (
 			<Stack width={'100%'} padding={'30px 24px'}>
 				<Stack className={'profile'}>
-					<Box component={'div'} className={'profile-img'}>
-						<img
-							src={user?.memberImage ? `${user?.memberImage}` : '/img/profile/defaultUser.svg'}
-							alt={'member-photo'}
-						/>
-					</Box>
 					<Stack className={'user-info'}>
-						<Typography className={'user-name'}>{user?.memberNick}</Typography>
-						<Box component={'div'} className={'user-phone'}>
-							<img src={'/img/icons/call.svg'} alt={'icon'} />
-							<Typography className={'p-number'}>{user?.memberPhone}</Typography>
-						</Box>
-						{user?.memberType === 'ADMIN' ? (
-							<a href="/_admin" target={'_blank'}>
-								<Typography className={'view-list'}>{user?.memberType}</Typography>
+						{user?.memberType === 'ADMIN' && (
+							<a href="/_admin" target={'_blank'} className="dash">
+								<AddchartIcon className={'com-icon1'} />
+								<Typography className={'view-list'}>Dashboard</Typography>
 							</a>
-						) : (
-							<Typography className={'view-list'}>{user?.memberType}</Typography>
 						)}
 					</Stack>
 				</Stack>
 				<Stack className={'sections'}>
 					<Stack className={'section'} style={{ height: user.memberType === 'AGENT' ? '228px' : '153px' }}>
-						<Typography className="title" variant={'h5'}>
-							MANAGE LISTINGS
-						</Typography>
 						<List className={'sub-section'}>
 							{user.memberType === 'AGENT' && (
 								<>
-									<ListItem className={pathname === 'addProperty' ? 'focus' : ''}>
+									<ListItem className={pathname === 'addProduct' ? 'focus' : ''}>
 										<Link
 											href={{
 												pathname: '/mypage',
-												query: { category: 'addProperty' },
+												query: { category: 'addProduct' },
 											}}
 											scroll={false}
 										>
 											<div className={'flex-box'}>
-												{category === 'addProperty' ? (
+												{category === 'addProduct' ? (
 													<img className={'com-icon'} src={'/img/icons/whiteTab.svg'} alt={'com-icon'} />
 												) : (
 													<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} />
 												)}
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-													Add Property
+													Add Product
 												</Typography>
-												<IconButton aria-label="delete" sx={{ ml: '40px' }}>
-													<PortraitIcon style={{ color: 'red' }} />
-												</IconButton>
 											</div>
 										</Link>
 									</ListItem>
-									<ListItem className={pathname === 'myProperties' ? 'focus' : ''}>
+									<ListItem className={pathname === 'myProducts' ? 'focus' : ''}>
 										<Link
 											href={{
 												pathname: '/mypage',
-												query: { category: 'myProperties' },
+												query: { category: 'myProducts' },
 											}}
 											scroll={false}
 										>
 											<div className={'flex-box'}>
-												{category === 'myProperties' ? (
+												{category === 'myProducts' ? (
 													<img className={'com-icon'} src={'/img/icons/homeWhite.svg'} alt={'com-icon'} />
 												) : (
 													<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} />
 												)}
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-													My Properties
+													My Products
 												</Typography>
-												<IconButton aria-label="delete" sx={{ ml: '36px' }}>
-													<PortraitIcon style={{ color: 'red' }} />
-												</IconButton>
+											</div>
+										</Link>
+									</ListItem>
+									<ListItem className={pathname === 'addEvent' ? 'focus' : ''}>
+										<Link
+											href={{
+												pathname: '/mypage',
+												query: { category: 'addEvent' },
+											}}
+											scroll={false}
+										>
+											<div className={'flex-box'}>
+												{category === 'addEvent' ? (
+													<img className={'com-icon'} src={'/img/icons/whiteTab.svg'} alt={'com-icon'} />
+												) : (
+													<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} />
+												)}
+												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+													Add Event
+												</Typography>
+											</div>
+										</Link>
+									</ListItem>
+									<ListItem className={pathname === 'myEvents' ? 'focus' : ''}>
+										<Link
+											href={{
+												pathname: '/mypage',
+												query: { category: 'myEvents' },
+											}}
+											scroll={false}
+										>
+											<div className={'flex-box'}>
+												{category === 'myEvents' ? (
+													<img className={'com-icon'} src={'/img/icons/homeWhite.svg'} alt={'com-icon'} />
+												) : (
+													<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} />
+												)}
+												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+													My Events
+												</Typography>
+											</div>
+										</Link>
+									</ListItem>
+									<ListItem className={pathname === 'analytics' ? 'focus' : ''}>
+										<Link
+											href={{
+												pathname: '/mypage',
+												query: { category: 'analytics' },
+											}}
+											scroll={false}
+										>
+											<div className={'flex-box'}>
+												{category === 'analytics' ? (
+													<img className={'com-icon'} src={'/img/icons/searchWhite.svg'} alt={'com-icon'} />
+												) : (
+													<img className={'com-icon'} src={'/img/icons/search.svg'} alt={'com-icon'} />
+												)}
+
+												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+													Analytics
+												</Typography>
 											</div>
 										</Link>
 									</ListItem>
@@ -127,27 +169,6 @@ const MyMenu = () => {
 
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 											My Favorites
-										</Typography>
-									</div>
-								</Link>
-							</ListItem>
-							<ListItem className={pathname === 'recentlyVisited' ? 'focus' : ''}>
-								<Link
-									href={{
-										pathname: '/mypage',
-										query: { category: 'recentlyVisited' },
-									}}
-									scroll={false}
-								>
-									<div className={'flex-box'}>
-										{category === 'recentlyVisited' ? (
-											<img className={'com-icon'} src={'/img/icons/searchWhite.svg'} alt={'com-icon'} />
-										) : (
-											<img className={'com-icon'} src={'/img/icons/search.svg'} alt={'com-icon'} />
-										)}
-
-										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											Recently Visited
 										</Typography>
 									</div>
 								</Link>
@@ -249,62 +270,9 @@ const MyMenu = () => {
 							</ListItem>
 						</List>
 					</Stack>
-					<Stack className={'section'} sx={{ marginTop: '10px' }}>
-						<div>
-							<Typography className="title" variant={'h5'}>
-								Community
-							</Typography>
-							<List className={'sub-section'}>
-								<ListItem className={pathname === 'myArticles' ? 'focus' : ''}>
-									<Link
-										href={{
-											pathname: '/mypage',
-											query: { category: 'myArticles' },
-										}}
-										scroll={false}
-									>
-										<div className={'flex-box'}>
-											{category === 'myArticles' ? (
-												<img className={'com-icon'} src={'/img/icons/discoveryWhite.svg'} alt={'com-icon'} />
-											) : (
-												<img className={'com-icon'} src={'/img/icons/discovery.svg'} alt={'com-icon'} />
-											)}
-
-											<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-												Articles
-											</Typography>
-										</div>
-									</Link>
-								</ListItem>
-								<ListItem className={pathname === 'writeArticle' ? 'focus' : ''}>
-									<Link
-										href={{
-											pathname: '/mypage',
-											query: { category: 'writeArticle' },
-										}}
-										scroll={false}
-									>
-										<div className={'flex-box'}>
-											{category === 'writeArticle' ? (
-												<img className={'com-icon'} src={'/img/icons/whiteTab.svg'} alt={'com-icon'} />
-											) : (
-												<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} />
-											)}
-											<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-												Write Article
-											</Typography>
-										</div>
-									</Link>
-								</ListItem>
-							</List>
-						</div>
-					</Stack>
-					<Stack className={'section'} sx={{ marginTop: '30px' }}>
-						<Typography className="title" variant={'h5'}>
-							MANAGE ACCOUNT
-						</Typography>
+					<Stack className={'section'} sx={{ marginTop: '150px', borderTop: '1px solid #ddd' }}>
 						<List className={'sub-section'}>
-							<ListItem className={pathname === 'myProfile' ? 'focus' : ''}>
+							<ListItem className={pathname === 'myProfile' ? 'focus' : ''} sx={{ marginTop: '20px' }}>
 								<Link
 									href={{
 										pathname: '/mypage',
@@ -319,7 +287,7 @@ const MyMenu = () => {
 											<img className={'com-icon'} src={'/img/icons/user.svg'} alt={'com-icon'} />
 										)}
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											My Profile
+											Settings
 										</Typography>
 									</div>
 								</Link>
