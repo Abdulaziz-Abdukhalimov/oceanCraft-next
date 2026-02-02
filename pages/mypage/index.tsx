@@ -6,10 +6,9 @@ import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import MyProperties from '../../libs/components/mypage/MyProducts';
 import MyFavorites from '../../libs/components/mypage/MyFavorites';
-import RecentlyVisited from '../../libs/components/mypage/RecentlyVisited';
 import AddProperty from '../../libs/components/mypage/AddNewProduct';
 import MySettings from '../../libs/components/mypage/MySettings';
-import MyArticles from '../../libs/components/mypage/MyArticles';
+import MyArticles from '../../libs/components/mypage/MyEvents';
 import { useMutation, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
 import MyMenu from '../../libs/components/mypage/MyMenu';
@@ -22,6 +21,8 @@ import { Messages } from '../../libs/config';
 import withLayoutMain from '../../libs/components/layout/LayoutHome';
 import AddProduct from '../../libs/components/mypage/AddNewProduct';
 import MyProducts from '../../libs/components/mypage/MyProducts';
+import AddEvent from '../../libs/components/mypage/addNewEvent';
+import MyEvents from '../../libs/components/mypage/MyEvents';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -124,9 +125,9 @@ const MyPage: NextPage = () => {
 								<Stack className={'list-config'}>
 									{category === 'addProduct' && <AddProduct />}
 									{category === 'myProducts' && <MyProducts />}
+									{category === 'addEvent' && <AddEvent />}
+									{category === 'myEvents' && <MyEvents />}
 									{category === 'myFavorites' && <MyFavorites />}
-									{category === 'recentlyVisited' && <RecentlyVisited />}
-									{category === 'myArticles' && <MyArticles />}
 									{category === 'myProfile' && <MySettings />}
 									{category === 'followers' && (
 										<MemberFollowers
