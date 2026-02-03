@@ -15,6 +15,8 @@ interface ProductCardProps {
 	deleteProductHandler?: any;
 	memberPage?: boolean;
 	updateProductHandler?: any;
+	likeProductHandler?: (user: any, id: string) => void;
+	myFavorites?: boolean;
 }
 
 export const ProductCard = (props: ProductCardProps) => {

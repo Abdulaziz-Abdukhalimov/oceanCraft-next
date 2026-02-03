@@ -5,218 +5,285 @@
 			height: auto;
 			display: flex;
 			flex-direction: column;
-			gap: 57px;
+			gap: 35px;
+			padding: 40px 0;
+
 			.main-title-box {
-				width: auto;
-				height: auto;
-				flex-direction: row;
+				width: 100%;
+				display: flex;
 				justify-content: space-between;
+
 				.right-box {
-					width: 315px;
+					display: flex;
+					flex-direction: column;
+					gap: 8px;
+
 					.main-title {
 						color: #181a20;
 						font-family: $font;
 						font-size: 30px;
-						font-style: normal;
 						font-weight: 600;
-						line-height: normal;
 						letter-spacing: 0.6px;
-						text-transform: capitalize;
 					}
+
 					.sub-title {
-						color: #181a20;
+						color: #717171;
 						font-family: $font;
 						font-size: 14px;
-						font-style: normal;
 						font-weight: 400;
 						line-height: 26px;
 					}
 				}
 			}
+
+			.tabs-wrapper {
+				width: 100%;
+				background: #fff;
+				border-radius: 12px 12px 0 0;
+				border: 1px solid rgba(196, 196, 196, 0.79);
+				border-bottom: none;
+				box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
+
+				.favorites-tabs {
+					padding: 0 35px;
+
+					.MuiTab-root {
+						font-family: $font;
+						font-size: 14px;
+						font-weight: 600;
+						text-transform: none;
+						color: #717171;
+						padding: 18px 32px;
+						min-height: 60px;
+						transition: all 0.3s ease;
+
+						&:hover {
+							color: #181a20;
+							background: rgba(24, 26, 32, 0.02);
+						}
+
+						&.Mui-selected {
+							color: #181a20;
+						}
+					}
+
+					.MuiTabs-indicator {
+						background-color: #181a20;
+						height: 3px;
+					}
+				}
+			}
+
 			.favorites-list-box {
 				width: 100%;
-				height: auto;
-				flex-wrap: wrap;
-				flex-direction: row;
-				gap: 22px;
-				.card-config {
-					width: 296px;
-					height: 413px;
-					margin-bottom: 7px;
-					border-radius: 12px;
-					background: #fff;
-					box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
-					.top {
-						position: relative;
+				min-height: 500px;
+				display: grid;
+				grid-template-columns: (auto-fill, minmax(380px, 1fr));
+				gap: 28px;
+				padding: 40px 35px;
+				background: #fff;
+				border-radius: 0 0 12px 12px;
+				border: 1px solid rgba(196, 196, 196, 0.79);
+				border-top: none;
+				box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
+
+				.favorite-card-wrapper {
+					width: 100%;
+					height: 100%;
+					display: flex;
+					flex-direction: column;
+
+					// Override the card's internal layout
+					> div,
+					> * {
 						width: 100%;
-						height: 240px;
-						a {
-							height: 100%;
-						}
-						img {
-							width: 100%;
-							height: 100%;
-							object-fit: cover;
-							border-radius: 12px 12px 0 0;
-						}
-						.top-badge {
-							position: absolute;
-							top: 20px;
-							left: 16px;
-							display: flex;
-							width: 80px;
-							height: 30px;
-							justify-content: center;
-							align-items: center;
-							border-radius: 6px;
-							padding: 6px 20px;
-							background: #eb6753;
-							color: #fff;
-							text-align: center;
-							text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-							font-family: $font;
-							font-size: 12px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
-							img {
-								height: 16px;
-							}
-						}
-						.price-box {
-							position: absolute;
-							bottom: 20px;
-							left: 20px;
-							padding: 8px 15px;
-							align-items: center;
-							border-radius: 6px;
-							border: 1px solid rgba(255, 255, 255, 0.5);
-							background: #fff;
-							p {
-								color: #181a20;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-							}
-						}
+						height: 100%;
+						flex: 1;
 					}
-					.bottom {
-						width: 100%;
-						height: 173px;
-						padding: 20px 16px 10px 16px;
-						.name-address {
-							width: 100%;
-							height: 48px;
-							gap: 5px;
-							margin-bottom: 20px;
-							.name {
-								width: 100%;
-								height: 23px;
-								overflow: hidden;
-								p {
-									color: #181a20;
-									font-family: $font;
-									font-size: 15px;
-									font-style: normal;
-									font-weight: 600;
-									line-height: normal;
-									text-transform: capitalize;
-								}
+				}
+
+				.no-data {
+					grid-column: 1 / -1;
+					width: 100%;
+					height: 400px;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					gap: 24px;
+
+					img {
+						width: 100px;
+						height: 100px;
+						opacity: 0.4;
+					}
+
+					p {
+						color: #717171;
+						font-family: $font;
+						font-size: 18px;
+						font-weight: 500;
+					}
+				}
+			}
+
+			.pagination-config {
+				width: 100%;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 30px 0;
+
+				.pagination-box {
+					.MuiPagination-root {
+						.MuiPaginationItem-root {
+							font-family: $font;
+							font-weight: 500;
+							font-size: 14px;
+							min-width: 40px;
+							height: 40px;
+							border-radius: 8px;
+							margin: 0 4px;
+
+							&:hover {
+								background: #f5f5f5;
 							}
-							.address {
-								width: 100%;
-								overflow: hidden;
-								p {
-									color: #717171;
-									font-family: $font;
-									font-size: 13px;
-									font-style: normal;
-									font-weight: 400;
-									line-height: normal;
-								}
-							}
-						}
-						.options {
-							flex-direction: row;
-							width: 100%;
-							height: 20px;
-							gap: 20px;
-							margin-bottom: 10px;
-							.option {
-								flex-direction: row;
-								gap: 5px;
-								align-items: center;
-								p {
-									color: #181a20;
-									font-family: $font;
-									font-size: 13px;
-									font-style: normal;
-									font-weight: 400;
-									line-height: normal;
-								}
-							}
-						}
-						.divider {
-							width: 100%;
-							height: 1px;
-							background: #ddd;
-							margin-bottom: 17px;
-						}
-						.type-buttons {
-							flex-direction: row;
-							width: 100%;
-							justify-content: space-between;
-							align-items: center;
-							.type {
-								flex-direction: row;
-								align-items: center;
-								gap: 7px;
-								p {
-									color: #181a20;
-									font-family: $font;
-									font-style: normal;
-									line-height: normal;
-								}
-								.disabled-type {
-									color: rgba(143, 143, 143, 0.54);
-									font-family: $font;
-									font-style: normal;
-									line-height: normal;
-								}
-							}
-							.buttons {
-								flex-direction: row;
-								width: auto;
-								gap: 12px;
-								justify-content: center;
-								align-items: center;
-								padding-right: 10px;
-								svg {
-									cursor: pointer;
+
+							&.Mui-selected {
+								background: #181a20;
+								color: #fff;
+
+								&:hover {
+									background: #2c2e36;
 								}
 							}
 						}
 					}
 				}
-			}
-			.pagination-config {
-				width: 100%;
-				height: auto;
-				justify-content: center;
-				align-items: center;
-				margin-top: 30px;
+
 				.total-result {
-					p {
+					color: #717171;
+					font-family: $font;
+					font-size: 14px;
+					font-weight: 400;
+
+					strong {
 						color: #181a20;
-						text-align: center;
-						font-family: $font;
-						font-size: 14px;
-						font-style: normal;
-						font-weight: 400;
-						line-height: 26px;
+						font-weight: 600;
 					}
+				}
+			}
+
+			// Responsive Breakpoints
+			@media (max-width: 1400px) {
+				.favorites-list-box {
+					grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+					gap: 24px;
+					padding: 35px 30px;
+				}
+			}
+
+			@media (max-width: 1200px) {
+				.favorites-list-box {
+					grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+					gap: 20px;
+				}
+			}
+
+			@media (max-width: 1024px) {
+				padding: 30px 0;
+
+				.tabs-wrapper {
+					.favorites-tabs {
+						padding: 0 24px;
+
+						.MuiTab-root {
+							padding: 16px 24px;
+							min-height: 54px;
+							font-size: 13px;
+						}
+					}
+				}
+
+				.favorites-list-box {
+					grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+					gap: 20px;
+					padding: 30px 24px;
+				}
+			}
+
+			@media (max-width: 768px) {
+				padding: 20px 0;
+
+				.main-title-box {
+					.right-box {
+						.main-title {
+							font-size: 24px;
+						}
+
+						.sub-title {
+							font-size: 13px;
+						}
+					}
+				}
+
+				.tabs-wrapper {
+					.favorites-tabs {
+						padding: 0 20px;
+
+						.MuiTab-root {
+							font-size: 13px;
+							padding: 14px 20px;
+							min-height: 50px;
+						}
+					}
+				}
+
+				.favorites-list-box {
+					grid-template-columns: 1fr;
+					padding: 24px 20px;
+					gap: 20px;
+					min-height: 300px;
+				}
+
+				.pagination-config {
+					flex-direction: column;
+					gap: 20px;
+					padding: 24px 0;
+
+					.total-result {
+						order: -1;
+						font-size: 13px;
+					}
+
+					.pagination-box {
+						.MuiPagination-root {
+							.MuiPaginationItem-root {
+								min-width: 36px;
+								height: 36px;
+								font-size: 13px;
+								margin: 0 2px;
+							}
+						}
+					}
+				}
+			}
+
+			@media (max-width: 480px) {
+				.tabs-wrapper {
+					.favorites-tabs {
+						padding: 0 12px;
+
+						.MuiTab-root {
+							padding: 12px 16px;
+							min-width: auto;
+							font-size: 12px;
+						}
+					}
+				}
+
+				.favorites-list-box {
+					padding: 20px 16px;
 				}
 			}
 		}

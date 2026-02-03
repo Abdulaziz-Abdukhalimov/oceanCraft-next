@@ -1,24 +1,37 @@
 import React, { useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Pagination, Stack, Typography } from '@mui/material';
-import PropertyCard from '../product/ProductCard';
-import { Property } from '../../types/product/product';
+import { Pagination, Stack, Typography, Tabs, Tab, Box } from '@mui/material';
+import { Product } from '../../types/product/product';
+import { Event } from '../../types/event/event';
 import { T } from '../../types/common';
 import { useMutation, useQuery } from '@apollo/client';
-import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
+import { LIKE_TARGET_PRODUCT, LIKE_TARGET_EVENT } from '../../../apollo/user/mutation';
 import { GET_FAVORITES } from '../../../apollo/user/query';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
 import { Messages } from '../../config';
+import ProductBigCard from '../common/ProductBigCard';
+import EventBigCard from '../common/EventBigCard';
+
+interface FavoriteItem {
+	_id: string;
+	itemType: string;
+	likeRefId: string;
+	createdAt: Date;
+	productData?: Product;
+	eventData?: Event;
+}
 
 const MyFavorites: NextPage = () => {
 	const device = useDeviceDetect();
-	const [myFavorites, setMyFavorites] = useState<Property[]>([]);
+	const [myFavorites, setMyFavorites] = useState<FavoriteItem[]>([]);
 	const [total, setTotal] = useState<number>(0);
-	const [searchFavorites, setSearchFavorites] = useState<T>({ page: 1, limit: 6 });
+	const [searchFavorites, setSearchFavorites] = useState<T>({ page: 1, limit: 4 });
+	const [activeTab, setActiveTab] = useState(0);
 
 	/** APOLLO REQUESTS **/
-	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+	const [likeTargetProduct] = useMutation(LIKE_TARGET_PRODUCT);
+	const [likeTargetEvent] = useMutation(LIKE_TARGET_EVENT);
 
 	const {
 		loading: getFavoritesLoading,
@@ -32,8 +45,8 @@ const MyFavorites: NextPage = () => {
 		},
 		notifyOnNetworkStatusChange: true,
 		onCompleted(data: T) {
-			setMyFavorites(data.getFavorites?.list);
-			setTotal(data.getFavorites?.metaCounter[0]?.total ?? 0);
+			setMyFavorites(data.getAllFavorites?.list || []);
+			setTotal(data.getAllFavorites?.metaCounter[0]?.total ?? 0);
 		},
 	});
 
@@ -42,46 +55,109 @@ const MyFavorites: NextPage = () => {
 		setSearchFavorites({ ...searchFavorites, page: value });
 	};
 
-	const likePropertyHandler = async (user: any, id: string) => {
+	const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+		setActiveTab(newValue);
+		setSearchFavorites({ ...searchFavorites, page: 1 });
+	};
+
+	const likeProductHandler = async (user: any, id: string) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Messages.error2);
 
+			await likeTargetProduct({
+				variables: { input: id },
+			});
+
 			await getFavoritesRefetch({ input: searchFavorites });
 		} catch (err: any) {
-			console.log('Error, likePropertyHandler:', err.message);
+			console.log('Error, likeProductHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
 
+	const likeEventHandler = async (user: any, id: string) => {
+		try {
+			if (!id) return;
+			if (!user._id) throw new Error(Messages.error2);
+
+			await likeTargetEvent({
+				variables: { input: id },
+			});
+
+			await getFavoritesRefetch({ input: searchFavorites });
+		} catch (err: any) {
+			console.log('Error, likeEventHandler:', err.message);
+			sweetMixinErrorAlert(err.message).then();
+		}
+	};
+
+	// Filter favorites based on active tab
+	const filteredFavorites = myFavorites.filter((item) => {
+		if (activeTab === 0) return true; // All
+		if (activeTab === 1) return item.itemType === 'PRODUCT';
+		if (activeTab === 2) return item.itemType === 'EVENT';
+		return true;
+	});
+
+	const filteredTotal = filteredFavorites.length;
+
 	if (device === 'mobile') {
-		return <div>NESTAR MY FAVORITES MOBILE</div>;
+		return <div>MY FAVORITES MOBILE</div>;
 	} else {
 		return (
 			<div id="my-favorites-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
 						<Typography className="main-title">My Favorites</Typography>
-						<Typography className="sub-title">We are glad to see you again!</Typography>
+						<Typography className="sub-title">Your saved products and events</Typography>
 					</Stack>
 				</Stack>
+
+				{/* Tabs for filtering */}
+				<Box className="tabs-wrapper">
+					<Tabs value={activeTab} onChange={handleTabChange} className="favorites-tabs">
+						<Tab label="All" />
+						<Tab label="Products" />
+						<Tab label="Events" />
+					</Tabs>
+				</Box>
+
 				<Stack className="favorites-list-box">
-					{myFavorites?.length ? (
-						myFavorites?.map((property: Property) => {
-							return <PropertyCard property={property} likePropertyHandler={likePropertyHandler} myFavorites={true} />;
+					{filteredFavorites?.length ? (
+						filteredFavorites?.map((favorite: FavoriteItem) => {
+							if (favorite.itemType === 'PRODUCT' && favorite.productData) {
+								return (
+									<div key={favorite._id} className="favorite-card-wrapper">
+										<ProductBigCard
+											product={favorite.productData}
+											likeProductHandler={likeProductHandler}
+											myFavorites={true}
+										/>
+									</div>
+								);
+							} else if (favorite.itemType === 'EVENT' && favorite.eventData) {
+								return (
+									<div key={favorite._id} className="favorite-card-wrapper">
+										<EventBigCard event={favorite.eventData} likeEventHandler={likeEventHandler} myFavorites={true} />
+									</div>
+								);
+							}
+							return null;
 						})
 					) : (
 						<div className={'no-data'}>
 							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Favorites found!</p>
+							<p>No favorites found!</p>
 						</div>
 					)}
 				</Stack>
-				{myFavorites?.length ? (
+
+				{filteredFavorites?.length ? (
 					<Stack className="pagination-config">
 						<Stack className="pagination-box">
 							<Pagination
-								count={Math.ceil(total / searchFavorites.limit)}
+								count={filteredTotal}
 								page={searchFavorites.page}
 								shape="circular"
 								color="primary"
@@ -90,7 +166,7 @@ const MyFavorites: NextPage = () => {
 						</Stack>
 						<Stack className="total-result">
 							<Typography>
-								Total {total} favorite propert{total > 1 ? 'ies' : 'y'}
+								Total {filteredTotal} favorite{filteredTotal > 1 ? 's' : ''}
 							</Typography>
 						</Stack>
 					</Stack>

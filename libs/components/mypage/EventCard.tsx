@@ -15,6 +15,8 @@ interface EventCardProps {
 	deleteEventHandler?: any;
 	memberPage?: boolean;
 	updateEventHandler?: any;
+	likeEventHandler?: (user: any, id: string) => void;
+	myFavorites?: boolean;
 }
 
 export const EventCard = (props: EventCardProps) => {

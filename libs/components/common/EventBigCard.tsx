@@ -12,10 +12,12 @@ import ShareIcon from '@mui/icons-material/Share';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
+import { Event } from '../../types/event/event';
 
 interface EventCardProps {
-	event: any;
+	event: Event;
 	likeEventHandler?: any;
+	myFavorites: boolean;
 }
 
 const EventBigCard = (props: EventCardProps) => {

@@ -12,7 +12,8 @@ import { Message } from '../../enums/common.enum';
 
 interface EventCardProps {
 	event: Event;
-	likeEventHandler: any;
+	likeEventHandler: (user: any, id: string) => void;
+	myFavorites?: boolean;
 }
 
 const EventCard = (props: EventCardProps) => {

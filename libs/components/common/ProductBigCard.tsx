@@ -12,10 +12,12 @@ import ShareIcon from '@mui/icons-material/Share';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
+import { Product } from '../../types/product/product';
 
 interface ProductCardProps {
-	product: any;
+	product: Product;
 	likeProductHandler?: any;
+	myFavorites: boolean;
 }
 
 const ProductBigCard = (props: ProductCardProps) => {
