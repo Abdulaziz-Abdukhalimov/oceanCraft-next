@@ -464,7 +464,7 @@ const EventDetailContent: React.FC<EventDetailContentProps> = ({ event, eventRef
 			{/* ===== REVIEWS ===== */}
 			<Box className="info-section reviews-section">
 				<Typography className="section-title">
-					Reviews ({commentsData?.getComments?.metaCounter?.total || 0})
+					Reviews ({commentsData?.getComments?.metaCounter[0]?.total || 0})
 				</Typography>
 
 				{/* Comments List */}

@@ -29,6 +29,7 @@ import { CREATE_COMMENT, UPDATE_COMMENT } from '../../apollo/user/mutation';
 import moment from 'moment';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import event from '../event';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -253,7 +254,6 @@ const ProductDetail: NextPage = () => {
 			sweetTopSmallSuccessAlert('Review posted successfully!', 1500);
 
 			setCommentForm({ commentContent: '' });
-
 			await getProductRefetch({ input: product._id });
 		} catch (err: any) {
 			console.log('ERROR, handleCommentSubmit:', err.message);
