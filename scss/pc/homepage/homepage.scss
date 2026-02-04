@@ -195,28 +195,6 @@
 					}
 				}
 			}
-
-			// Tablet responsive
-			@media (max-width: 1024px) {
-				.ad-card {
-					height: 160px;
-				}
-			}
-
-			// Mobile responsive
-			@media (max-width: 768px) {
-				padding: 30px 0;
-
-				.ad-card {
-					height: 200px;
-				}
-			}
-
-			@media (max-width: 480px) {
-				.ad-card {
-					height: 180px;
-				}
-			}
 		}
 		.popular-product-card {
 			position: relative;

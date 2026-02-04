@@ -12,6 +12,7 @@ import { Product } from '../../types/product/product';
 import { GET_PRODUCTS } from '../../../apollo/user/query';
 import PopularProductCard from './PopularProductCard';
 import { Autoplay, Navigation, Pagination } from 'swiper';
+import { useTranslation } from 'next-i18next';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -26,6 +27,7 @@ const PopularProducts = (props: PopularProductsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const [popularProducts, setPopularProducts] = useState<Product[]>([]);
+	const { t, i18n } = useTranslation('common');
 
 	/** APOLLO REQUESTS **/
 	const {
@@ -112,8 +114,8 @@ const PopularProducts = (props: PopularProductsProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span className={'title'}>Ocean Craft's 인기상품 </span>
-							<p className={'subtitle'}>고객선호도 높은 인기상품.</p>
+							<span className={'title'}>{t('Ocean Crafts Recommended')}</span>
+							<p className={'subtitle'}>{t('Popular products with high customer preference.')}</p>
 						</Box>
 					</Stack>
 					<Stack className={'card-box'}>

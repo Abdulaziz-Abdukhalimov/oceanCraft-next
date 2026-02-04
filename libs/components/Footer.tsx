@@ -5,9 +5,11 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import useDeviceDetect from '../hooks/useDeviceDetect';
 import { Stack, Box } from '@mui/material';
 import moment from 'moment';
+import { useTranslation } from 'next-i18next';
 
 const Footer = () => {
 	const device = useDeviceDetect();
+	const { t, i18n } = useTranslation('common');
 
 	if (device == 'mobile') {
 		return (
@@ -22,7 +24,7 @@ const Footer = () => {
 							<p>+82 10 4867 2909</p>
 						</Box>
 						<Box component={'div'} className={'footer-box'}>
-							<span>nee live</span>
+							<span>nee live </span>
 							<p>+82 10 4867 2909</p>
 							<span>Support?</span>
 						</Box>
@@ -84,13 +86,13 @@ const Footer = () => {
 						<Stack className="center">
 							<Box className="newsletter-section">
 								<p>
-									뉴스레터를 구독하세요
+									{t('Subscribe to our newsletter ')}
 									<br />
-									그리고 대규모 할인 행사에 유의하세요
+									{t(' and stay informed about major discounts')}
 								</p>
 								<div className="newsletter">
 									<input type="email" placeholder="write your e-mail" />
-									<span>보내다</span>
+									<span>{t('Submit')}</span>
 								</div>
 							</Box>
 						</Stack>
@@ -99,20 +101,20 @@ const Footer = () => {
 						<Stack className="right" direction="row">
 							{/* Information Column */}
 							<Stack className="links-column">
-								<strong>정보</strong>
-								<span>회사 소개</span>
-								<span>연락하다</span>
-								<span>매상</span>
-								<span>백화점</span>
+								<strong>{t('Info')}</strong>
+								<span>{t('About')}</span>
+								<span>{t('Support')}</span>
+								<span>{t('sales')}</span>
+								<span>{t('store')}</span>
 							</Stack>
 
 							{/* Online Store Column */}
 							<Stack className="links-column">
-								<strong>온라인 상점</strong>
-								<span>배달 및 픽업</span>
-								<span>지불</span>
-								<span>환불-교환</span>
-								<span>뉴스</span>
+								<strong>{t('online store')}</strong>
+								<span>{t('Terms of Service')}</span>
+								<span>{t('Privacy')}</span>
+								<span>{t('FAQ')}</span>
+								<span>{t('Site Map')}</span>
 							</Stack>
 
 							{/* Social Icons */}

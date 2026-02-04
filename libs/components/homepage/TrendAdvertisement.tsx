@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { REACT_APP_API_URL } from '../../config';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import { useTranslation } from 'next-i18next';
 
 interface AdBanner {
 	id: string;
@@ -16,6 +17,7 @@ interface AdBanner {
 
 const TrendAdvertisement = () => {
 	const router = useRouter();
+	const { t, i18n } = useTranslation('common');
 
 	const getImageUrl = (imagePath: string) => {
 		if (!imagePath) return '';
@@ -58,7 +60,7 @@ const TrendAdvertisement = () => {
 	return (
 		<Stack className={'advertisement-banner'}>
 			<Stack className="add-title">
-				<div>베스트 기획전</div>
+				<div>{t('Explore the best products')}</div>
 			</Stack>
 			<Stack className={'container'}>
 				<Swiper

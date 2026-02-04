@@ -24,6 +24,8 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import NavbarAdCarousel from './common/NavbarAdCarousel';
 import CloseIcon from '@mui/icons-material/Close';
 import PersonIcon from '@mui/icons-material/Person';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { sweetConfirmAlert } from '../sweetAlert';
 
 const Top = () => {
 	const device = useDeviceDetect();
@@ -102,6 +104,14 @@ const Top = () => {
 			setAnchorEl(event.currentTarget);
 		} else {
 			setAnchorEl(null);
+		}
+	};
+
+	const logoutHandler = async () => {
+		try {
+			if (await sweetConfirmAlert('Do you want to logout?')) logOut();
+		} catch (err: any) {
+			console.log('ERROR, logoutHandler:', err.message);
 		}
 	};
 
@@ -253,6 +263,13 @@ const Top = () => {
 									</MenuItem>
 								</StyledMenu>
 							</Box>
+							<span className={'divider'}>|</span>
+							{user?._id && (
+								<div className={'top-bar-item'} onClick={logoutHandler}>
+									<LogoutIcon />
+									<span>{t('Logout')}</span>
+								</div>
+							)}
 						</Box>
 					</Stack>
 				</Stack>
@@ -277,7 +294,7 @@ const Top = () => {
 							</Box>
 							<Box className={'search-tabs'}>
 								<Link href={'/about'}>
-									<span className={'tab-item'}>회사 소개</span>
+									<span className={'tab-item'}>{t('About Us')}</span>
 								</Link>
 								<Link href={'/cs'}>
 									<span className={'tab-item'}>{t('CS')}</span>
@@ -286,7 +303,7 @@ const Top = () => {
 									<span className={'tab-item'}>{t('Agents')}</span>
 								</Link>
 								<Link href={'/contact'}>
-									<span className={'tab-item'}>연락하다 </span>
+									<span className={'tab-item'}>{t('Contact')}</span>
 								</Link>
 							</Box>
 						</Box>
@@ -303,13 +320,13 @@ const Top = () => {
 					<Stack className={'nav-container'}>
 						<Button className={'category-btn'}>
 							<MenuIcon />
-							<span>View All</span>
+							<span>{t('View All')}</span>
 						</Button>
 						<Link href={'/product'}>
 							<div className={'nav-item'}>{t('Products')}</div>
 						</Link>
 						<Link href={'/product'}>
-							<div className={'nav-item'}>관공서 납품</div>
+							<div className={'nav-item'}>{t('Government Supply')}</div>
 						</Link>
 						<Link href={'/event'}>
 							<div className={'nav-item'}>{t('Events')}</div>

@@ -1,21 +1,23 @@
 import { Stack, Box, Typography } from '@mui/material';
+import { useTranslation } from 'next-i18next';
 
 const InfoSection = () => {
+	const { t, i18n } = useTranslation('common');
+
 	return (
 		<Stack className="footer-info">
 			<Stack className="footer-grid" direction="row">
 				{/* Notices */}
 				<Stack className="footer-col">
-					<Typography className="col-title">공지사항</Typography>
-					<Typography className="col-item">리플렉스 X 삼성카드 24개월 무이자</Typography>
-					<Typography className="col-item">2025 리플렉스보트 보상판매</Typography>
-					<Typography className="col-item">2024 쭈갑대전 특별패키지</Typography>
-					<Typography className="col-item">SNS 이벤트 안내</Typography>
+					<Typography className="col-title">{t('Reflex × Samsung Card 24-month interest-free installment')}</Typography>
+					<Typography className="col-item">{t('2025 Reflex Boat trade-in program')}</Typography>
+					<Typography className="col-item">{t('2024 Jjuggapdaejeon special package')}</Typography>
+					<Typography className="col-item">{t('SNS event announcement')}</Typography>
 				</Stack>
 
 				{/* Customer Center */}
 				<Stack className="footer-col">
-					<Typography className="col-title">고객센터</Typography>
+					<Typography className="col-title">{t('Customer Service')}</Typography>
 					<Typography className="highlight">001-000-0101</Typography>
 					<Typography className="col-desc">영업시간: 08:30 ~ 18:30</Typography>
 					<Typography className="col-desc">월~금 (공휴일 휴무)</Typography>

@@ -17,6 +17,7 @@ import TopEventCard from './TopEventCard';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import { useTranslation } from 'next-i18next';
 
 interface TopEventsProps {
 	initialInput: EventsInquiry;
@@ -26,6 +27,7 @@ const TopEvents = (props: TopEventsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const [topEvents, setTopEvents] = useState<Event[]>([]);
+	const { t, i18n } = useTranslation('common');
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetEvent] = useMutation(LIKE_TARGET_EVENT);
@@ -143,8 +145,8 @@ const TopEvents = (props: TopEventsProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span className={'title'}>최고의 수상 스포츠 행사 및 활동</span>
-							<p className={'subtitle'}>가장 인기 있는 요트 투어와 수상 스포츠 체험을 만나보세요.</p>
+							<span className={'title'}>{t('Latest Premium Water Sports & Activities')}</span>
+							<p className={'subtitle'}>{t('Enjoy premium experiences on water')}</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'pagination-box'}>

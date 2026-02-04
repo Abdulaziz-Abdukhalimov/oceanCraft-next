@@ -8,6 +8,7 @@ import { userVar } from '../../../apollo/store';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
 import { Message } from '../../enums/common.enum';
 import CategoryProductSlider from './CategoryProductCard';
+import { useTranslation } from 'next-i18next';
 
 const CATEGORIES = [
 	{ key: 'YACHT', label: '요트', imgUrl: '/img/icons/ca_ico04.png' },
@@ -22,6 +23,7 @@ const CategoryPopularProducts = () => {
 	const user = useReactiveVar(userVar);
 	const [activeCategory, setActiveCategory] = useState(CATEGORIES[0].key);
 	const [products, setProducts] = useState<Product[]>([]);
+	const { t, i18n } = useTranslation('common');
 
 	const { loading } = useQuery(GET_PRODUCTS, {
 		variables: {
@@ -71,8 +73,8 @@ const CategoryPopularProducts = () => {
 
 	return (
 		<Stack className="category-popular">
-			<Typography className="title">카테고리별 인기상품</Typography>
-			<Typography className="subtitle">카테고리별 인기상품만 모아보았습니다.</Typography>
+			<Typography className="title">{t('Category Recommendations')}</Typography>
+			<Typography className="subtitle">{t('Discover more categories')}</Typography>
 
 			<Stack className="category-tabs" direction="row">
 				{CATEGORIES.map((category) => (

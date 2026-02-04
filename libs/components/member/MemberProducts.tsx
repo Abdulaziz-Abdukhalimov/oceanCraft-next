@@ -10,7 +10,7 @@ import { Product } from '../../types/product/product';
 import { GET_PRODUCTS } from '../../../apollo/user/query';
 import { ProductCard } from '../mypage/ProductCard';
 
-const MyProducts: NextPage = ({ initialInput, ...props }: any) => {
+const MemberProducts: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const { memberId } = router.query;
@@ -103,7 +103,7 @@ const MyProducts: NextPage = ({ initialInput, ...props }: any) => {
 	}
 };
 
-MyProducts.defaultProps = {
+MemberProducts.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 5,
@@ -114,4 +114,4 @@ MyProducts.defaultProps = {
 	},
 };
 
-export default MyProducts;
+export default MemberProducts;
