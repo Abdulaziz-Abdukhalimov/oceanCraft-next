@@ -1038,38 +1038,13 @@ export const GET_MEMBER_RESERVATION = gql`
 	}
 `;
 
-export const GET_RESERVATION_ANALYTICS = gql`
-	query GetAgentReservations($input: AgentReservationInquiry!) {
-		getAgentReservations(input: $input) {
-			total
-			page
-			totalPages
-			list {
-				_id
-				eventId
-				slotId
-				memberId
-				reservationDate
-				numberOfPeople
-				pricePerPerson
-				totalAmount
-				paymentMethod
-				paymentStatus
-				paymentProcessedAt
-				status
-				bookingReference
-				createdAt
-				updatedAt
-				contactPerson {
-					fullName
-					email
-					phone
-				}
-				paymentInfo {
-					cardholderName
-					cardLastFour
-				}
-			}
+export const GET_RESERVATION_STATISTICS = gql`
+	query GetReservationStatistics {
+		getReservationStatistics {
+			totalBookings
+			totalRevenue
+			pendingPayments
+			totalGuests
 		}
 	}
 `;

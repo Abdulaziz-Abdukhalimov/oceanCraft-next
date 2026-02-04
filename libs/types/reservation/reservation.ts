@@ -56,3 +56,14 @@ export interface AvailableDate {
 	isAvailable: boolean;
 	isPastDate: boolean;
 }
+
+export interface ReservationStats {
+	totalRevenue: number;
+	totalReservations: number;
+	totalGuests: number;
+	averageBookingValue: number;
+	monthlyData: Array<{ month: string; revenue: number; bookings: number }>;
+	paymentMethodData: Array<{ name: string; value: number }>;
+	statusData: Array<{ name: string; value: number }>;
+	paymentStatusData: Array<{ name: string; value: number }>;
+}

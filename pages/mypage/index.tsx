@@ -17,8 +17,8 @@ import { Messages } from '../../libs/config';
 import withLayoutMain from '../../libs/components/layout/LayoutHome';
 import AddProduct from '../../libs/components/mypage/AddNewProduct';
 import MyProducts from '../../libs/components/mypage/MyProducts';
-import AddEvent from '../../libs/components/mypage/addNewEvent';
 import MyEvents from '../../libs/components/mypage/MyEvents';
+import AddEvent from '../../libs/components/mypage/AddNewEvent';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {

@@ -7,14 +7,13 @@ import MemberMenu from '../../libs/components/member/MemberMenu';
 import MemberProperties from '../../libs/components/member/MemberProperties';
 import { useRouter } from 'next/router';
 import MemberFollowers from '../../libs/components/member/MemberFollowers';
-import MemberArticles from '../../libs/components/member/MemberArticles';
-import { useMutation, useReactiveVar } from '@apollo/client';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import MemberFollowings from '../../libs/components/member/MemberFollowings';
 import { userVar } from '../../apollo/store';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '../../apollo/user/mutation';
 import { Messages } from '../../libs/config';
+import { useMutation, useReactiveVar } from '@apollo/client';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -125,7 +124,7 @@ const MemberPage: NextPage = () => {
 							</Stack>
 							<Stack className="main-config" mb={'76px'}>
 								<Stack className={'list-config'}>
-									{category === 'properties' && <MemberProperties />}
+									{category === 'products' && <MemberProperties />}
 									{category === 'followers' && (
 										<MemberFollowers
 											subscribeHandler={subscribeHandler}
@@ -142,7 +141,6 @@ const MemberPage: NextPage = () => {
 											redirectToMemberPageHandler={redirectToMemberPageHandler}
 										/>
 									)}
-									{category === 'articles' && <MemberArticles />}
 								</Stack>
 							</Stack>
 						</Stack>

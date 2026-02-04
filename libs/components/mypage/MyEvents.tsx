@@ -252,7 +252,7 @@ const MyEvents: NextPage = ({ initialInput, ...props }: any) => {
 							<Stack className="pagination-config">
 								<Stack className="pagination-box">
 									<Pagination
-										count={Math.ceil(total / searchFilter.limit)}
+										count={total}
 										page={searchFilter.page}
 										shape="circular"
 										color="primary"
