@@ -56,13 +56,13 @@ const CategoryProductSlider = ({ products, loading, likeProductHandler }: Props)
 
 								<Typography className="product-title">{product.productTitle}</Typography>
 
-								{/* 🔹 META INFO */}
+								{/*  META INFO */}
 								<Stack className="product-meta" direction="row" spacing={1}>
 									{product.productLength && <span>{product.productLength} ft</span>}
 									{product.productBuildYear && <span>{product.productBuildYear}</span>}
 								</Stack>
 
-								{/* 🔹 LOCATION */}
+								{/*  LOCATION */}
 								{product.productAddress && <Typography className="location">{product.productAddress}</Typography>}
 
 								<Typography className="price">

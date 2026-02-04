@@ -233,7 +233,7 @@ const ProductList: NextPage = ({ initialInput, ...props }: any) => {
 									<Stack className="pagination-box">
 										<Pagination
 											page={currentPage}
-											count={Math.ceil(total / searchFilter.limit)}
+											count={total}
 											onChange={handlePaginationChange}
 											shape="circular"
 											color="primary"
@@ -260,7 +260,7 @@ const ProductList: NextPage = ({ initialInput, ...props }: any) => {
 ProductList.defaultProps = {
 	initialInput: {
 		page: 1,
-		limit: 12,
+		limit: 15,
 		sort: 'productRank',
 		direction: 'DESC',
 		search: {},

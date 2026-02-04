@@ -38,7 +38,7 @@ const EventListPage: NextPage = () => {
 	// Initial filter
 	const [searchFilter, setSearchFilter] = useState<EventsInquiry>({
 		page: 1,
-		limit: 4,
+		limit: 15,
 		sort: 'createdAt',
 		direction: Direction.DESC,
 		search: {},
@@ -133,7 +133,6 @@ const EventListPage: NextPage = () => {
 
 	const events = getEventsData?.getEvents?.list || [];
 	const total = getEventsData?.getEvents?.metaCounter?.total || 0;
-	const totalPages = Math.ceil(total / searchFilter.limit);
 
 	return (
 		<div id="event-list-page">
@@ -182,10 +181,10 @@ const EventListPage: NextPage = () => {
 					</Stack>
 
 					{/* Pagination */}
-					{totalPages > 1 && (
+					{total > 1 && (
 						<Stack className="pagination-section">
 							<Pagination
-								count={totalPages}
+								count={total}
 								page={searchFilter.page}
 								onChange={handlePaginationChange}
 								color="primary"
