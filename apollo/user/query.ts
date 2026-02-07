@@ -1048,3 +1048,12 @@ export const GET_RESERVATION_STATISTICS = gql`
 		}
 	}
 `;
+
+export const GET_GREETING = gql`
+	query GetGreeting {
+		greeting {
+			response
+			quickReplies
+		}
+	}
+`;

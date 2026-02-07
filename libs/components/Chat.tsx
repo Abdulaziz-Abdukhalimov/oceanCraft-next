@@ -1,197 +1,227 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Avatar, Box, Stack } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
-import Badge from '@mui/material/Badge';
-import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
-import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread';
-import { useRouter } from 'next/router';
-import ScrollableFeed from 'react-scrollable-feed';
-import { RippleBadge } from '../../scss/MaterialTheme/styled';
-import { useReactiveVar } from '@apollo/client';
-import { socketVar, userVar } from '../../apollo/store';
-import { Member } from '../types/member/member';
-import { Messages, REACT_APP_API_URL } from '../config';
-import { sweetErrorAlert } from '../sweetAlert';
+// src/components/Chatbot.tsx
+import React, { useState, useEffect, useRef } from 'react';
+import { useLazyQuery, useMutation } from '@apollo/client';
+import { X, Send } from 'lucide-react';
+import { GET_GREETING } from '../../apollo/user/query';
+import { SEND_MESSAGE } from '../../apollo/user/mutation';
+import { Message } from '../types/Chat/chat.outInput';
+import LogoutIcon from '@mui/icons-material/Logout';
 
-const NewMessage = (type: any) => {
-	if (type === 'right') {
-		return (
-			<Box
-				component={'div'}
-				flexDirection={'row'}
-				style={{ display: 'flex' }}
-				alignItems={'flex-end'}
-				justifyContent={'flex-end'}
-				sx={{ m: '10px 0px' }}
-			>
-				<div className={'msg_right'}></div>
-			</Box>
-		);
-	} else {
-		return (
-			<Box flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component={'div'}>
-				<Avatar alt={'jonik'} src={'/img/profile/defaultUser.svg'} />
-				<div className={'msg_left'}></div>
-			</Box>
-		);
-	}
+/* ---------------- QuickReply ---------------- */
+
+interface QuickReplyProps {
+	text: string;
+	onClick: (text: string) => void;
+	disabled?: boolean;
+}
+
+const QuickReply: React.FC<QuickReplyProps> = ({ text, onClick, disabled }) => {
+	return (
+		<button
+			className={`quick-reply-button ${disabled ? 'disabled' : ''}`}
+			onClick={() => onClick(text)}
+			disabled={disabled}
+		>
+			{text}
+		</button>
+	);
 };
 
-interface MessagePayload {
-	event: string;
-	text: string;
-	memberData: Member;
+/* ---------------- ChatMessage ---------------- */
+
+interface ChatMessageProps {
+	message: Message;
+	onQuickReply?: (text: string) => void;
+	isLatest?: boolean;
+	isLoading?: boolean;
 }
 
-interface InfoPayload {
-	event: string;
-	totalClients: number;
-	memberData: Member;
-	action: string;
-}
+const ChatMessage: React.FC<ChatMessageProps> = ({ message, onQuickReply, isLatest, isLoading }) => {
+	const isBot = message.sender === 'bot';
 
-const Chat = () => {
-	const chatContentRef = useRef<HTMLDivElement>(null);
-	const [messagesList, setMessagesList] = useState<MessagePayload[]>([]);
-	const [onlineUsers, setOnlineUsers] = useState<number>(0);
-	const textInput = useRef(null);
-	const [messageInput, setMessageInput] = useState<string>('');
-	const [open, setOpen] = useState(false);
-	const [openButton, setOpenButton] = useState(false);
-	const router = useRouter();
-	const user = useReactiveVar(userVar);
-	const socket = useReactiveVar(socketVar);
+	return (
+		<div className={`chat-message ${isBot ? 'bot' : 'user'}`}>
+			<div className="bubble">{message.text}</div>
 
-	/** LIFECYCLES **/
-	useEffect(() => {
-		socket.onmessage = (msg) => {
-			const data = JSON.parse(msg.data);
-			console.log('WebSocket message:', data);
+			{isBot && isLatest && message.quickReplies && message.quickReplies.length > 0 && (
+				<div className="quick-replies">
+					{message.quickReplies.map((reply: any, index: any) => (
+						<QuickReply key={index} text={reply} onClick={onQuickReply!} disabled={isLoading} />
+					))}
+				</div>
+			)}
 
-			switch (data.event) {
-				case 'info':
-					const newInfo: InfoPayload = data;
-					setOnlineUsers(newInfo.totalClients);
-					break;
-
-				case 'getMessages':
-					const list: MessagePayload[] = data.list;
-					setMessagesList(list);
-					break;
-				case 'message':
-					const newMessage: MessagePayload = data;
-					messagesList.push(newMessage);
-					setMessagesList([...messagesList]);
-					break;
-			}
-		};
-	}, [socket, messagesList]);
-
-	useEffect(() => {
-		const timeoutId = setTimeout(() => {
-			setOpenButton(true);
-		}, 100);
-		return () => clearTimeout(timeoutId);
-	}, []);
-
-	useEffect(() => {
-		setOpenButton(false);
-	}, [router.pathname]);
-
-	/** HANDLERS **/
-	const handleOpenChat = () => {
-		setOpen((prevState) => !prevState);
-	};
-
-	const getInputMessageHandler = useCallback(
-		(e: any) => {
-			const text = e.target.value;
-			setMessageInput(text);
-		},
-		[messageInput],
+			<div className="timestamp">
+				{new Date(message.timestamp).toLocaleTimeString([], {
+					hour: '2-digit',
+					minute: '2-digit',
+				})}
+			</div>
+		</div>
 	);
+};
 
-	const getKeyHandler = (e: any) => {
-		try {
-			if (e.key == 'Enter') {
-				onClickHandler();
-			}
-		} catch (err: any) {
-			console.log(err);
-		}
-	};
+/* ---------------- Chatbot ---------------- */
 
-	const onClickHandler = () => {
-		if (!messageInput) sweetErrorAlert(Messages.error4);
-		else {
-			socket.send(JSON.stringify({ event: 'message', data: messageInput }));
-			setMessageInput('');
-		}
+export const Chatbot: React.FC = () => {
+	const [isOpen, setIsOpen] = useState(false);
+	const [messages, setMessages] = useState<Message[]>([]);
+	const [inputText, setInputText] = useState('');
+	const [context, setContext] = useState<string[]>([]);
+	const [isLoading, setIsLoading] = useState(false);
+	const messagesEndRef = useRef<HTMLDivElement>(null);
+
+	const [getGreeting] = useLazyQuery(GET_GREETING, {
+		onCompleted: (data) => {
+			setMessages([
+				{
+					id: Date.now().toString(),
+					text: data.greeting.response,
+					sender: 'bot',
+					timestamp: new Date(),
+					quickReplies: data.greeting.quickReplies,
+				},
+			]);
+		},
+		onError: () => {
+			setMessages([
+				{
+					id: Date.now().toString(),
+					text: 'Hey there! 🏄‍♂️ Welcome to OceanCraft! How can I help you today?',
+					sender: 'bot',
+					timestamp: new Date(),
+					quickReplies: ['Browse Equipment', 'Book Activities', 'I need advice'],
+				},
+			]);
+		},
+	});
+
+	const [sendMessageMutation] = useMutation(SEND_MESSAGE, {
+		onCompleted: (data) => {
+			setMessages((prev) => [
+				...prev,
+				{
+					id: Date.now().toString(),
+					text: data.sendMessage.response,
+					sender: 'bot',
+					timestamp: new Date(),
+					quickReplies: data.sendMessage.quickReplies,
+				},
+			]);
+			setIsLoading(false);
+		},
+		onError: () => {
+			setMessages((prev) => [
+				...prev,
+				{
+					id: Date.now().toString(),
+					text: 'Sorry, I encountered an error. Please try again.',
+					sender: 'bot',
+					timestamp: new Date(),
+					quickReplies: ['Try again'],
+				},
+			]);
+			setIsLoading(false);
+		},
+	});
+
+	useEffect(() => {
+		if (isOpen && messages.length === 0) getGreeting();
+	}, [isOpen, messages.length, getGreeting]);
+
+	useEffect(() => {
+		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+	}, [messages]);
+
+	const handleSendMessage = async (text: string) => {
+		if (!text.trim() || isLoading) return;
+
+		setMessages((prev) => [
+			...prev,
+			{
+				id: Date.now().toString(),
+				text,
+				sender: 'user',
+				timestamp: new Date(),
+			},
+		]);
+
+		setInputText('');
+		setIsLoading(true);
+
+		const newContext = [...context, `User: ${text}`];
+		setContext(newContext);
+
+		await sendMessageMutation({
+			variables: {
+				input: {
+					message: text,
+					context: newContext.slice(-6),
+				},
+			},
+		});
+
+		setContext((prev) => [...prev, `Bot: (response generated)`]);
 	};
 
 	return (
-		<Stack className="chatting">
-			{openButton ? (
-				<button className="chat-button" onClick={handleOpenChat}>
-					{open ? <CloseFullscreenIcon /> : <MarkChatUnreadIcon />}
+		<>
+			{!isOpen && (
+				<button className="chat-toggle" onClick={() => setIsOpen(true)}>
+					<img src="/img/icons/chatWhite.svg" alt="" />
 				</button>
-			) : null}
-			<Stack className={`chat-frame ${open ? 'open' : ''}`}>
-				<Box className={'chat-top'} component={'div'}>
-					<div style={{ fontFamily: 'Nunito' }}>Online Chat</div>
-					<RippleBadge style={{ margin: '-18px 0 0 21px' }} badgeContent={onlineUsers} />
-				</Box>
-				<Box className={'chat-content'} id="chat-content" ref={chatContentRef} component={'div'}>
-					<ScrollableFeed>
-						<Stack className={'chat-main'}>
-							<Box flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component={'div'}>
-								<div className={'welcome'}>Welcome to Live chat!</div>
-							</Box>
-							{messagesList.map((ele: MessagePayload) => {
-								const { text, memberData } = ele;
-								const memberImage = memberData?.memberImage
-									? `${REACT_APP_API_URL}/${memberData?.memberImage}`
-									: `/img/profile/defaultUser.svg`;
+			)}
 
-								return memberData?._id === user?._id ? (
-									<Box
-										component={'div'}
-										flexDirection={'row'}
-										style={{ display: 'flex' }}
-										alignItems={'flex-end'}
-										justifyContent={'flex-end'}
-										sx={{ m: '10px 0px' }}
-									>
-										<div className={'msg-right'}>{text}</div>
-									</Box>
-								) : (
-									<Box flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component={'div'}>
-										<Avatar alt={'jonik'} src={memberImage} />
-										<div className={'msg-left'}>{text}</div>
-									</Box>
-								);
-							})}
-							<></>
-						</Stack>
-					</ScrollableFeed>
-				</Box>
-				<Box className={'chat-bott'} component={'div'}>
-					<input
-						type={'text'}
-						name={'message'}
-						className={'msg-input'}
-						placeholder={'Type message'}
-						value={messageInput}
-						onChange={getInputMessageHandler}
-						onKeyDown={getKeyHandler}
-					/>
-					<button className={'send-msg-btn'} onClick={onClickHandler}>
-						<SendIcon style={{ color: '#fff' }} />
-					</button>
-				</Box>
-			</Stack>
-		</Stack>
+			{isOpen && (
+				<div className="chat-window">
+					<div className="chat-header">
+						<div className="title">
+							<span className="avatar">🏄‍♂️</span>
+							<div>
+								<div className="name">OceanBot</div>
+								<div className="status">Online Now</div>
+							</div>
+						</div>
+						<button onClick={() => setIsOpen(false)}>
+							<LogoutIcon size={24} />
+						</button>
+					</div>
+
+					<div className="chat-body">
+						{messages.map((m, i) => (
+							<ChatMessage
+								key={m.id}
+								message={m}
+								isLatest={i === messages.length - 1}
+								isLoading={isLoading}
+								onQuickReply={handleSendMessage}
+							/>
+						))}
+
+						{isLoading && (
+							<div className="typing">
+								<span />
+								<span />
+								<span />
+							</div>
+						)}
+						<div ref={messagesEndRef} />
+					</div>
+
+					<div className="chat-input">
+						<input
+							value={inputText}
+							onChange={(e) => setInputText(e.target.value)}
+							onKeyDown={(e) => e.key === 'Enter' && handleSendMessage(inputText)}
+							disabled={isLoading}
+							placeholder="Type a message..."
+						/>
+						<button onClick={() => handleSendMessage(inputText)} disabled={!inputText.trim() || isLoading}>
+							<Send size={18} />
+						</button>
+					</div>
+				</div>
+			)}
+		</>
 	);
 };
-
-export default Chat;

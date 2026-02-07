@@ -626,3 +626,14 @@ export const CANCEL_RESERVATION = gql`
 		}
 	}
 `;
+
+//chat
+export const SEND_MESSAGE = gql`
+	mutation SendMessage($input: ChatMessageInput!) {
+		sendMessage(input: $input) {
+			response
+			quickReplies
+			confidence
+		}
+	}
+`;

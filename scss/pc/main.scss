@@ -22,6 +22,7 @@
 @import '/scss/pc/event/eventFilter.scss';
 
 @import '/scss/pc/cs/cs.scss';
+@import '/scss/pc/chatBot.scss';
 
 @import '/scss/pc/about/about.scss';
 @import '/scss/pc/account/join.scss';
@@ -33,8 +34,8 @@
 @import '/scss/pc/member/memberProperties.scss';
 
 body {
-	-ms-overflow-style: none; /* for Internet Explorer, Edge */
-	scrollbar-width: none; /* for Firefox */
+	-ms-overflow-style: none;
+	scrollbar-width: none;
 	overflow-y: scroll;
 }
 

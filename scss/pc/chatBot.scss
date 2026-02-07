@@ -1,0 +1,180 @@
+.chat-toggle {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	background: #0ea5e9;
+	color: white;
+	border: none;
+	cursor: pointer;
+	z-index: 50;
+	img {
+		width: 30px;
+		height: 30px;
+	}
+}
+
+.chat-window {
+	position: fixed;
+	bottom: 20px;
+	right: 40px;
+	width: 380px;
+	height: 600px;
+	background: white;
+	display: flex;
+	flex-direction: column;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+	z-index: 50;
+	border-radius: 30px;
+
+	.chat-header {
+		background: #0ea5e9;
+		color: white;
+		padding: 16px;
+		display: flex;
+		justify-content: space-between;
+
+		.title {
+			display: flex;
+			gap: 12px;
+
+			.avatar {
+				font-size: 24px;
+			}
+
+			.name {
+				font-weight: 600;
+			}
+
+			.status {
+				font-size: 12px;
+				opacity: 0.9;
+			}
+		}
+	}
+
+	.chat-body {
+		flex: 1;
+		padding: 20px;
+		background: #f8fafc;
+		overflow-y: auto;
+	}
+
+	.chat-input {
+		display: flex;
+		padding: 16px;
+		border-top: 1px solid #e5e5e5;
+
+		input {
+			flex: 1;
+			border-radius: 20px;
+			padding: 10px 14px;
+			border: 1px solid #ddd;
+		}
+
+		button {
+			margin-left: 8px;
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			border: none;
+			background: #0ea5e9;
+			color: white;
+		}
+	}
+}
+
+.chat-message {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 16px;
+
+	&.bot {
+		align-items: flex-start;
+
+		.bubble {
+			background: #f0f9ff;
+			border: 1px solid #bae6fd;
+			color: #333;
+		}
+	}
+
+	&.user {
+		align-items: flex-end;
+
+		.bubble {
+			background: #0ea5e9;
+			color: white;
+		}
+	}
+
+	.bubble {
+		padding: 10px 14px;
+		border-radius: 18px;
+		max-width: 75%;
+	}
+
+	.timestamp {
+		font-size: 11px;
+		color: #999;
+		margin-top: 4px;
+	}
+
+	.quick-replies {
+		display: flex;
+		gap: 8px;
+		margin-top: 12px;
+	}
+}
+
+.quick-reply-button {
+	padding: 8px 16px;
+	border-radius: 20px;
+	border: 1px solid #0ea5e9;
+	background: white;
+	color: #0ea5e9;
+	cursor: pointer;
+
+	&.disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+
+	&:hover:not(.disabled) {
+		background: #0ea5e9;
+		color: white;
+	}
+}
+
+.typing {
+	display: flex;
+	gap: 4px;
+
+	span {
+		width: 8px;
+		height: 8px;
+		background: #0ea5e9;
+		border-radius: 50%;
+		animation: bounce 1.4s infinite ease-in-out;
+
+		&:nth-child(2) {
+			animation-delay: 0.2s;
+		}
+		&:nth-child(3) {
+			animation-delay: 0.4s;
+		}
+	}
+}
+
+@keyframes bounce {
+	0%,
+	80%,
+	100% {
+		transform: scale(0);
+	}
+	40% {
+		transform: scale(1);
+	}
+}
