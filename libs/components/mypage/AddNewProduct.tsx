@@ -160,18 +160,34 @@ const AddProduct = () => {
 				productTitle: productData.productTitle,
 				productBrand: productData.productBrand,
 				productModel: productData.productModel,
-				productEngineType: productData.productEngineType,
-				productSpeed: productData.productSpeed,
-				productLength: productData.productLength,
 				productPriceType: productData.productPriceType,
 				productPrice: productData.productPrice,
 				productCurrency: productData.productCurrency,
 				productImages: productData.productImages,
 				productAddress: productData.productAddress,
-				productDescription: productData.productDescription,
 				productRent: productData.productRent,
-				productBuildYear: productData.productBuildYear,
 			};
+
+			// Only add optional fields if they have actual values
+			if (productData.productEngineType?.trim()) {
+				submitData.productEngineType = productData.productEngineType.trim();
+			}
+
+			if (productData.productDescription?.trim()) {
+				submitData.productDescription = productData.productDescription.trim();
+			}
+
+			if (productData.productBuildYear?.trim()) {
+				submitData.productBuildYear = productData.productBuildYear.trim();
+			}
+
+			if (productData.productSpeed > 0) {
+				submitData.productSpeed = productData.productSpeed;
+			}
+
+			if (productData.productLength > 0) {
+				submitData.productLength = productData.productLength;
+			}
 
 			// Only add productRentPeriod if price type is RENT
 			if (productData.productPriceType === 'RENT' && productData.productRentPeriod) {

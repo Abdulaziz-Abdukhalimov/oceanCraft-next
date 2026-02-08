@@ -12,6 +12,8 @@ import { UPDATE_MEMBER } from '../../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinSuccessAlert } from '../../sweetAlert';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import Badge from '@mui/material/Badge';
+import NotificationDropdown from '../common/NotificationDropdown';
+import { useNotifications } from '../../hooks/useNotifications';
 
 const MySettings: NextPage = ({ initialValues, ...props }: any) => {
 	const device = useDeviceDetect();
@@ -19,6 +21,8 @@ const MySettings: NextPage = ({ initialValues, ...props }: any) => {
 	const user = useReactiveVar(userVar);
 	const [updateData, setUpdateData] = useState<MemberUpdate>(initialValues);
 	console.log('image:', updateData.memberImage);
+
+	const { unreadCount } = useNotifications();
 
 	/** APOLLO REQUESTS **/
 	const [updateMember] = useMutation(UPDATE_MEMBER);
@@ -125,9 +129,7 @@ const MySettings: NextPage = ({ initialValues, ...props }: any) => {
 							<Typography className="sub-title"> {user.memberType}</Typography>
 						</Box>
 						<Box className="right-mem-img">
-							<Badge badgeContent={4} color="primary" className="notif">
-								<NotificationsActiveIcon color="action" />
-							</Badge>
+							<NotificationDropdown />
 							<img src={updateData?.memberImage || '/img/profile/defaultUser.svg'} alt="" />
 						</Box>
 					</Stack>
