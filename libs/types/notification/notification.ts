@@ -1,6 +1,5 @@
 import { NotificationGroup, NotificationStatus, NotificationType } from '../../enums/notification.enum';
-import { Member } from '../member/member';
-import { Product, TotalCounter } from '../product/product';
+import { TotalCounter } from '../product/product';
 
 export interface Notification {
 	_id: string;
@@ -16,7 +15,7 @@ export interface Notification {
 	createdAt: Date;
 	updatedAt: Date;
 
-	// Populated fields (from aggregation)
+	//populated data
 	authorData?: Member;
 	productData?: Product;
 	eventData?: Event;
@@ -30,4 +29,24 @@ export interface NotificationsResponse {
 export interface NotificationActionResponse {
 	success: boolean;
 	message?: string;
+}
+
+export interface Member {
+	_id: string;
+	memberNick: string;
+	memberImage?: string;
+}
+
+export interface Product {
+	_id: string;
+	productTitle: string;
+	productImages: string[];
+	productPrice: number;
+}
+
+export interface Event {
+	_id: string;
+	eventTitle: string;
+	eventImages: string[];
+	eventPrice: number;
 }

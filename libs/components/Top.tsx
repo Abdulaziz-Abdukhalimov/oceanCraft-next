@@ -26,6 +26,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { sweetConfirmAlert } from '../sweetAlert';
+import NotificationDropdown from './common/NotificationDropdown';
 
 const Top = () => {
 	const device = useDeviceDetect();
@@ -218,7 +219,7 @@ const Top = () => {
 										</div>
 									</Link>
 									<span className={'divider'}>|</span>
-									{user?._id && <NotificationsOutlinedIcon className={'notification-icon'} />}
+									{user?._id && <NotificationDropdown />}
 									<span className={'divider'}>|</span>
 								</>
 							)}

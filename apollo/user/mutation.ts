@@ -637,3 +637,17 @@ export const SEND_MESSAGE = gql`
 		}
 	}
 `;
+
+//NOTICATIONS
+
+export const MARK_AS_READ = gql`
+	mutation MarkNotificationAsRead($notificationId: String!) {
+		markNotificationAsRead(notificationId: $notificationId)
+	}
+`;
+
+export const MARK_ALL_AS_READ = gql`
+	mutation MarkAllNotificationsAsRead {
+		markAllNotificationsAsRead
+	}
+`;

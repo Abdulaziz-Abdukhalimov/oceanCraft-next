@@ -263,3 +263,52 @@ export const GET_COMMENTS = gql`
 		}
 	}
 `;
+
+//NOTIFICATIONS
+//NOTIFICATIONS
+
+export const GET_MY_NOTIFICATIONS = gql`
+	query GetMyNotifications($input: NotificationInquiry!) {
+		getMyNotifications(input: $input) {
+			list {
+				_id
+				notificationType
+				notificationStatus
+				notificationGroup
+				notificationTitle
+				notificationDesc
+				authorId
+				receiverId
+				notifRefId
+				readAt
+				createdAt
+				authorData {
+					_id
+					memberNick
+					memberImage
+				}
+				productData {
+					_id
+					productTitle
+					productImages
+					productPrice
+				}
+				eventData {
+					_id
+					eventTitle
+					eventImages
+					eventPrice
+				}
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
+export const GET_UNREAD_COUNT = gql`
+	query GetUnreadNotificationCount {
+		getUnreadNotificationCount
+	}
+`;

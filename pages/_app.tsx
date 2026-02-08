@@ -9,6 +9,7 @@ import { appWithTranslation } from 'next-i18next';
 import '../scss/app.scss';
 import '../scss/pc/main.scss';
 import '../scss/mobile/main.scss';
+import { SocketProvider } from '../libs/context/SocketContext';
 
 const App = ({ Component, pageProps }: AppProps) => {
 	// @ts-ignore
@@ -17,10 +18,12 @@ const App = ({ Component, pageProps }: AppProps) => {
 
 	return (
 		<ApolloProvider client={client}>
-			<ThemeProvider theme={theme}>
-				<CssBaseline />
-				<Component {...pageProps} />
-			</ThemeProvider>
+			<SocketProvider>
+				<ThemeProvider theme={theme}>
+					<CssBaseline />
+					<Component {...pageProps} />
+				</ThemeProvider>
+			</SocketProvider>
 		</ApolloProvider>
 	);
 };
