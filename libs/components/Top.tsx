@@ -303,7 +303,7 @@ const Top = () => {
 								<Link href={'/agent'}>
 									<span className={'tab-item'}>{t('Agents')}</span>
 								</Link>
-								<Link href={'/contact'}>
+								<Link href={'/about'}>
 									<span className={'tab-item'}>{t('Contact')}</span>
 								</Link>
 							</Box>
@@ -319,15 +319,15 @@ const Top = () => {
 				{/* BOTTOM NAVIGATION */}
 				<Stack className={'nav-bottom'}>
 					<Stack className={'nav-container'}>
-						<Button className={'category-btn'}>
+						{/* <Button className={'category-btn'}>
 							<MenuIcon />
 							<span>{t('View All')}</span>
-						</Button>
+						</Button> */}
 						<Link href={'/product'}>
 							<div className={'nav-item'}>{t('Products')}</div>
 						</Link>
 						<Link href={'/product'}>
-							<div className={'nav-item'}>{t('Government Supply')}</div>
+							<div className={'nav-item'}>{t('Frequently Searched')}</div>
 						</Link>
 						<Link href={'/event'}>
 							<div className={'nav-item'}>{t('Events')}</div>

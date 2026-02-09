@@ -75,18 +75,19 @@ export const EventCard = (props: EventCardProps) => {
 			<Stack className="event-card-box">
 				<Stack className="image-box" onClick={() => pushEventDetail(event?._id)}>
 					<img src={`${event.eventImages[0]}`} alt="" />
+					<Stack className="information-box" onClick={() => pushEventDetail(event?._id)}>
+						<Typography className="name">{event.eventTitle}</Typography>
+						<Typography className="category">{event.eventCategory.replace(/_/g, ' ')}</Typography>
+						<Typography className="price">
+							<strong>
+								{event?.eventCurrency}
+								{formatterStr(event?.eventPrice)}
+							</strong>
+							<span className="per-person"> / person</span>
+						</Typography>
+					</Stack>
 				</Stack>
-				<Stack className="information-box" onClick={() => pushEventDetail(event?._id)}>
-					<Typography className="name">{event.eventTitle}</Typography>
-					<Typography className="category">{event.eventCategory.replace(/_/g, ' ')}</Typography>
-					<Typography className="price">
-						<strong>
-							{event?.eventCurrency}
-							{formatterStr(event?.eventPrice)}
-						</strong>
-						<span className="per-person"> / person</span>
-					</Typography>
-				</Stack>
+
 				<Stack className="date-box">
 					<Typography className="date">
 						<Moment format="DD MMMM, YYYY">{event.createdAt}</Moment>

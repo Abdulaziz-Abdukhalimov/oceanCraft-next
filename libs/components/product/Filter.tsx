@@ -227,6 +227,18 @@ const ProductFilter = (props: ProductFilterProps) => {
 				<Typography className={'filter-title'}>Products</Typography>
 			</Stack>
 
+			<Stack className={'filter-section'}>
+				<Typography className={'section-title'}>Country</Typography>
+				<TextField
+					fullWidth
+					size="small"
+					placeholder="Search country..."
+					value={countrySearch}
+					onChange={(e) => handleCountrySearch(e.target.value)}
+					className={'country-search'}
+				/>
+			</Stack>
+
 			{/* Sale Type */}
 			<Stack className={'filter-section'}>
 				<Typography className={'section-title'}>Sale Type</Typography>
@@ -388,7 +400,7 @@ const ProductFilter = (props: ProductFilterProps) => {
 			</Stack>
 
 			{/* Country */}
-			<Stack className={'filter-section'}>
+			{/* <Stack className={'filter-section'}>
 				<Typography className={'section-title'}>Country</Typography>
 				<TextField
 					fullWidth
@@ -398,7 +410,7 @@ const ProductFilter = (props: ProductFilterProps) => {
 					onChange={(e) => handleCountrySearch(e.target.value)}
 					className={'country-search'}
 				/>
-			</Stack>
+			</Stack> */}
 
 			{/* Reset Button */}
 			<Stack className={'filter-footer'}>

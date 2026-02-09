@@ -144,7 +144,7 @@ const AddEvent = () => {
 					}`,
 					variables: {
 						files: Array(selectedFiles.length).fill(null),
-						target: 'event',
+						target: 'events',
 					},
 				}),
 			);
@@ -219,17 +219,56 @@ const AddEvent = () => {
 
 	const handleSubmit = async () => {
 		try {
-			const submitData: any = { ...eventData };
-
-			// Convert dates to ISO strings
-			submitData.eventPeriod = {
-				startDate: new Date(eventData.eventPeriod.startDate).toISOString(),
-				endDate: new Date(eventData.eventPeriod.endDate).toISOString(),
+			const submitData: any = {
+				eventTitle: eventData.eventTitle,
+				eventDescription: eventData.eventDescription,
+				businessName: eventData.businessName,
+				eventCategory: eventData.eventCategory,
+				eventPrice: eventData.eventPrice,
+				eventCurrency: eventData.eventCurrency,
+				eventLocation: eventData.eventLocation,
+				eventSchedule: eventData.eventSchedule,
+				eventPeriod: {
+					startDate: new Date(eventData.eventPeriod.startDate).toISOString(),
+					endDate: new Date(eventData.eventPeriod.endDate).toISOString(),
+				},
+				eventContact: eventData.eventContact,
+				eventImages: eventData.eventImages,
+				eventCapacity: eventData.eventCapacity,
+				eventDurationMinutes: eventData.eventDurationMinutes,
+				eventAvailabilityStatus: eventData.eventAvailabilityStatus,
 			};
+
+			// Only add optional fields if they have values
+			if (eventData.eventRequirements) {
+				const req: any = {
+					experienceLevel: eventData.eventRequirements.experienceLevel || EventExperienceLevel.ALL_LEVELS,
+					bringItems: eventData.eventRequirements.bringItems || [],
+				};
+
+				if (eventData.eventRequirements.minAge) {
+					req.minAge = eventData.eventRequirements.minAge;
+				}
+				if (eventData.eventRequirements.maxAge) {
+					req.maxAge = eventData.eventRequirements.maxAge;
+				}
+
+				submitData.eventRequirements = req;
+			}
+
+			if (eventData.eventNotes?.trim()) {
+				submitData.eventNotes = eventData.eventNotes.trim();
+			}
+
+			if (eventData.eventCancellationPolicy?.trim()) {
+				submitData.eventCancellationPolicy = eventData.eventCancellationPolicy.trim();
+			}
 
 			if (eventData.eventRegistrationDeadline) {
 				submitData.eventRegistrationDeadline = new Date(eventData.eventRegistrationDeadline).toISOString();
 			}
+
+			console.log('📤 Submitting event data:', JSON.stringify(submitData, null, 2));
 
 			if (router.query.eventId) {
 				await updateEvent({
@@ -249,6 +288,8 @@ const AddEvent = () => {
 			}
 			router.push('/mypage?category=myEvents');
 		} catch (err: any) {
+			console.error('❌ Event creation error:', err);
+			console.error('❌ Error response:', err.graphQLErrors?.[0]?.extensions);
 			sweetErrorHandling(err);
 		}
 	};
