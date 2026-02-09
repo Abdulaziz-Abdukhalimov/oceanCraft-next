@@ -27,6 +27,9 @@ import EventCard from '../../libs/components/event/EventCard';
 import withLayoutMain from '../../libs/components/layout/LayoutHome';
 import ProductBigCard from '../../libs/components/common/ProductBigCard';
 import EventBigCard from '../../libs/components/common/EventBigCard';
+import { SUBSCRIBE, UNSUBSCRIBE } from '../../apollo/user/mutation';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -63,6 +66,8 @@ const AgentDetail: NextPage = ({ initialProductInput, initialEventInput, initial
 	const [createComment] = useMutation(CREATE_COMMENT);
 	const [likeTargetProduct] = useMutation(LIKE_TARGET_PRODUCT);
 	const [likeTargetEvent] = useMutation(LIKE_TARGET_EVENT);
+	const [subscribe] = useMutation(SUBSCRIBE);
+	const [unsubscribe] = useMutation(UNSUBSCRIBE);
 
 	const {
 		loading: getMemberLoading,
@@ -170,6 +175,32 @@ const AgentDetail: NextPage = ({ initialProductInput, initialEventInput, initial
 	}, [commentInquiry]);
 
 	/** HANDLERS **/
+	const handleFollowToggle = async () => {
+		try {
+			if (!user._id) throw new Error(Messages.error2);
+			if (user._id === agentId) throw new Error('Cannot follow yourself!');
+
+			const isFollowing = agent?.meFollowed && agent.meFollowed[0]?.myFollowing;
+
+			if (isFollowing) {
+				// Unfollow
+				await unsubscribe({ variables: { input: agentId } });
+				await sweetTopSmallSuccessAlert('Unfollowed successfully', 800);
+			} else {
+				// Follow
+				await subscribe({ variables: { input: agentId } });
+				await sweetTopSmallSuccessAlert('Following successfully', 800);
+			}
+
+			// Refetch agent data to update follow status
+			await getMemberRefetch();
+		} catch (err: any) {
+			sweetErrorHandling(err);
+		}
+	};
+
+	const isFollowing = agent?.meFollowed && agent.meFollowed.length > 0;
+
 	const productPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
 		productFilter.page = value;
 		setProductFilter({ ...productFilter });
@@ -272,6 +303,17 @@ const AgentDetail: NextPage = ({ initialProductInput, initialEventInput, initial
 									<img src="/img/icons/call.svg" alt="" />
 									{agent?.memberPhone || '321 456 9874'}
 								</Button>
+
+								{user._id && user._id !== agentId && (
+									<Button
+										variant={isFollowing ? 'outlined' : 'contained'}
+										onClick={handleFollowToggle}
+										startIcon={isFollowing ? <PersonRemoveIcon /> : <PersonAddIcon />}
+										className={isFollowing ? 'unfollow-btn' : 'follow-btn'}
+									>
+										{isFollowing ? 'Unfollow' : 'Follow'}
+									</Button>
+								)}
 							</Box>
 						</Stack>
 					</Stack>
@@ -314,7 +356,12 @@ const AgentDetail: NextPage = ({ initialProductInput, initialEventInput, initial
 											</div>
 										) : (
 											agentProducts.map((product: Product) => (
-												<ProductBigCard product={product} key={product._id} likeProductHandler={likeProductHandler} />
+												<ProductBigCard
+													product={product}
+													key={product._id}
+													likeProductHandler={likeProductHandler}
+													myFavorites
+												/>
 											))
 										)}
 									</Stack>
@@ -340,7 +387,7 @@ const AgentDetail: NextPage = ({ initialProductInput, initialEventInput, initial
 											</div>
 										) : (
 											agentEvents.map((event: Event) => (
-												<EventBigCard event={event} key={event._id} likeEventHandler={likeEventHandler} />
+												<EventBigCard event={event} key={event._id} likeEventHandler={likeEventHandler} myFavorites />
 											))
 										)}
 									</Stack>

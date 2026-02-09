@@ -15,6 +15,7 @@ import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '../../apollo/user/mu
 import { Messages } from '../../libs/config';
 import { useMutation, useReactiveVar } from '@apollo/client';
 import MemberProducts from '../../libs/components/member/MemberProducts';
+import withLayoutMain from '../../libs/components/layout/LayoutHome';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -152,4 +153,4 @@ const MemberPage: NextPage = () => {
 	}
 };
 
-export default withLayoutBasic(MemberPage);
+export default withLayoutMain(MemberPage);
