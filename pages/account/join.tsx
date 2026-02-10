@@ -93,7 +93,7 @@ const Join: NextPage = () => {
 								<Box className={'info'}>
 									<span>{loginView ? 'Welcome Back' : 'Create an Account'}</span>
 									<p>
-										{loginView ? 'Already have an account? ' : 'Already have an account? '}
+										{loginView ? 'Dont have an account yet? ' : 'Already have an account? '}
 										<b onClick={() => viewChangeHandler(!loginView)}>{loginView ? 'Sign Up' : 'Log In'}</b>
 									</p>
 								</Box>

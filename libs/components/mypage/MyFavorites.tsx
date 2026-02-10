@@ -26,7 +26,7 @@ const MyFavorites: NextPage = () => {
 	const device = useDeviceDetect();
 	const [myFavorites, setMyFavorites] = useState<FavoriteItem[]>([]);
 	const [total, setTotal] = useState<number>(0);
-	const [searchFavorites, setSearchFavorites] = useState<T>({ page: 1, limit: 4 });
+	const [searchFavorites, setSearchFavorites] = useState<T>({ page: 1, limit: 4, likeGroup: '' });
 	const [activeTab, setActiveTab] = useState(0);
 
 	/** APOLLO REQUESTS **/

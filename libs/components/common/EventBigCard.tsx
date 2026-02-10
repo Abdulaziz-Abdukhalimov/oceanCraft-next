@@ -51,7 +51,7 @@ const EventBigCard = (props: EventCardProps) => {
 							<Typography className={'title'}>{event?.eventTitle}</Typography>
 							<Typography className={'location'}>
 								<span className={'icon'}>📍</span>
-								{event?.eventLocation?.city || 'Location not specified'}
+								{event?.eventLocation?.address || 'Location not specified'}
 							</Typography>
 						</Box>
 					</Link>
