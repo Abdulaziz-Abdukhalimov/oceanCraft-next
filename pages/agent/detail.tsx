@@ -163,8 +163,10 @@ const AgentDetail: NextPage = ({ initialProductInput, initialEventInput, initial
 	}, [productFilter]);
 
 	useEffect(() => {
+		console.log('eventFilter changed:', eventFilter);
 		if (eventFilter.search.memberId) {
-			getEventsRefetch({ variables: { input: eventFilter } }).then();
+			console.log('refetching events with memberId:', eventFilter.search.memberId);
+			getEventsRefetch({ input: eventFilter });
 		}
 	}, [eventFilter]);
 
@@ -304,7 +306,7 @@ const AgentDetail: NextPage = ({ initialProductInput, initialEventInput, initial
 									{agent?.memberPhone || '321 456 9874'}
 								</Button>
 
-								{user._id && user._id !== agentId && (
+								{user._id !== agentId && (
 									<Button
 										variant={isFollowing ? 'outlined' : 'contained'}
 										onClick={handleFollowToggle}

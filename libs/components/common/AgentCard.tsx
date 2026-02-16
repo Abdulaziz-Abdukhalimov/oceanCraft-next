@@ -116,7 +116,7 @@ const AgentCard = (props: AgentCardProps) => {
 							</button>
 						</Link>
 
-						{user._id && user._id !== agent._id && (
+						{user._id !== agent._id && (
 							<Button
 								variant={isFollowing ? 'outlined' : 'contained'}
 								onClick={handleFollowToggle}
