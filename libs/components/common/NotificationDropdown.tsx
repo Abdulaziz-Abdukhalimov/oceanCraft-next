@@ -87,14 +87,14 @@ const NotificationDropdown = () => {
 				}}
 			>
 				{/* Header */}
-				<Box className={'notification-header'}>
+				<div className={'notification-header'}>
 					<Typography variant="h6">Notifications</Typography>
 					{unreadCount > 0 && (
 						<Button size="small" onClick={handleMarkAllAsRead}>
 							Mark all as read
 						</Button>
 					)}
-				</Box>
+				</div>
 				<Divider />
 
 				{/* Notification List */}
