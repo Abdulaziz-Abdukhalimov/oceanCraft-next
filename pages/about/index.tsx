@@ -149,7 +149,7 @@ const About: NextPage = () => {
 							<button className={'primary'}>Book Now</button>
 							<button className={'secondary'}>
 								<img src="/img/icons/call.svg" alt="" />
-								010 6820 2122
+								010 6820 4488
 							</button>
 						</Stack>
 					</Stack>

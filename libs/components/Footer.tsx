@@ -77,14 +77,14 @@ const Footer = () => {
 					<Stack className="main" direction="row">
 						{/* LEFT — Logo */}
 						<Stack className="left">
-							<Box className="logo">
+							<div className="logo">
 								<img src="/img/logo/logo.png" alt="OceanCraft Logo" />
-							</Box>
+							</div>
 						</Stack>
 
 						{/* CENTER — Newsletter */}
 						<Stack className="center">
-							<Box className="newsletter-section">
+							<div className="newsletter-section">
 								<p>
 									{t('Subscribe to our newsletter ')}
 									<br />
@@ -94,7 +94,7 @@ const Footer = () => {
 									<input type="email" placeholder="write your e-mail" />
 									<span>{t('Submit')}</span>
 								</div>
-							</Box>
+							</div>
 						</Stack>
 
 						{/* RIGHT — Links + Social */}

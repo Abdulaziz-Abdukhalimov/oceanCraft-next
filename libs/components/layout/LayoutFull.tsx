@@ -6,12 +6,12 @@ import Top from '../Top';
 import Footer from '../Footer';
 import { Stack } from '@mui/material';
 import { getJwtToken, updateUserInfo } from '../../auth';
-import Chat from '../Chat';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { Chatbot } from '../Chat';
 
 const withLayoutFull = (Component: any) => {
 	return (props: any) => {
@@ -65,7 +65,7 @@ const withLayoutFull = (Component: any) => {
 							<Component {...props} />
 						</Stack>
 
-						<Chat />
+						<Chatbot />
 
 						<Stack id={'footer'}>
 							<Footer />

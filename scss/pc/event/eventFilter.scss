@@ -46,6 +46,12 @@
 			}
 		}
 
+		.filter-chips {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 12px;
+		}
+
 		.category-btn {
 			width: 78px;
 			height: 38px;

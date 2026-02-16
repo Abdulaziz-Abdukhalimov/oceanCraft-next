@@ -37,7 +37,7 @@
 		"axios": "^0.27.2",
 		"browser-image-compression": "^2.0.0",
 		"chart.js": "^3.8.0",
-		"date-fns": "^4.1.0",
+		"date-fns": "2.30.0",
 		"dayjs": "^1.11.19",
 		"graphql": "^15.5.0",
 		"i18next": "^21.6.11",

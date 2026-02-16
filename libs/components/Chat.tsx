@@ -6,6 +6,7 @@ import { GET_GREETING } from '../../apollo/user/query';
 import { SEND_MESSAGE } from '../../apollo/user/mutation';
 import { Message } from '../types/Chat/chat.outInput';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { fontSize } from '@mui/system';
 
 /* ---------------- QuickReply ---------------- */
 
@@ -183,7 +184,7 @@ export const Chatbot: React.FC = () => {
 							</div>
 						</div>
 						<button onClick={() => setIsOpen(false)}>
-							<LogoutIcon size={24} />
+							<LogoutIcon style={{ fontSize: '24px' }} />
 						</button>
 					</div>
 

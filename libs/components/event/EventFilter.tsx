@@ -6,6 +6,7 @@ import { EventsInquiry } from '../../types/event/event.input';
 import { EventCategory, EventAvailabilityStatus } from '../../enums/event.enum';
 import { Event } from '../../types/event/event';
 import Chip from '@mui/material/Chip';
+import { SliderProps } from '@mui/material';
 
 interface EventFilterProps {
 	searchFilter: EventsInquiry;
@@ -45,7 +46,7 @@ const EventFilter = (props: EventFilterProps) => {
 	};
 
 	const handleCategorySelect = (category: EventCategory) => {
-		const currentCategories = searchFilter.search?.categoryList || [];
+		const currentCategories: EventCategory[] = searchFilter.search?.categoryList ?? [];
 		const newCategories = currentCategories.includes(category)
 			? currentCategories.filter((c) => c !== category)
 			: [...currentCategories, category];
@@ -92,10 +93,9 @@ const EventFilter = (props: EventFilterProps) => {
 		setPriceAnchor(null);
 	};
 
-	const handlePriceChange = (ivent: Event, newValue: number | number[]) => {
+	const handlePriceChange: SliderProps['onChange'] = (_, newValue) => {
 		setPriceRange(newValue as number[]);
 	};
-
 	const handlePriceApply = () => {
 		setSearchFilter({
 			...searchFilter,
@@ -139,7 +139,7 @@ const EventFilter = (props: EventFilterProps) => {
 		return count;
 	};
 
-	const categories = [
+	const categories: EventCategory[] = [
 		EventCategory.YACHT_TOUR,
 		EventCategory.JETSKI_RENTAL,
 		EventCategory.SURFING,
@@ -168,11 +168,11 @@ const EventFilter = (props: EventFilterProps) => {
 					Category
 				</Button>
 				<Menu open={categoryOpen} onClose={handleCategoryClose} anchorEl={categoryAnchor}>
-					<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
-						{categories.map((category) => (
+					<div className="filter-chips">
+						{categories.map((category: EventCategory) => (
 							<Chip key={category} label={category.replace(/_/g, ' ')} onClick={() => handleCategorySelect(category)} />
 						))}
-					</Box>
+					</div>
 				</Menu>
 
 				{/* Availability Filter */}
@@ -217,7 +217,7 @@ const EventFilter = (props: EventFilterProps) => {
 						style: { minWidth: '300px', padding: '16px' },
 					}}
 				>
-					<Box className="price-filter-content">
+					<div className="price-filter-content">
 						<Typography className="price-label">
 							Price Range: ₩{priceRange[0].toLocaleString()} - ₩{priceRange[1].toLocaleString()}
 						</Typography>
@@ -238,7 +238,7 @@ const EventFilter = (props: EventFilterProps) => {
 								Apply
 							</Button>
 						</Stack>
-					</Box>
+					</div>
 				</Menu>
 			</Stack>
 		</Stack>

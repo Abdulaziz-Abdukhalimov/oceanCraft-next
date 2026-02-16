@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 
 const NavbarAdCarousel = () => {
 	const [currentIndex, setCurrentIndex] = useState(0);
@@ -15,7 +15,7 @@ const NavbarAdCarousel = () => {
 	}, []);
 
 	return (
-		<Box className="ad-carousel-container">
+		<Stack className="ad-carousel-container">
 			<div className="ad-slide">
 				<img src={adImages[currentIndex]} alt="Advertisement" />
 			</div>
@@ -28,7 +28,7 @@ const NavbarAdCarousel = () => {
 					/>
 				))}
 			</div>
-		</Box>
+		</Stack>
 	);
 };
 
