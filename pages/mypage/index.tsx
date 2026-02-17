@@ -18,7 +18,7 @@ import withLayoutMain from '../../libs/components/layout/LayoutHome';
 import AddProduct from '../../libs/components/mypage/AddNewProduct';
 import MyProducts from '../../libs/components/mypage/MyProducts';
 import MyEvents from '../../libs/components/mypage/MyEvents';
-import AddEvent from '../../libs/components/mypage/AddNewEvent';
+import AddEvent from '../../libs/components/mypage/addNewEvent';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {

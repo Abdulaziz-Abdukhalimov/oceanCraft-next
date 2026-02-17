@@ -98,12 +98,12 @@ const NotificationDropdown = () => {
 				<Divider />
 
 				{/* Notification List */}
-				<Box className={'notification-list'}>
+				<div className={'notification-list'}>
 					{notifications.filter((n) => n.notificationStatus === NotificationStatus.WAIT).length === 0 ? (
-						<Box className={'empty-state'}>
+						<div className={'empty-state'}>
 							<NotificationsOutlinedIcon sx={{ fontSize: 48, color: '#ccc' }} />
 							<Typography color="textSecondary">No notifications yet</Typography>
-						</Box>
+						</div>
 					) : (
 						notifications
 							.filter((n) => n.notificationStatus == NotificationStatus.WAIT)
@@ -114,7 +114,7 @@ const NotificationDropdown = () => {
 									onClick={() => handleNotificationClick(notification)}
 									className={`notification-item ${notification.notificationStatus === 'WAIT' ? 'unread' : ''}`}
 								>
-									<Box className={'notification-content'}>
+									<div className={'notification-content'}>
 										<Avatar
 											src={
 												notification.authorData?.memberImage
@@ -124,15 +124,15 @@ const NotificationDropdown = () => {
 											sx={{ width: 40, height: 40, mr: 1.5 }}
 										/>
 
-										<Box flex={1}>
-											<Box display="flex" alignItems="center" gap={0.5}>
+										<div style={{ flex: 1 }}>
+											<div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
 												<span className={'notification-emoji'}>
 													{getNotificationIcon(notification.notificationType)}
 												</span>
 												<Typography variant="body2" fontWeight={notification.notificationStatus === 'WAIT' ? 600 : 400}>
 													{notification.notificationTitle}
 												</Typography>
-											</Box>
+											</div>
 
 											{notification.notificationDesc && (
 												<Typography variant="caption" color="textSecondary" display="block" mt={0.5}>
@@ -141,38 +141,38 @@ const NotificationDropdown = () => {
 											)}
 
 											{notification.productData && (
-												<Box className={'preview-card'}>
+												<div className={'preview-card'}>
 													<img src={notification.productData.productImages[0]} alt="" />
 													<Typography variant="caption">{notification.productData.productTitle}</Typography>
-												</Box>
+												</div>
 											)}
 
 											{notification.eventData && (
-												<Box className={'preview-card'}>
+												<div className={'preview-card'}>
 													<img src={notification?.eventData?.eventImages[0]} alt="" />
 													<Typography variant="caption">{notification?.eventData?.eventTitle}</Typography>
-												</Box>
+												</div>
 											)}
 
 											<Typography variant="caption" color="textSecondary" display="block" mt={0.5}>
 												{formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true })}
 											</Typography>
-										</Box>
+										</div>
 
 										{notification.notificationStatus === 'WAIT' && <span className={'unread-dot'}></span>}
-									</Box>
+									</div>
 								</MenuItem>
 							))
 					)}
-				</Box>
+				</div>
 
 				{notifications.length > 0 && <Divider />}
 				{notifications.length > 0 && (
-					<Box className={'notification-footer'}>
+					<div className={'notification-footer'}>
 						<Button fullWidth onClick={() => router.push('/mypage?tab=notifications')}>
 							View all notifications
 						</Button>
-					</Box>
+					</div>
 				)}
 			</Menu>
 		</>
