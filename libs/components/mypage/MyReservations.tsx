@@ -40,12 +40,12 @@ const ReservationCard = ({
 	const statusInfo = getStatusInfo(reservation.status);
 
 	return (
-		<Box className="reservation-card">
+		<div className="reservation-card">
 			<Grid container>
 				<Grid item xs={12} md={2}>
-					<Box className="reservation-image">
+					<div className="reservation-image">
 						<img src={event?.eventImages?.[0] || '/img/event/default.jpg'} alt={event?.eventTitle || 'Event'} />
-					</Box>
+					</div>
 				</Grid>
 
 				<Grid item xs={12} md={7}>
@@ -65,7 +65,7 @@ const ReservationCard = ({
 							)}
 						</div>
 
-						<Box className="action-buttons">
+						<div className="action-buttons">
 							<Button className="btn-invoice" variant="contained" onClick={() => onViewInvoice(reservation, event)}>
 								Invoice Created - Check & Pay
 							</Button>
@@ -77,38 +77,38 @@ const ReservationCard = ({
 							<Button className="btn-contact" variant="contained">
 								Contact Owner
 							</Button>
-						</Box>
+						</div>
 					</div>
 				</Grid>
 
 				<Grid item xs={12} md={3}>
 					<div className="reservation-meta">
-						<Box>
+						<div>
 							<Typography className="meta-label">Status</Typography>
 							<Chip label={statusInfo.label} className={`status-chip ${statusInfo.className}`} />
-						</Box>
-						<Box>
+						</div>
+						<div>
 							<Typography className="meta-label">Period</Typography>
 							<Typography className="period-text">{format(reservationDate, 'MM-dd-yy')}</Typography>
-						</Box>
-						<Box>
+						</div>
+						<div>
 							<Typography className="meta-label">Location</Typography>
 							<Typography className="period-text">{event?.eventLocation?.city || '-'}</Typography>
-						</Box>
-						<Box>
+						</div>
+						<div>
 							<Typography className="meta-label">Request by</Typography>
 							<Typography className="requester-text">{reservation.contactPerson?.fullName || 'Guest'}</Typography>
-						</Box>
+						</div>
 					</div>
 				</Grid>
 			</Grid>
-		</Box>
+		</div>
 	);
 };
 
 // ─── Tab Panel ─────────────────────────────────────────────────────────────
 const TabPanel = ({ children, value, index }: { children?: React.ReactNode; value: number; index: number }) => (
-	<div hidden={value !== index}>{value === index && <Box sx={{ py: 3 }}>{children}</Box>}</div>
+	<div hidden={value !== index}>{value === index && <div style={{ padding: '12px 0' }}>{children}</div>}</div>
 );
 
 // ─── Main Component ────────────────────────────────────────────────────────
@@ -161,17 +161,17 @@ const MyReservations = () => {
 	const cancelled = filter('cancelled');
 
 	const renderEmpty = (icon: React.ReactNode, text: string) => (
-		<Box className="empty-state">
+		<div className="empty-state">
 			{icon}
 			<Typography>{text}</Typography>
-		</Box>
+		</div>
 	);
 
 	if (loading) {
 		return (
-			<Box className="loading-container">
+			<div className="loading-container">
 				<Typography>Loading reservations...</Typography>
-			</Box>
+			</div>
 		);
 	}
 
@@ -240,29 +240,29 @@ const MyReservations = () => {
 			<Dialog open={invoiceOpen} onClose={() => setInvoiceOpen(false)} maxWidth="md" fullWidth>
 				<DialogContent className="invoice-dialog">
 					{selectedReservation && (
-						<Box className="invoice-container">
+						<div className="invoice-container">
 							<Typography className="invoice-title">Invoice {selectedReservation.bookingReference}</Typography>
 
 							<div className="invoice-details">
-								<Box className="invoice-row">
+								<div className="invoice-row">
 									<Typography className="label">Period:</Typography>
 									<Typography className="value">
 										{format(new Date(selectedReservation.reservationDate), 'MM-dd-yy')}
 									</Typography>
-								</Box>
-								<Box className="invoice-row">
+								</div>
+								<div className="invoice-row">
 									<Typography className="label">Guests:</Typography>
 									<Typography className="value">{selectedReservation.numberOfPeople} Guests</Typography>
-								</Box>
-								<Box className="invoice-row">
+								</div>
+								<div className="invoice-row">
 									<Typography className="label">Price per person:</Typography>
 									<Typography className="value">
 										{selectedEvent.eventCurrency} {selectedReservation.pricePerPerson}
 									</Typography>
-								</Box>
+								</div>
 							</div>
 
-							<Box className="invoice-breakdown">
+							<div className="invoice-breakdown">
 								<table>
 									<thead>
 										<tr>
@@ -314,7 +314,7 @@ const MyReservations = () => {
 										</tr>
 									</tbody>
 								</table>
-							</Box>
+							</div>
 
 							<div className="invoice-footer">
 								<Typography className="deposit-note">
@@ -330,7 +330,7 @@ const MyReservations = () => {
 									Wire Transfer
 								</Button>
 							</div>
-						</Box>
+						</div>
 					)}
 				</DialogContent>
 			</Dialog>
