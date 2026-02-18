@@ -183,21 +183,21 @@ const Top = () => {
 			<Stack className={'navbar'}>
 				{/* TOP BANNER - Closeable Ad Section */}
 				{showTopBanner && (
-					<Box className={'top-banner'}>
-						<Box className={'banner-content'}>
+					<div className={'top-banner'}>
+						<div className={'banner-content'}>
 							<img src="/img/banner/firstBanner.jpg" alt="Top Banner" />
-						</Box>
+						</div>
 						<button className={'close-banner-btn'} onClick={() => setShowTopBanner(false)}>
 							<CloseIcon />
 						</button>
-					</Box>
+					</div>
 				)}
 
 				{/* TOP BAR - Login/MyPage + Language */}
 				<Stack className={'top-bar'}>
 					<Stack className={'top-bar-container'}>
-						<Box className={'left-empty'}></Box>
-						<Box className={'right-actions'}>
+						<div className={'left-empty'}></div>
+						<div className={'right-actions'}>
 							{/* If user is NOT logged in */}
 							{!user?._id ? (
 								<>
@@ -225,7 +225,7 @@ const Top = () => {
 							)}
 
 							{/* Language Dropdown */}
-							<Box className={'language-dropdown'}>
+							<div className={'language-dropdown'}>
 								<Button
 									disableRipple
 									className="btn-lang"
@@ -263,7 +263,7 @@ const Top = () => {
 										{t('Korean')}
 									</MenuItem>
 								</StyledMenu>
-							</Box>
+							</div>
 							<span className={'divider'}>|</span>
 							{user?._id && (
 								<div className={'top-bar-item'} onClick={logoutHandler}>
@@ -271,7 +271,7 @@ const Top = () => {
 									<span>{t('Logout')}</span>
 								</div>
 							)}
-						</Box>
+						</div>
 					</Stack>
 				</Stack>
 
@@ -279,21 +279,21 @@ const Top = () => {
 				<Stack className={'navbar-main'}>
 					<Stack className={'container'}>
 						{/* Logo */}
-						<Box className={'logo-section'}>
+						<div className={'logo-section'}>
 							<Link href={'/'}>
 								<img src="/img/logo/logo.png" alt="OceanCraft" />
 							</Link>
-						</Box>
+						</div>
 
 						{/* Search + Tabs */}
-						<Box className={'search-section'}>
-							<Box className={'search-wrapper'}>
+						<div className={'search-section'}>
+							<div className={'search-wrapper'}>
 								<input type="text" className={'search-input'} placeholder="search products , events" />
 								<button className={'search-btn'}>
 									<SearchIcon />
 								</button>
-							</Box>
-							<Box className={'search-tabs'}>
+							</div>
+							<div className={'search-tabs'}>
 								<Link href={'/about'}>
 									<span className={'tab-item'}>{t('About Us')}</span>
 								</Link>
@@ -306,13 +306,13 @@ const Top = () => {
 								<Link href={'/about'}>
 									<span className={'tab-item'}>{t('Contact')}</span>
 								</Link>
-							</Box>
-						</Box>
+							</div>
+						</div>
 
 						{/* Side Banner */}
-						<Box className={'side-banner-section'}>
+						<div className={'side-banner-section'}>
 							<NavbarAdCarousel />
-						</Box>
+						</div>
 					</Stack>
 				</Stack>
 
