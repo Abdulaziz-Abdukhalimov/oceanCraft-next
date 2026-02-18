@@ -19,6 +19,7 @@ import AddProduct from '../../libs/components/mypage/AddNewProduct';
 import MyProducts from '../../libs/components/mypage/MyProducts';
 import MyEvents from '../../libs/components/mypage/MyEvents';
 import AddEvent from '../../libs/components/mypage/addNewEvent';
+import MyReservations from '../../libs/components/mypage/MyReservations';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -124,6 +125,7 @@ const MyPage: NextPage = () => {
 									{category === 'addEvent' && <AddEvent />}
 									{category === 'myEvents' && <MyEvents />}
 									{category === 'myFavorites' && <MyFavorites />}
+									{category === 'myReservations' && user?.memberType === 'USER' && <MyReservations />}
 									{category === 'myProfile' && <MySettings />}
 									{category === 'followers' && (
 										<MemberFollowers

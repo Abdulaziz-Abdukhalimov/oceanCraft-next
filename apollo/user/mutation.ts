@@ -596,6 +596,28 @@ export const BOOK_EVENT = gql`
 	}
 `;
 
+export const UPDATE_RESERVATION = gql`
+	mutation UpdateReservationStatus($input: UpdateReservationStatusInput!) {
+		updateReservationStatus(input: $input) {
+			_id
+			eventId
+			slotId
+			memberId
+			reservationDate
+			numberOfPeople
+			pricePerPerson
+			totalAmount
+			paymentMethod
+			paymentStatus
+			paymentProcessedAt
+			status
+			bookingReference
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
 export const CANCEL_RESERVATION = gql`
 	mutation CancelReservation($input: String!) {
 		cancelReservation(reservationId: $input) {

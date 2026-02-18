@@ -1007,6 +1007,73 @@ export const GET_MEMBER_RESERVATIONS = gql`
 	}
 `;
 
+export const GET_AGENT_RESERVATIONS = gql`
+	query GetAgentReservations($input: AgentReservationInquiry!) {
+		getAgentReservations(input: $input) {
+			total
+			page
+			totalPages
+			list {
+				_id
+				eventId
+				slotId
+				memberId
+				reservationDate
+				numberOfPeople
+				pricePerPerson
+				totalAmount
+				paymentMethod
+				paymentStatus
+				paymentProcessedAt
+				status
+				bookingReference
+				createdAt
+				updatedAt
+				contactPerson {
+					fullName
+					email
+					phone
+				}
+				paymentInfo {
+					cardholderName
+					cardLastFour
+				}
+			}
+		}
+	}
+`;
+
+export const GET_AGENT_RESERVATION = gql`
+	query GetReservation($input: String!) {
+		getReservation(reservationId: $input) {
+			_id
+			eventId
+			slotId
+			memberId
+			reservationDate
+			numberOfPeople
+			pricePerPerson
+			totalAmount
+			paymentMethod
+			paymentStatus
+			paymentProcessedAt
+			status
+			bookingReference
+			createdAt
+			updatedAt
+			contactPerson {
+				fullName
+				email
+				phone
+			}
+			paymentInfo {
+				cardholderName
+				cardLastFour
+			}
+		}
+	}
+`;
+
 export const GET_MEMBER_RESERVATION = gql`
 	query GetReservation($input: String!) {
 		getReservation(reservationId: $input) {

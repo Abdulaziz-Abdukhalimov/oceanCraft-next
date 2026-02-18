@@ -173,6 +173,27 @@ const MyMenu = () => {
 									</div>
 								</Link>
 							</ListItem>
+							<ListItem className={pathname === 'myReservations' ? 'focus' : ''}>
+								<Link
+									href={{
+										pathname: '/mypage',
+										query: { category: 'myReservations' },
+									}}
+									scroll={false}
+								>
+									<div className={'flex-box'}>
+										{category === 'myFavorites' ? (
+											<img className={'com-icon'} src={'/img/icons/likeWhite.svg'} alt={'com-icon'} />
+										) : (
+											<img className={'com-icon'} src={'/img/icons/like.svg'} alt={'com-icon'} />
+										)}
+
+										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+											My Reservations
+										</Typography>
+									</div>
+								</Link>
+							</ListItem>
 							<ListItem className={pathname === 'followers' ? 'focus' : ''}>
 								<Link
 									href={{

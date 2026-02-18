@@ -27,3 +27,9 @@ export interface InquiryFilter {
 	productId?: string;
 	isRead?: boolean;
 }
+
+export interface InquiriesInput {
+	page: number;
+	limit: number;
+	filter: InquiryFilter;
+}
