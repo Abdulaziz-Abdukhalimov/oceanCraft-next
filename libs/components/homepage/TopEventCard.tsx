@@ -35,9 +35,6 @@ const TopEventCard = (props: TopEventCardProps) => {
 	};
 
 	/** HANDLERS **/
-	const pushDetailHandler = async (eventId: string) => {
-		await router.push({ pathname: '/event/detail', query: { id: eventId } });
-	};
 
 	const handleLikeEvent = async (e: React.MouseEvent) => {
 		e.stopPropagation();
@@ -64,15 +61,13 @@ const TopEventCard = (props: TopEventCardProps) => {
 				</IconButton>
 
 				{/* Event Image */}
-				<Box component={'div'} className={'card-img'} onClick={() => pushDetailHandler(event._id)}>
+				<Box component={'div'} className={'card-img'}>
 					<img src={getImageUrl(event?.eventImages[0])} alt={event?.eventTitle} />
 				</Box>
 
 				{/* Event Info */}
 				<Box component={'div'} className={'info'}>
-					<Typography className={'title'} onClick={() => pushDetailHandler(event._id)}>
-						{event?.eventTitle}
-					</Typography>
+					<Typography className={'title'}>{event?.eventTitle}</Typography>
 
 					<Box className={'meta-info'}>
 						<Typography className={'booking-info'}>{event?.businessData?.memberNick}</Typography>
@@ -110,15 +105,13 @@ const TopEventCard = (props: TopEventCardProps) => {
 				</IconButton>
 
 				{/* Event Image */}
-				<Box component={'div'} className={'card-img'} onClick={() => pushDetailHandler(event._id)}>
+				<Box component={'div'} className={'card-img'}>
 					<img src={getImageUrl(event?.eventImages[0])} alt={event?.eventTitle} />
 				</Box>
 
 				{/* Event Info */}
 				<Box component={'div'} className={'info'}>
-					<Typography className={'title'} onClick={() => pushDetailHandler(event._id)}>
-						{event?.eventTitle}
-					</Typography>
+					<Typography className={'title'}>{event?.eventTitle}</Typography>
 
 					<Box className={'meta-info'}>
 						<Typography className={'booking-info'}>{event?.businessData?.memberNick}</Typography>

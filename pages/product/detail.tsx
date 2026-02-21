@@ -55,7 +55,7 @@ const ProductDetail: NextPage = () => {
 
 	const [inquiryForm, setInquiryForm] = useState({
 		inquiryMessage: '',
-		preferredContactMethod: 'EMAIL',
+		preferredContactMethod: 'ANY',
 		fullName: '',
 		email: '',
 		phone: '',
@@ -112,6 +112,7 @@ const ProductDetail: NextPage = () => {
 		try {
 			if (!user?._id) throw new Error(Message.NOT_AUTHENTICATED);
 			if (!product?._id) return;
+			console.log('productID:', product._id, typeof product._id);
 
 			// Validation
 			if (!inquiryForm.inquiryMessage) {
@@ -144,7 +145,7 @@ const ProductDetail: NextPage = () => {
 			// Reset form
 			setInquiryForm({
 				inquiryMessage: '',
-				preferredContactMethod: 'EMAIL',
+				preferredContactMethod: 'ANY',
 				fullName: '',
 				email: '',
 				phone: '',
@@ -456,42 +457,6 @@ const ProductDetail: NextPage = () => {
 									<Typography className="spec-value">{product.productBuildYear}</Typography>
 								</Stack>
 							)}
-
-							{/* <Stack className="spec-row">
-								<Typography className="spec-label">Condition</Typography>
-								<Typography className="spec-value">{product.productCondition || '-'}</Typography>
-							</Stack> */}
-
-							{/* <Stack className="spec-row">
-								<Typography className="spec-label">Category</Typography>
-								<Typography className="spec-value">{product.productCategory || '-'}</Typography>
-							</Stack> */}
-
-							{/* {product.productEngineType && (
-								<Stack className="spec-row">
-									<Typography className="spec-label">Engine Type</Typography>
-									<Typography className="spec-value">{product.productEngineType}</Typography>
-								</Stack>
-							)} */}
-
-							{/* {product.productSpeed && (
-								<Stack className="spec-row">
-									<Typography className="spec-label">Max Speed</Typography>
-									<Typography className="spec-value">{product.productSpeed} km/h</Typography>
-								</Stack>
-							)} */}
-
-							{/* {product.productLength && (
-								<Stack className="spec-row">
-									<Typography className="spec-label">Length</Typography>
-									<Typography className="spec-value">{product.productLength} m</Typography>
-								</Stack>
-							)} */}
-
-							{/* <Stack className="spec-row">
-								<Typography className="spec-label">Location</Typography>
-								<Typography className="spec-value">{product.productAddress || '-'}</Typography>
-							</Stack> */}
 						</Stack>
 
 						<Divider />

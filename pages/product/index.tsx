@@ -260,7 +260,7 @@ const ProductList: NextPage = ({ initialInput, ...props }: any) => {
 ProductList.defaultProps = {
 	initialInput: {
 		page: 1,
-		limit: 15,
+		limit: 12,
 		sort: 'productRank',
 		direction: 'DESC',
 		search: {},

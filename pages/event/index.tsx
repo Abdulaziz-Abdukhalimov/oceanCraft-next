@@ -38,7 +38,7 @@ const EventListPage: NextPage = () => {
 	// Initial filter
 	const [searchFilter, setSearchFilter] = useState<EventsInquiry>({
 		page: 1,
-		limit: 15,
+		limit: 12,
 		sort: 'createdAt',
 		direction: Direction.DESC,
 		search: {},
