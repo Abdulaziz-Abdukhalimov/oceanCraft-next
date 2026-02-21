@@ -69,12 +69,12 @@ const TopEventCard = (props: TopEventCardProps) => {
 				<Box component={'div'} className={'info'}>
 					<Typography className={'title'}>{event?.eventTitle}</Typography>
 
-					<Box className={'meta-info'}>
+					<Box className={'meta-info'} component="div">
 						<Typography className={'booking-info'}>{event?.businessData?.memberNick}</Typography>
 						<Typography className={'duration'}>{formatDuration(event?.eventDurationMinutes)}</Typography>
 					</Box>
 
-					<Box className={'rating-box'}>
+					<Box className={'rating-box'} component="div">
 						<StarIcon className={'star-icon'} />
 						<Typography className={'rating'}>{event?.eventRank ? (event.eventRank / 10).toFixed(1) : '5.0'}</Typography>
 						<Typography className={'reviews'}>
@@ -113,7 +113,7 @@ const TopEventCard = (props: TopEventCardProps) => {
 				<Box component={'div'} className={'info'}>
 					<Typography className={'title'}>{event?.eventTitle}</Typography>
 
-					<Box className={'meta-info'}>
+					<Box className={'meta-info'} component="div">
 						<Typography className={'booking-info'}>{event?.businessData?.memberNick}</Typography>
 						<Typography className={'duration'}>{formatDuration(event?.eventDurationMinutes)}</Typography>
 						{event?.eventAvailabilityStatus === 'AVAILABLE' && (
@@ -121,7 +121,7 @@ const TopEventCard = (props: TopEventCardProps) => {
 						)}
 					</Box>
 
-					<Box className={'rating-box'}>
+					<Box className={'rating-box'} component="div">
 						<StarIcon className={'star-icon'} />
 						<Typography className={'rating'}>{event?.eventRank ? (event.eventRank / 10).toFixed(1) : '5.0'}</Typography>
 						<Typography className={'reviews'}>
