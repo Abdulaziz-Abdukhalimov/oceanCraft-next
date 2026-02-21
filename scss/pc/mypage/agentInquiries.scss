@@ -1,0 +1,592 @@
+.agent-inquiries-page {
+	padding: 24px;
+	min-height: 500px;
+
+	// ─── Header ───────────────────────────────────────────────────────────────
+
+	.page-header {
+		margin-bottom: 24px;
+
+		.header-icon {
+			font-size: 32px;
+			color: #e92c28;
+		}
+
+		.page-title {
+			font-size: 20px;
+			font-weight: 700;
+			color: #1a1a1a;
+			line-height: 1.2;
+		}
+
+		.page-subtitle {
+			font-size: 13px;
+			color: #888;
+		}
+
+		.filter-select {
+			min-width: 130px;
+
+			.MuiOutlinedInput-root {
+				border-radius: 8px;
+				font-size: 13px;
+			}
+		}
+	}
+
+	// ─── Inquiry Card ─────────────────────────────────────────────────────────
+
+	.inquiry-card {
+		background: #fff;
+		border: 1px solid #eee;
+		border-radius: 12px;
+		padding: 20px;
+		transition: box-shadow 0.2s;
+
+		&:hover {
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+		}
+
+		&.unread {
+			border-left: 4px solid #e92c28;
+			background: #fffafa;
+		}
+
+		.card-header {
+			margin-bottom: 12px;
+		}
+
+		.unread-dot {
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background-color: #e92c28;
+			flex-shrink: 0;
+			margin-top: 6px;
+		}
+
+		.guest-name {
+			font-size: 14px;
+			font-weight: 700;
+			color: #1a1a1a;
+		}
+
+		.guest-meta {
+			font-size: 12px;
+			color: #777;
+		}
+
+		.meta-icon {
+			font-size: 13px;
+			color: #aaa;
+		}
+
+		.status-chip {
+			font-size: 11px;
+			font-weight: 600;
+			border-radius: 6px;
+			height: 24px;
+		}
+
+		.date-text {
+			font-size: 12px;
+			color: #999;
+		}
+
+		.contact-method {
+			font-size: 11px;
+			color: #bbb;
+			text-transform: capitalize;
+		}
+
+		.card-divider {
+			margin: 12px 0;
+		}
+
+		.inquiry-message {
+			font-size: 14px;
+			color: #444;
+			line-height: 1.6;
+			margin-bottom: 14px;
+		}
+
+		// Seller reply preview
+		.seller-reply-box {
+			background: #f0faf4;
+			border-left: 3px solid #10b981;
+			border-radius: 0 8px 8px 0;
+			padding: 10px 14px;
+			margin-bottom: 14px;
+
+			.reply-label {
+				font-size: 11px;
+				font-weight: 700;
+				color: #10b981;
+				text-transform: uppercase;
+				margin-bottom: 4px;
+			}
+
+			.reply-text {
+				font-size: 13px;
+				color: #333;
+				line-height: 1.5;
+			}
+		}
+
+		// Action buttons
+		.card-actions {
+			.btn-reply {
+				background-color: #e92c28;
+				color: white;
+				text-transform: none;
+				font-size: 13px;
+				font-weight: 600;
+				border-radius: 8px;
+				box-shadow: none;
+				padding: 6px 16px;
+
+				&:hover {
+					background-color: #c0392b;
+					box-shadow: none;
+				}
+			}
+
+			.btn-mark-read {
+				border-color: #ddd;
+				color: #555;
+				text-transform: none;
+				font-size: 13px;
+				font-weight: 600;
+				border-radius: 8px;
+				padding: 6px 16px;
+
+				&:hover {
+					border-color: #aaa;
+					background: #f5f5f5;
+				}
+			}
+		}
+	}
+
+	// ─── Pagination ───────────────────────────────────────────────────────────
+
+	.pagination-wrap {
+		margin-top: 24px;
+
+		.MuiPaginationItem-root {
+			border-radius: 8px;
+			font-weight: 600;
+
+			&.Mui-selected {
+				background-color: #e92c28;
+				color: white;
+
+				&:hover {
+					background-color: #c0392b;
+				}
+			}
+		}
+	}
+
+	// ─── States ───────────────────────────────────────────────────────────────
+
+	.loading-state {
+		padding: 80px 20px;
+		gap: 16px;
+		color: #888;
+	}
+
+	.empty-state {
+		padding: 80px 20px;
+		gap: 12px;
+		text-align: center;
+
+		.empty-icon {
+			font-size: 64px;
+			color: #ddd;
+		}
+
+		.empty-title {
+			font-size: 18px;
+			font-weight: 700;
+			color: #333;
+		}
+
+		.empty-sub {
+			font-size: 14px;
+			color: #999;
+			max-width: 320px;
+		}
+	}
+}
+
+// ─── Reply Dialog ─────────────────────────────────────────────────────────────
+
+.reply-dialog {
+	.dialog-title {
+		font-size: 18px;
+		font-weight: 700;
+		color: #1a1a1a;
+		padding-bottom: 4px;
+
+		.dialog-subtitle {
+			font-size: 13px;
+			color: #888;
+			font-weight: 400;
+			margin-top: 4px;
+		}
+	}
+
+	.dialog-content {
+		padding-top: 16px !important;
+
+		.original-message-box {
+			background: #f8f8f8;
+			border-radius: 8px;
+			padding: 14px;
+			margin-bottom: 16px;
+
+			.original-label {
+				font-size: 11px;
+				font-weight: 700;
+				color: #999;
+				text-transform: uppercase;
+				margin-bottom: 6px;
+			}
+
+			.original-text {
+				font-size: 14px;
+				color: #444;
+				line-height: 1.6;
+			}
+		}
+
+		.reply-input {
+			.MuiOutlinedInput-root {
+				border-radius: 8px;
+				font-size: 14px;
+			}
+		}
+	}
+
+	.dialog-actions {
+		padding: 16px 24px;
+		gap: 10px;
+
+		.btn-cancel {
+			color: #888;
+			text-transform: none;
+			font-weight: 600;
+		}
+
+		.btn-send {
+			background-color: #e92c28;
+			color: white;
+			text-transform: none;
+			font-weight: 600;
+			border-radius: 8px;
+			box-shadow: none;
+			padding: 8px 20px;
+
+			&:hover {
+				background-color: #c0392b;
+				box-shadow: none;
+			}
+
+			&:disabled {
+				background-color: #f0c0be;
+				color: white;
+			}
+		}
+	}
+}
+
+.my-inquiries-page {
+	padding: 24px;
+	min-height: 500px;
+
+	// ─── Header ───────────────────────────────────────────────────────────────
+
+	.page-header {
+		margin-bottom: 24px;
+
+		.header-icon {
+			font-size: 32px;
+			color: #e92c28;
+		}
+
+		.page-title {
+			font-size: 20px;
+			font-weight: 700;
+			color: #1a1a1a;
+			line-height: 1.2;
+		}
+
+		.page-subtitle {
+			font-size: 13px;
+			color: #888;
+		}
+
+		.filter-select {
+			min-width: 130px;
+
+			.MuiOutlinedInput-root {
+				border-radius: 8px;
+				font-size: 13px;
+			}
+		}
+	}
+
+	// ─── Inquiry Card ─────────────────────────────────────────────────────────
+
+	.inquiry-card {
+		background: #fff;
+		border: 1px solid #eee;
+		border-radius: 12px;
+		padding: 20px;
+		cursor: pointer;
+		transition: box-shadow 0.2s, border-color 0.2s;
+
+		&:hover {
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+			border-color: #ddd;
+		}
+
+		&.has-reply {
+			border-left: 4px solid #10b981;
+		}
+
+		.card-header {
+			margin-bottom: 12px;
+		}
+
+		.guest-name {
+			font-size: 14px;
+			font-weight: 700;
+			color: #1a1a1a;
+		}
+
+		.guest-meta {
+			font-size: 12px;
+			color: #777;
+		}
+
+		.meta-icon {
+			font-size: 13px;
+			color: #aaa;
+		}
+
+		.status-chip {
+			font-size: 11px;
+			font-weight: 600;
+			border-radius: 6px;
+			height: 24px;
+		}
+
+		.date-text {
+			font-size: 12px;
+			color: #999;
+		}
+
+		.card-divider {
+			margin: 12px 0;
+		}
+
+		.inquiry-message {
+			font-size: 14px;
+			color: #444;
+			line-height: 1.6;
+			margin-bottom: 12px;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+		}
+
+		// Seller reply preview
+		.seller-reply-box {
+			background: #f0faf4;
+			border-left: 3px solid #10b981;
+			border-radius: 0 8px 8px 0;
+			padding: 10px 14px;
+
+			.reply-header {
+				margin-bottom: 4px;
+
+				.reply-icon {
+					font-size: 14px;
+					color: #10b981;
+				}
+
+				.reply-label {
+					font-size: 11px;
+					font-weight: 700;
+					color: #10b981;
+					text-transform: uppercase;
+				}
+
+				.reply-date {
+					font-size: 11px;
+					color: #aaa;
+				}
+			}
+
+			.reply-text {
+				font-size: 13px;
+				color: #333;
+				line-height: 1.5;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+			}
+		}
+
+		.awaiting-text {
+			font-size: 13px;
+			color: #bbb;
+		}
+	}
+
+	// ─── Pagination ───────────────────────────────────────────────────────────
+
+	.pagination-wrap {
+		margin-top: 24px;
+
+		.MuiPaginationItem-root {
+			border-radius: 8px;
+			font-weight: 600;
+
+			&.Mui-selected {
+				background-color: #e92c28;
+				color: white;
+
+				&:hover {
+					background-color: #c0392b;
+				}
+			}
+		}
+	}
+
+	// ─── States ───────────────────────────────────────────────────────────────
+
+	.loading-state {
+		padding: 80px 20px;
+		gap: 16px;
+		color: #888;
+	}
+
+	.empty-state {
+		padding: 80px 20px;
+		gap: 12px;
+		text-align: center;
+
+		.empty-icon {
+			font-size: 64px;
+			color: #ddd;
+		}
+		.empty-title {
+			font-size: 18px;
+			font-weight: 700;
+			color: #333;
+		}
+		.empty-sub {
+			font-size: 14px;
+			color: #999;
+			max-width: 320px;
+		}
+	}
+}
+
+// ─── Detail Dialog ────────────────────────────────────────────────────────────
+
+.inquiry-detail-dialog {
+	.dialog-title {
+		font-size: 18px;
+		font-weight: 700;
+		color: #1a1a1a;
+		padding-bottom: 4px;
+
+		.dialog-subtitle {
+			font-size: 13px;
+			color: #888;
+			font-weight: 400;
+			margin-top: 4px;
+		}
+	}
+
+	.dialog-content {
+		padding-top: 8px !important;
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+
+		.section-label {
+			font-size: 11px;
+			font-weight: 700;
+			color: #999;
+			text-transform: uppercase;
+			margin-bottom: 8px;
+		}
+
+		.info-section {
+			background: #f8f8f8;
+			border-radius: 8px;
+			padding: 14px;
+
+			.info-row {
+				font-size: 13px;
+				color: #444;
+				margin-bottom: 4px;
+
+				strong {
+					color: #1a1a1a;
+				}
+			}
+		}
+
+		.message-box {
+			.message-text {
+				font-size: 14px;
+				color: #444;
+				line-height: 1.7;
+				background: #f8f8f8;
+				border-radius: 8px;
+				padding: 14px;
+			}
+		}
+
+		.reply-box {
+			background: #f0faf4;
+			border-left: 3px solid #10b981;
+			border-radius: 0 8px 8px 0;
+			padding: 14px;
+
+			.reply-section-label {
+				color: #10b981;
+			}
+
+			.reply-text {
+				font-size: 14px;
+				color: #333;
+				line-height: 1.7;
+			}
+		}
+
+		.awaiting-text {
+			font-size: 13px;
+			color: #bbb;
+			padding: 10px 0;
+		}
+	}
+
+	.dialog-actions {
+		padding: 16px 24px;
+
+		.btn-close {
+			color: #888;
+			text-transform: none;
+			font-weight: 600;
+		}
+	}
+}

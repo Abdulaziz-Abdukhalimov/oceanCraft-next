@@ -170,6 +170,23 @@ const MyMenu = () => {
 									</div>
 								</Link>
 							</ListItem>
+							<ListItem className={pathname === 'inquiries' ? 'focus' : ''}>
+								<Link
+									href={{
+										pathname: '/mypage',
+										query: { category: 'inquiries' },
+									}}
+									scroll={false}
+								>
+									<div className={'flex-box'}>
+										{category === 'myFavorites' && <BookOnlineIcon className="com-icon" />}
+
+										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+											{user.memberType === 'USER' ? 'My Inquiries' : 'Inquiries'}
+										</Typography>
+									</div>
+								</Link>
+							</ListItem>
 							<ListItem className={pathname === 'followers' ? 'focus' : ''}>
 								<Link
 									href={{

@@ -21,6 +21,8 @@ import MyEvents from '../../libs/components/mypage/MyEvents';
 import AddEvent from '../../libs/components/mypage/addNewEvent';
 import MyReservations from '../../libs/components/mypage/MyReservations';
 import AgentReservations from '../../libs/components/mypage/AgentReservations';
+import AgentInquiries from '../../libs/components/mypage/AgentInquiries';
+import MyInquiries from '../../libs/components/mypage/MyInquiries';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -128,6 +130,7 @@ const MyPage: NextPage = () => {
 									{category === 'myFavorites' && <MyFavorites />}
 									{category === 'myReservations' &&
 										(user?.memberType === 'USER' ? <MyReservations /> : <AgentReservations />)}
+									{category === 'inquiries' && (user?.memberType === 'USER' ? <MyInquiries /> : <AgentInquiries />)}
 									{category === 'myProfile' && <MySettings />}
 									{category === 'followers' && (
 										<MemberFollowers
