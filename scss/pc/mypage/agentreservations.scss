@@ -1,0 +1,207 @@
+.agent-reservations-page {
+	padding: 24px;
+	min-height: 500px;
+
+	// ─── Header ───────────────────────────────────────────────────────────────
+
+	.page-header {
+		margin-bottom: 24px;
+
+		.header-icon {
+			font-size: 32px;
+			color: #e92c28;
+		}
+
+		.page-title {
+			font-size: 20px;
+			font-weight: 700;
+			color: #1a1a1a;
+			line-height: 1.2;
+		}
+
+		.page-subtitle {
+			font-size: 13px;
+			color: #888;
+		}
+
+		.filter-select {
+			min-width: 130px;
+
+			.MuiOutlinedInput-root {
+				border-radius: 8px;
+				font-size: 13px;
+			}
+		}
+	}
+
+	// ─── Table ────────────────────────────────────────────────────────────────
+
+	.reservations-table-container {
+		border-radius: 12px;
+		border: 1px solid #eee;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+		.reservations-table {
+			.MuiTableHead-root {
+				.MuiTableRow-root {
+					background-color: #f8f9fa;
+
+					.MuiTableCell-head {
+						font-size: 12px;
+						font-weight: 700;
+						color: #666;
+						text-transform: uppercase;
+						letter-spacing: 0.5px;
+						border-bottom: 2px solid #eee;
+						padding: 14px 16px;
+					}
+				}
+			}
+
+			.reservation-row {
+				transition: background-color 0.2s;
+
+				&:hover {
+					background-color: #fafafa;
+				}
+
+				.MuiTableCell-root {
+					padding: 14px 16px;
+					border-bottom: 1px solid #f0f0f0;
+					vertical-align: top;
+				}
+
+				// Booking Reference
+				.booking-ref {
+					font-size: 13px;
+					font-weight: 700;
+					color: #e92c28;
+					font-family: monospace;
+				}
+
+				// Guest Info
+				.guest-name {
+					font-size: 14px;
+					font-weight: 600;
+					color: #1a1a1a;
+				}
+
+				.guest-meta {
+					font-size: 12px;
+					color: #777;
+				}
+
+				.meta-icon {
+					font-size: 13px;
+					color: #aaa;
+				}
+
+				// Date
+				.date-text {
+					font-size: 13px;
+					color: #333;
+					font-weight: 500;
+				}
+
+				// People
+				.people-count {
+					font-size: 15px;
+					font-weight: 700;
+					color: #1a1a1a;
+				}
+
+				.price-per {
+					font-size: 11px;
+					color: #999;
+					margin-top: 2px;
+				}
+
+				// Amount
+				.total-amount {
+					font-size: 15px;
+					font-weight: 700;
+					color: #1a1a1a;
+				}
+
+				.payment-method {
+					font-size: 11px;
+					color: #999;
+					margin-top: 2px;
+					text-transform: capitalize;
+				}
+
+				// Status chips
+				.status-chip {
+					font-size: 11px;
+					font-weight: 600;
+					border-radius: 6px;
+					height: 24px;
+				}
+
+				// Dates
+				.created-at {
+					font-size: 13px;
+					color: #333;
+				}
+
+				.created-time {
+					font-size: 11px;
+					color: #999;
+				}
+			}
+		}
+	}
+
+	// ─── Pagination ───────────────────────────────────────────────────────────
+
+	.pagination-wrap {
+		margin-top: 24px;
+
+		.MuiPagination-root {
+			.MuiPaginationItem-root {
+				border-radius: 8px;
+				font-weight: 600;
+
+				&.Mui-selected {
+					background-color: #e92c28;
+					color: white;
+
+					&:hover {
+						background-color: #c0392b;
+					}
+				}
+			}
+		}
+	}
+
+	// ─── States ───────────────────────────────────────────────────────────────
+
+	.loading-state {
+		padding: 80px 20px;
+		gap: 16px;
+		color: #888;
+	}
+
+	.empty-state {
+		padding: 80px 20px;
+		gap: 12px;
+		text-align: center;
+
+		.empty-icon {
+			font-size: 64px;
+			color: #ddd;
+		}
+
+		.empty-title {
+			font-size: 18px;
+			font-weight: 700;
+			color: #333;
+		}
+
+		.empty-sub {
+			font-size: 14px;
+			color: #999;
+			max-width: 320px;
+		}
+	}
+}

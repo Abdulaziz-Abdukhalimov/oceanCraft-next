@@ -10,8 +10,9 @@ import IconButton from '@mui/material/IconButton';
 import { REACT_APP_API_URL } from '../../config';
 import { logOut } from '../../auth';
 import { sweetConfirmAlert, sweetMixinErrorAlert } from '../../sweetAlert';
-import { borderTop } from '@mui/system';
 import AddchartIcon from '@mui/icons-material/Addchart';
+import BookOnlineIcon from '@mui/icons-material/BookOnline';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
 const MyMenu = () => {
 	const device = useDeviceDetect();
@@ -129,27 +130,6 @@ const MyMenu = () => {
 											</div>
 										</Link>
 									</ListItem>
-									<ListItem className={pathname === 'analytics' ? 'focus' : ''}>
-										<Link
-											href={{
-												pathname: '/mypage',
-												query: { category: 'analytics' },
-											}}
-											scroll={false}
-										>
-											<div className={'flex-box'}>
-												{category === 'analytics' ? (
-													<img className={'com-icon'} src={'/img/icons/searchWhite.svg'} alt={'com-icon'} />
-												) : (
-													<img className={'com-icon'} src={'/img/icons/search.svg'} alt={'com-icon'} />
-												)}
-
-												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-													Analytics
-												</Typography>
-											</div>
-										</Link>
-									</ListItem>
 								</>
 							)}
 							<ListItem className={pathname === 'myFavorites' ? 'focus' : ''}>
@@ -182,14 +162,10 @@ const MyMenu = () => {
 									scroll={false}
 								>
 									<div className={'flex-box'}>
-										{category === 'myFavorites' ? (
-											<img className={'com-icon'} src={'/img/icons/likeWhite.svg'} alt={'com-icon'} />
-										) : (
-											<img className={'com-icon'} src={'/img/icons/like.svg'} alt={'com-icon'} />
-										)}
+										{category === 'myFavorites' && <BookOnlineIcon className="com-icon" />}
 
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											My Reservations
+											{user.memberType === 'USER' ? 'My Reservations' : 'Reservations'}
 										</Typography>
 									</div>
 								</Link>
@@ -302,11 +278,7 @@ const MyMenu = () => {
 									scroll={false}
 								>
 									<div className={'flex-box'}>
-										{category === 'myProfile' ? (
-											<img className={'com-icon'} src={'/img/icons/userWhite.svg'} alt={'com-icon'} />
-										) : (
-											<img className={'com-icon'} src={'/img/icons/user.svg'} alt={'com-icon'} />
-										)}
+										{category === 'myProfile' && <ManageAccountsIcon className="com-icon" />}
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 											Settings
 										</Typography>
