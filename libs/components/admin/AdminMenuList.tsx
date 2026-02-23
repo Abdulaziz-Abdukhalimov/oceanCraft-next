@@ -98,7 +98,7 @@ const AdminMenuList = (props: any) => {
 	};
 
 	return (
-		<Box className="admin-menu-container" sx={{ pt: 2 }}>
+		<Box className="admin-menu-container" sx={{ pt: 2 }} component="div">
 			{/* Main Menu Items */}
 			<List disablePadding>
 				{menu_set.map((item, index) => (
