@@ -27,6 +27,7 @@ const tokenRefreshLink = new TokenRefreshLink({
 		// execute refresh token
 		return null;
 	},
+	handleFetch: (accessToken) => {},
 });
 
 class LoggingWebSocket {

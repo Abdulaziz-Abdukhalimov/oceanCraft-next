@@ -87,7 +87,7 @@ const AddProduct = () => {
 					productPriceType: product.productPriceType || '',
 					productRentPeriod: product.productRentPeriod || '',
 					productPrice: product.productPrice || 0,
-					productCurrency: product.productCurrency || 'USD',
+					productCurrency: product.productCurrency || 'KRW',
 					productImages: product.productImages || [],
 					productAddress: product.productAddress || '',
 					productDescription: product.productDescription || '',
@@ -158,17 +158,19 @@ const AddProduct = () => {
 				productCategory: productData.productCategory,
 				productCondition: productData.productCondition,
 				productTitle: productData.productTitle,
-				productBrand: productData.productBrand,
-				productModel: productData.productModel,
 				productPriceType: productData.productPriceType,
 				productPrice: productData.productPrice,
 				productCurrency: productData.productCurrency,
 				productImages: productData.productImages,
-				productAddress: productData.productAddress,
 				productRent: productData.productRent,
 			};
+			console.log('submitData:', JSON.stringify(submitData, null, 2));
 
 			// Only add optional fields if they have actual values
+			if (productData.productBrand?.trim()) submitData.productBrand = productData.productBrand.trim();
+			if (productData.productModel?.trim()) submitData.productModel = productData.productModel.trim();
+			if (productData.productAddress?.trim()) submitData.productAddress = productData.productAddress.trim();
+
 			if (productData.productEngineType?.trim()) {
 				submitData.productEngineType = productData.productEngineType.trim();
 			}

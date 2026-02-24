@@ -105,7 +105,7 @@ const AddEvent = () => {
 					businessName: event.businessName || '',
 					eventCategory: event.eventCategory,
 					eventPrice: event.eventPrice || 0,
-					eventCurrency: event.eventCurrency || EventCurrency.USD,
+					eventCurrency: event.eventCurrency || EventCurrency.KRW,
 					eventLocation: event.eventLocation || { city: '', address: '' },
 					eventSchedule: event.eventSchedule || { type: EventScheduleType.ONE_TIME, daysOfWeek: [] },
 					eventPeriod: event.eventPeriod || { startDate: new Date(), endDate: new Date() },
