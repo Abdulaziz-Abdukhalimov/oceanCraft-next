@@ -1055,9 +1055,14 @@
 						// Form Inputs
 						.inquiry-input,
 						.inquiry-textarea {
+							position: relative;
+							z-index: 1;
+							background: white;
 							.MuiOutlinedInput-root {
 								font-family: $font;
 								font-size: 15px;
+								position: relative;
+								z-index: 1;
 
 								fieldset {
 									border-color: #ddd;
@@ -1077,7 +1082,6 @@
 								font-family: $font;
 								font-size: 15px;
 								color: #717171;
-								transform: translate(14px, -9px) scale(0.75);
 
 								&.Mui-focused {
 									color: #181a20;

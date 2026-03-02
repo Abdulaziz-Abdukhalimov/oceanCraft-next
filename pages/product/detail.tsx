@@ -200,7 +200,7 @@ const ProductDetail: NextPage = () => {
 
 	const handleContactKakao = () => {
 		// KakaoTalk contact logic (static for now)
-		window.open('https://pf.kakao.com/your-channel', '_blank');
+		window.open('https://pf.kakao.com/abdulaziz_', '_blank');
 	};
 
 	const handleContactNaver = () => {
