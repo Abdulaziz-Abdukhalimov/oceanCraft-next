@@ -905,7 +905,7 @@ const ProductDetail: NextPage = () => {
 									placeholder="Write your message ..."
 									value={inquiryForm.inquiryMessage}
 									onChange={(e) => setInquiryForm({ ...inquiryForm, inquiryMessage: e.target.value })}
-									className="inquiry-textarea"
+									className="inquiry-textarea inquiry-big"
 									required
 								/>
 
