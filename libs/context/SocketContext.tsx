@@ -38,11 +38,11 @@ export const SocketProvider: React.FC<Props> = ({ children }) => {
 		console.log('🔌 Connecting to Socket.IO...');
 
 		// Connect to WebSocket server
-		const newSocket = io('http://localhost:4002/notifications', {
+		const newSocket = io('https://ocean-marinecraft.com/notifications', {
 			transports: ['websocket', 'polling'], // Try WebSocket first, fallback to polling
 			reconnection: true, // Auto-reconnect
 			reconnectionAttempts: 5,
-			reconnectionDelay: 1000,
+			reconnectionDelay: 100,
 		});
 
 		// Connection successful
