@@ -698,7 +698,7 @@
 					gap: 24px;
 					max-width: 900px;
 					margin: 0 auto;
-					width: 600px;
+					width: 900px;
 
 					.panel-title {
 						color: #181a20;
@@ -973,122 +973,6 @@
 					}
 				}
 
-				// Responsive - Mobile
-				@media (max-width: 768px) {
-					.reviews-panel {
-						gap: 20px;
-
-						.panel-title {
-							font-size: 20px;
-						}
-
-						.reviews-count {
-							font-size: 16px;
-							padding-bottom: 10px;
-						}
-
-						.comments-list {
-							gap: 12px;
-
-							.comment-card {
-								padding: 16px;
-
-								.comment-header {
-									gap: 10px;
-
-									.user-avatar {
-										width: 36px;
-										height: 36px;
-										min-width: 36px;
-									}
-
-									.user-info {
-										.user-name {
-											font-size: 14px;
-										}
-
-										.comment-date {
-											font-size: 12px;
-										}
-									}
-
-									.comment-actions {
-										.action-btn {
-											width: 28px;
-											height: 28px;
-
-											svg {
-												font-size: 16px;
-											}
-										}
-									}
-								}
-
-								.comment-content {
-									font-size: 14px;
-								}
-							}
-
-							.no-reviews-container {
-								min-height: 150px;
-								padding: 30px 20px;
-
-								.no-reviews {
-									font-size: 16px;
-								}
-
-								.no-reviews-sub {
-									font-size: 13px;
-								}
-							}
-						}
-
-						.write-review-section {
-							padding: 20px;
-
-							.review-form-header {
-								.review-form-title {
-									font-size: 16px;
-								}
-
-								.review-form-subtitle {
-									font-size: 13px;
-								}
-							}
-
-							.review-form {
-								.review-textarea {
-									.MuiOutlinedInput-root {
-										font-size: 14px;
-
-										textarea {
-											padding: 12px;
-										}
-									}
-								}
-
-								.review-form-actions {
-									.character-count {
-										font-size: 12px;
-									}
-
-									.action-buttons {
-										flex-direction: column;
-										width: 100%;
-
-										.cancel-btn,
-										.submit-review-btn {
-											width: 100%;
-											padding: 8px 20px;
-											font-size: 13px;
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-
 				// Inquiry Panel
 				.inquiry-panel {
 					.inquiry-form {
@@ -1124,6 +1008,8 @@
 						// Contact Method Section
 						.contact-method-section {
 							gap: 12px;
+							position: relative;
+							z-index: 2;
 
 							.section-subtitle {
 								color: #181a20;
@@ -1169,6 +1055,8 @@
 						// Form Inputs
 						.inquiry-input,
 						.inquiry-textarea {
+							position: relative;
+							z-index: 1;
 							.MuiOutlinedInput-root {
 								font-family: $font;
 								font-size: 15px;
@@ -1191,6 +1079,7 @@
 								font-family: $font;
 								font-size: 15px;
 								color: #717171;
+								transform: translate(14px, -9px) scale(0.75);
 
 								&.Mui-focused {
 									color: #181a20;

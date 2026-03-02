@@ -162,8 +162,7 @@ const MyMenu = () => {
 									scroll={false}
 								>
 									<div className={'flex-box'}>
-										{category === 'myFavorites' && <BookOnlineIcon className="com-icon" />}
-
+										<BookOnlineIcon className="com-icon" />
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 											{user.memberType === 'USER' ? 'My Reservations' : 'Reservations'}
 										</Typography>
@@ -179,8 +178,7 @@ const MyMenu = () => {
 									scroll={false}
 								>
 									<div className={'flex-box'}>
-										{category === 'myFavorites' && <BookOnlineIcon className="com-icon" />}
-
+										<BookOnlineIcon className="com-icon" />
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 											{user.memberType === 'USER' ? 'My Inquiries' : 'Inquiries'}
 										</Typography>
@@ -295,7 +293,7 @@ const MyMenu = () => {
 									scroll={false}
 								>
 									<div className={'flex-box'}>
-										{category === 'myProfile' && <ManageAccountsIcon className="com-icon" />}
+										<ManageAccountsIcon className="com-icon" />
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 											Settings
 										</Typography>
