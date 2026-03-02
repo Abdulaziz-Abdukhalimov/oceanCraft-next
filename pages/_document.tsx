@@ -18,6 +18,7 @@ export default function Document() {
 						'Xalqaro miqyosda istalgan vaqtda istalgan joyda yaxtalar, jetskilar, qayiqlarni sotib oling va ijaraga oling. Hashamatli orzuingizdagi hayotda yashang. Oceancraft.com saytida eng yaxshi narxlarda eng yaxshi xizmatlar va tadbirlar.'
 					}
 				/>
+				<meta property="og:image" content="https://ocean-marinecraft.com/img/logo/logo.png" />
 			</Head>
 			<body>
 				<Main />
