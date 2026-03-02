@@ -902,7 +902,6 @@ const ProductDetail: NextPage = () => {
 									multiline
 									rows={8}
 									label="Your Inquiry Message"
-									placeholder="Please describe your inquiry about this product..."
 									value={inquiryForm.inquiryMessage}
 									onChange={(e) => setInquiryForm({ ...inquiryForm, inquiryMessage: e.target.value })}
 									className="inquiry-textarea"
