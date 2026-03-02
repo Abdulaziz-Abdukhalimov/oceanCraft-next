@@ -1008,6 +1008,7 @@
 						// Contact Method Section
 						.contact-method-section {
 							gap: 12px;
+							margin-bottom: 20px;
 
 							.section-subtitle {
 								color: #181a20;
@@ -1055,10 +1056,6 @@
 						// Form Inputs
 						.inquiry-input,
 						.inquiry-textarea {
-							margin-top: 16px;
-							position: relative;
-							z-index: 1;
-							background: white;
 							.MuiOutlinedInput-root {
 								font-family: $font;
 								font-size: 15px;
