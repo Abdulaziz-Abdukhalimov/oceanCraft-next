@@ -20,8 +20,7 @@ export default function Document() {
 					property="og:description"
 					content="Buy and rent yachts, jetskis, boats anywhere anytime internationally."
 				/>
-				<meta property="og:url" content="https://ocean-marinecraft.com/" />
-				<meta property="og:image" content="https://ocean-marinecraft.com/img/logo/logo.png" />
+				<meta property="og:image" content="/img/logo/logo.png" />
 				<meta property="og:image:width" content="1200" />
 				<meta property="og:image:height" content="630" />
 
@@ -29,7 +28,7 @@ export default function Document() {
 				<meta name="twitter:card" content="summary_large_image" />
 				<meta name="twitter:title" content="Oceancraft | Luxury Yacht Rentals" />
 				<meta name="twitter:description" content="Best yacht and jetski rental services worldwide." />
-				<meta name="twitter:image" content="https://ocean-marinecraft.com/img/logo/logo.png" />
+				<meta name="twitter:image" content="/img/logo/logo.png" />
 			</Head>
 			<body>
 				<Main />
